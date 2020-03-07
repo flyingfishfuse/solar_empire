@@ -1,34 +1,11 @@
 #!/usr/bin/python3
-
-import os
 import pip
 import datetime
+import solar_empire.configuration_options
+from solar_empire.configuration_options import *
+from solar_empire.models import *
 
-VERSION            = 'Generic SE 2.9.1 - MODIFIED:Python Language Conversion -  Version : 0.01'
-DATABASE_HOST      = "localhost"
-DATABASE           = "solar_empire-python"
-DATABASE_USER      = "moop"
-DATABASE_PASSWORD  = "password"
-
-SERVER_NAME        = "Solar Empire: 2020 - Python Edition"
-SERVER_ADDRESS     = ('localhost', 4443)
-HTTP_HOST          = "gamebiscuits"
-SERVER_HOST        = "fightbiscuits"
-DOMAIN             = "firewall-gateway.net"
-GAME_DIR           = "/solar_empire/"
-URL_FULL           = "https://" + HTTP_HOST + SERVER_HOST + DOMAIN + GAME_DIR
-
-SEND_AUTH_MAIL     = True
-SESSION_TIME_LIMIT = 3600
-
-ADMIN_NAME = "Emperor of Sol"
-ADMIN_EMAIL = "game_admin" + "@" + HTTP_HOST + SERVER_HOST + DOMAIN
-ADMIN_USER_ID = 1
-OWNER_ID = 1
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-things_this_app_needs = ['flask' , "flask-sqlalchemy"]
-
+#if requirements not installed, get them, necessary for non-install migrations
 def import_or_install(package):
     for each in package:
         try:
@@ -40,27 +17,21 @@ def import_or_install(package):
 import_or_install(things_this_app_needs)
 
 from flask import Flask, render_template, Response, Request
-from solar_empire.models import User
-import solar_empire.common
-
-solar_empire_server = Flask(__name__ , template_folder="templates" )
-
 from flask_sqlalchemy import SQLAlchemy
-from flask.config import Config
 from flask_migrate import Migrate
 
-class Config(object):
-    # ...
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE + '.' + HTTP_HOST + '.db'
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
+solar_empire_server = Flask(__name__ , template_folder="templates" )
 solar_empire_server.config.from_object(Config)
-
 database    = SQLAlchemy(solar_empire_server)
+
+import solar_empire.models
+
 migrate     = Migrate(solar_empire_server, database)
 
-database.create_all()
 admin       = User(username=ADMIN_NAME, email=ADMIN_EMAIL , password = ADMIN_PASSWORD)
 guest       = User(username='guest', email='test@gamebiscuits.fightbiscuits.firewall-gateway.net' , password = 'password')
+
+database.create_all()
 database.session.add(admin)
 database.session.add(guest)
 database.session.commit()

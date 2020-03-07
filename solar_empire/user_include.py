@@ -1,14 +1,13 @@
 #!/usr/bin/python3
 from flask import Flask
 from flask import request
-from models import User, UserShip
-import solar_empire , solar_empire.models
+import solar_empire
+from solar_empire.models import User, UserShip, GameVars
 
 #Get game info if not admin (loaded for admin in check_auth)
 if (User.login_id != ADMIN_ID):
 	#Get the game information
-	database("select * from se_games where db_name = '$db_name'")
-    #game_info = dbr(1)
+	game_info = GameVars
 
 #database("select * from ${db_name}_users where login_id = '$login_id'")
 #user = dbr(1)
@@ -244,15 +243,10 @@ def charge_turns(amount):
 }
 
 
-//function that can give a user cash. Admin is exempt.
-function give_cash($amount)
-{
-	global $db_name,$user;
-	if ($user['login_id'] != ADMIN_ID) {
-		dbn("update ${db_name}_users set cash = cash + '$amount' where login_id = '$user[login_id]'");
-		$user['cash'] += $amount;
-	}
-}
+#//function that can give a user cash. Admin is exempt.
+def give_cash(amount):
+	if (User.login_id != ADMIN_ID):
+		#User['cash'] += $amount;
 
 #function takes cash from a player. Admin is exempt.
 	#function take_cash($amount)
@@ -391,10 +385,8 @@ def	make_standard_upgrade(upgrade_str, config_addon, cost, developement_id, tech
 		#update db_name    ships set config = '
 		# user_ship[config] ', 
 		# upgrades = upgrades - 1 where ship_id = '$user[ship_id]'");
-		return "<b class=b1>$upgrade_str</b>, purchased and fitted to the <b class=b1>
+		return "<b class=b1>$upgrade_str</b>, purchased and fitted to the <b class=b1>"
 		#user_ship[ship_name]</b> for <b>$cost</b> Credits.<p>";
-	}
-}
 
 
 /*

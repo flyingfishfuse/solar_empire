@@ -1,4 +1,4 @@
-import inc.admin
+#import inc.admin
 import solar_empire
 
 rs = "<p><a href=\"\">Back to Admin Page</a>"
