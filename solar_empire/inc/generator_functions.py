@@ -3,12 +3,21 @@ from solar_empire import *
 from solar_empire.models import *
 from solar_empire.configuration_options import *
 from solar_empire.common_include import *
+from solar_empire.names.names import *
+
 
 #//deletes all image files.
 #function clearImages($path)
-num_ports = return_game_var("num_ports")
-num_starports = return_game_var("num_starports")
-num_systems = return_game_var('num_systems')
+num_ports 			= return_game_var("num_ports")
+num_starports 		= return_game_var("num_starports")
+num_systems 		= return_game_var('num_systems')
+num_black_markets   = return_game_var('num_black_markets')
+mineral_sum 		= return_game_var('mineral_total')
+metal_sum			= return_game_var('metal_total')
+fuel_sum   		    = return_game_var('fuel_total')
+
+def grab_starport_name():
+	return names.gen_name()
 
 def add_to_db(thingie):
     database.session.add(thingie)
@@ -29,81 +38,46 @@ def system_has_port(sys_id):
 def add_starports_se1():
 	for port in range( num_starports - 1):
         #create template dict for new port
-		starport = { 'location_id' : 0 }
+		possible_new_starport = { 'location_id' : 0 }
 		possible_new_starport['location_id'] = random.randint(2, num_systems)
         #map location_id to system_id... looks up system_id by location_id
         #system has no port, build one
         if system_has_port(possible_new_starport['location_id']) == False :
 		    spawned_starport = StarPort(name = grab_starport_name, system_id = possible_new_starport['location_id'])
-            add_to_db(spawned_starport)
-		    #print "<div id='' USER### Created port #"" in location <script>document.all.addports1 location .scrollIntoView();</script></div>");
-        else:
-            pass
+			add_to_db(spawned_starport)
+			#print "<div id='' USER### Created port #"" in location <script>document.all.addports1 location .scrollIntoView();</script></div>");
+		else:
+			pass
 
 
-//add BM's to the universe
-add_blackmarket_se1(&$bmarks)
-{
-	global $UNI, $extinfo;
+#//add BM's to the universe
+def add_blackmarket_se1()
+	blackmarket_names = [ "Dodgy Dave", \
+				 "Stinkin Sid", \
+				 "Goodie-bag Central", \
+				 "The Department of Corruption", \
+				 "The Ultimate Goodies Store", \
+				 "Stompin Jim", \
+				 "The War Cabinet", \
+				 "Jim  -Dead Eye- Smarms", \
+				 "One Eyed Doyle", \
+				 "The Ministry of Offence"]
+	
+	blackmarket_type = 0;
 
-	$bm_names = array("Dodgy Dave", "Stinkin Sid", "Goodie-bag Central", "The Department of Corruption", "The Ultimate Goodies Store", "Stompin Jim", "The War Cabinet", "Jim  -Dead Eye- Smarms", "One Eyed Doyle", "The Ministry of Offence");
-	$bm_type = 0;
-
-	for($i = 0; $i < $UNI['num_bms']; $i++) {
-		$new_bm = array('location' => 0, 'bmrkt_type' => "", 'bm_name' => "");
-
-		$new_bm['bm_name'] = $bm_names[array_rand($bm_names)];
+	for thing in num_black_markets:
+		possible_new_black_market = { 'location_id' : 0 }
+		possible_new_black_market['location_id'] = random.randint(2, num_black_markets)
+		#bmrkt_type' => "", 'bm_name' => "");
 		#less blackmarkets than types
-		if($UNI['num_bms'] < 2){
-			$new_bm['bm_type'] = 0;
+		#print "<div id=''  USER### Created Blackmarket # in <script>document.all.addbms1.   .scrollIntoView();</script></div>");
 
-		} else {//increase the bm_type until we get to 2, then reset to 0.
-			if($bm_type == 2){
-				$bm_type = 0;
-			} elseif($i > 0) {
-				$bm_type++;
-			}
-		}
-
-		$new_bm['bm_type'] = $bm_type;
-
-		$new_bm['location'] = mt_rand(2, $UNI['numsystems']);
-
-		//ensure no more than 1 per system. But ONLY if there are enough systems!!!
-		if($UNI['num_bms'] < $UNI['numsystems']){
-			while(system_has_port($bmarks, $new_bm)) {
-				$new_bm['location'] = mt_rand(2, $UNI['numsystems']);
-			}
-		} else {
-			$new_bm['location'] = mt_rand(2, $UNI['numsystems']);
-		}
-
-		$bmarks[] = $new_bm;
-
-		if($extinfo) {
-			print("<div id='addbms1$new_bm[location]'>-Created Blackmarket #".($i + 1)." in $new_bm[location]<script>document.all.addbms1$new_bm[location].scrollIntoView();</script></div>");
-
-		}
-	}
-}
-
-
-//function that will pre-generate planets.
-function planet_functionality()
-{
-	global $UNI,$db_name,$systems;
-	#pre-generated planets
-	dbn("delete from ${db_name}_planets");
-	print "Old planets wiped\n<br>";
-
-	//sum total metal & fuel in the universe.
-	db("select sum(metal) as metal, sum(fuel) as fuel from ${db_name}_stars");
-	$mineral_sum = dbr(1);
-	$metal_sum = round($mineral_sum['metal'] / ($UNI['numsystems'] - 1));
-	$fuel_sum = round($mineral_sum['fuel'] / ($UNI['numsystems'] - 1));
-
-	for($ct = 1; $ct <= $UNI['uv_planets']; $ct++) {
-		$planet_loc = mt_rand(2, $UNI['numsystems']);
+#//function that will pre-generate planets.
+def add_planets():
+	for planetoid in num_planets:
+		
+	for planetoid in Planets.query.getall():
+		planet_location = random.randint(2, num_systems)
 
 		if($systems[$planet_loc - 1]['event_random'] != 0){ //no planets in random event systems
 			continue 1;

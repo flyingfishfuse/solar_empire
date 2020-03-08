@@ -59,9 +59,18 @@ class ClanPost(database.Model):
 
 class GameVars(database.Model):
     score_method               = database.Column(database.Integer, default = 1)
+    mineral_total              = database.Column(database.Integer, default = 1)
+    metal_total                = database.Column(database.Integer, default = 1)
+    organic_total              = database.Column(database.Integer, default = 1)
+    #let us NOT get into complex economics here
+    # we are limiting the cash and everything else is trade/production
+    money_total                = database.Column(database.Integer, default = 1)
+    mineral_total              = database.Column(database.Integer, default = 1)
     num_systems                = database.Column(database.Integer, default = 200)
+    num_planets                = database.Column(database.Integer, default = 100)
     num_ports                  = database.Column(database.Integer, default = 50)
     num_starports              = database.Column(database.Integer, default = 50)
+    num_black_markets          = database.Column(database.Integer, default = 25)
     ships_built                = database.Column(database.Integer)
     is_game_paused             = database.Column(database.Boolean)
     logged_in_players          = database.Column(database.Integer)
