@@ -1,26 +1,14 @@
 import solar_empire
 import solar_empire.models
+from datetime import datetime
+import pickle
+import pickletools
 
-#Function: connect to the database. Will write to the error log if cannot connect.
-#send a query to the database.
-	#function db(string)
-#collect results of query made by db() function
-	#function database_results(rest_type = 0)
-#send a query to the database.
-	#function db2(string)
-#collect results of query made by db2() function
-	#function database_results(rest_type = 0)
-#send an update or insert query to the database. no select's.
-	#function dbn(string)
+def date_time_NOW():
+	time_now = datetime.now()
+	# dd/mm/YY H:M:S
+	return time_now.strftime("%d/%m/%Y %H:%M:%S")
 
-# will output the beginning of a properly formatted table putting
-#the values of the passed array in as the table headers;
-# - expects an array.
-
-#//outputs a row of a table with the array values bolded in each cell; expects a four-element array.
-	#function quick_row(name, value)
-#//function to insert an entry into the user_history table
-	#function insert_history(l_id,i_text)
 #//post an entry into the news
 	#function post_news(headline)
 #//function that will send a header correct e-mail, or return failure if it doesn't work

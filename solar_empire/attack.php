@@ -11,7 +11,7 @@ if(isset($quark)) {
 	$planet_info = dbr();
 	$sv_turns = 30;
 
-	if($user['turns'] < $sv_turns) {
+	if(User.turns_left < $sv_turns) {
 		print_page("Quark Displacer","Sorry, you can't use the Quark Displacer, as you do not have enough turns. <br>To fire this weapon you need <b>$sv_turns</b> turns, and you only have <b>$user[turns]</b>.");
 	} elseif($planet_info['planet_id'] == 1) {
 		print_page("Quark Displacer","This weapon may not be fired at <b class=b1>Earth</b>. In fact by trying, you've probably broken a couple of laws. So scram.");
@@ -71,7 +71,7 @@ if(isset($terra)) {
 	$sw_turns = 50;
 	$base_percent = 2;
 
-	if($user['turns'] < $sw_turns) {
+	if(User.turns_left < $sw_turns) {
 		print_page("Terra Maelstrom","Sorry, you can't use the Terra Maelstrom, as you do not have enough turns. <br>To fire this weapon you need at <b class=b1>least</b> <b>$sw_turns</b> turns. You have <b>$user[turns]</b>.");
 	} elseif($planet_info['planet_id'] == 1) {
 		print_page("Terra Maelstrom","Are you trying to start some trouble? Because I'm sure that the Navy of Sol is around here somewhere to put you right.");
@@ -95,7 +95,7 @@ if(isset($terra)) {
 		$sq_damage = mt_rand(4000,6000);
 
 		#if planet has more than that many fighters, use an alternate system:
-		if($planet_info['fighters'] > $sq_damage && $user['turns'] > $sw_turns){
+		if($planet_info['fighters'] > $sq_damage && User.turns_left > $sw_turns){
 
 			#work out how many fighters may be killed in one shot (between 65 and 75 percent) as a max.
 			$max_fig_kills = round(($planet_info['fighters'] / 100) * mt_rand(65,75));
@@ -104,7 +104,7 @@ if(isset($terra)) {
 			$killed_per_turn = round($max_fig_kills / $max_turns);
 
 			#damage done is based on num turns used times fighters killed per turn used. simple
-			$damage_done = round($killed_per_turn * $user['turns']);
+			$damage_done = round($killed_per_turn * User.turns_left);
 
 			#random factor. allows for an increased randomness in damage done.
 			$damage_done += round(mt_rand(-$damage_done * .05,$damage_done * .05));
@@ -120,7 +120,7 @@ if(isset($terra)) {
 			$sw_damage = $sq_damage;
 			$turn_cost = $sw_turns;
 		} else { #damage done by alternate method is greater than normal damage done.
-			$turn_cost = $user['turns'];
+			$turn_cost = User.turns_left;
 			$sw_damage = $damage_done;
 		}
 
@@ -176,7 +176,7 @@ if($target > 0) {
 
 
 	// check and make sure attack is possable
-	if($user['turns'] < $space_attack_turn_cost) {
+	if(User.turns_left < $space_attack_turn_cost) {
 		$error_str = "Sorry, you can't attack because you have less than <b>$space_attack_turn_cost</b> turns to use.";
 	} elseif(($user['location'] != $target_ship['location'])) {
 		$error_str = "That ship is no longer there. Try again when you are in the same system as it.";

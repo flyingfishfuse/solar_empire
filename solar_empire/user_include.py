@@ -54,31 +54,15 @@ def is_ship_cargo_empty():
 
 
 def statusBar():
-    global user, \
-        user_ship, \
-        count_days_left_in_game, \
-        db_name, \
-        max_turns, \
-        enable_politics, \
-        turns_safe, \
-        flag_research, \
-        max_clans, \
-        game_info
-    game_menu = "<h1>" + \
-                popup_help('game_info?db_name=' + \
-                db_name, \
-                600, \
-                450, \
-                game_info['name']) + \
-                is_game_paused + \
-                "</h1>\n"
-    game_menu + "<p>{sstart}{llr_result} active user(s:eend}</p>\n".format( \
-            sstart = start , \
-            llr_result = lr_result, \
-            eend = end )
-    game_menu + "<p>" + date_time_NOW  + "</p>\n"
+    if (GameVars.is_game_paused == True):
+		game_menu = "<h1> {game_name}/ game paused" + "</h1>\n".format(game_name = GameVars.game_name)
+    else :
+		game_menu = "<h1> {game_name}/ game on!" + "</h1>\n".format(game_name = GameVars.game_name)
+
+    game_menu + "<p>active users: {}</p>\n".format(GameVars.logged_in_players)
+    game_menu + "<p>" +   + "</p>\n"
 	
-    if (game_info['paused'] == True):
+	if (GameVars.is_game_paused == True):
         game_menu + "<p>{count_days_left_in_game} days left</p>\n"
         game_menu + "<h2>" + \
                     user['name'] + \
