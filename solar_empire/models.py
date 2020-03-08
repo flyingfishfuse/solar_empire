@@ -13,12 +13,15 @@ class User(database.Model):
     safe_turns_left = database.Column(database.Integer)
     cash            = database.Column(database.Integer)
     on_planet       = database.Column(database.Boolean)
+    pocket_space    = database.Column(database.String(128))
 
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
-class UserShip(database.Model):
+#fuck I love python... you PUT THE USER
+## IN THE SHIP!
+class UserShip(User):
     ship_id          = database.Column(database.String(128))
     ship_type        = database.Column(database.String(128))
     fighter_type     = database.Column(database.String(128))
@@ -63,8 +66,11 @@ class GameVars(database.Model):
     # is planet attacking allowed?
     flag_planet_attack         = database.Column(database.Boolean)
 
+class SystemInfo(database.Model):
+    asdf = "asdf"
+
 class PlanetInfo(database.Model):
-    #set planet ID to 1 to set ownership to admin
+    #planet ID 1 : EARTH
     planet_id        = database.Column(database.Integer)
     planet_num       = database.Column(database.Integer)  
     name             = database.Column(database.String(128))
@@ -77,3 +83,5 @@ class PlanetInfo(database.Model):
     organic_resource = database.Column(database.Integer)
     metal_resources  = database.Column(database.Integer)
     population       = database.Column(database.Integer)
+    has_fighters     = database.Column(database.Boolean)
+    fighter_count    = database.Column(database.Integer)

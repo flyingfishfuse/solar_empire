@@ -1,8 +1,7 @@
 import solar_empire
 import solar_empire.models
 from datetime import datetime
-import pickle
-import pickletools
+from solar_empire.configuration_options import *
 
 def date_time_NOW():
 	time_now = datetime.now()
@@ -293,6 +292,7 @@ def score_func(login_id,full):
 	if(score_method==1):
 		#users set score = (fighters_killed + (ships_killed * 10)) - (fighters_lost * 0.75 + (ships_lost * 5)) where ".extra_text);
 	 #takes into account ships lost, ships killed, fighters lost, fighters killed.
+		asdf = "asdf"
 	elif(score_method == 2):
 		#"update {db_name}_users set score = ships_killed_points - (ships_lost_points * 0.5) where ".extra_text);
 		#total fiscal value score.

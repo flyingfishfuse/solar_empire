@@ -4,7 +4,13 @@ import datetime
 import solar_empire.configuration_options
 from solar_empire.configuration_options import *
 from solar_empire.models import *
-
+:TODO
+## require a hacking tool to alter a POST parameter to access an AI
+## AI invader CLAN "network"
+## have a field that you modify and use burpsuite
+## to change things and you get sent to a "control panel"
+### Make a new route in flask and dont advertise it but hide it "in the source"
+## allowing you to command the enemy... enemy armies are limited
 #if requirements not installed, get them, necessary for non-install migrations
 def import_or_install(package):
     for each in package:
