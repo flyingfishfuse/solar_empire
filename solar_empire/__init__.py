@@ -26,6 +26,7 @@ from flask import Flask, render_template, Response, Request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
+
 solar_empire_server = Flask(__name__ , template_folder="templates" )
 solar_empire_server.config.from_object(Config)
 database    = SQLAlchemy(solar_empire_server)

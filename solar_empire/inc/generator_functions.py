@@ -6,45 +6,43 @@ from solar_empire.common_include import *
 
 #//deletes all image files.
 #function clearImages($path)
+num_ports = return_game_var("num_ports")
+num_starports = return_game_var("num_starports")
+num_systems = return_game_var('num_systems')
+
+def add_to_db(thingie):
+    database.session.add(thingie)
+    database.session.commit
 
 #check to see if a system already has a port
-def system_has_port(ports, $s_port):
-	for port in ports:
-		if port['location'] == s_port['location']
-			return true
-	return false
+def planet_has_port(planet):
+    found_planet = Planet.query.filter_by(planet_id = planet )
+    return found_planet.has_port
+
+def system_has_port(sys_id):
+    found_system = System.query.filter_by(system_id = sys_id)
+    return found_system.has_starport
 
 #//add starports to the universe.
-def add_starports_se1(ports):
-	UNI = ""
-    #extinfo = ""
-    num_ports = return_game_var("num_ports")
-    num_systems = return_game_var('num_systems')
+# we map location ID's to system ID's
 
-	for ports in range( num_ports - 1):
-		new_port = { 'location' : 0 }
-		new_port['location'] = random.randint(2, num_systems)
+def add_starports_se1():
+	for port in range( num_starports - 1):
+        #create template dict for new port
+		starport = { 'location_id' : 0 }
+		possible_new_starport['location_id'] = random.randint(2, num_systems)
+        #map location_id to system_id... looks up system_id by location_id
+        #system has no port, build one
+        if system_has_port(possible_new_starport['location_id']) == False :
+		    spawned_starport = StarPort(name = grab_starport_name, system_id = possible_new_starport['location_id'])
+            add_to_db(spawned_starport)
+		    #print "<div id='' USER### Created port #"" in location <script>document.all.addports1 location .scrollIntoView();</script></div>");
+        else:
+            pass
 
-		#ensure no more than 1 per system. But ONLY if there are enough systems!!!
-		if (num_ports < num_systems):
-			while system_has_port(ports , new_port):
-				new_port['location'] = random.randint( 2, num_systems)
-			}
-		} else {
-			$new_port['location'] = mt_rand(2, $UNI['numsystems']);
-		}
-
-		$ports[] = $new_port;
-
-		if($extinfo) {
-			print("<div id='addports1$new_port[location]'>-Created port #".($i + 1)." in $new_port[location]<script>document.all.addports1$new_port[location].scrollIntoView();</script></div>");
-
-		}
-	}
-}
 
 //add BM's to the universe
-function add_blackmarket_se1(&$bmarks)
+add_blackmarket_se1(&$bmarks)
 {
 	global $UNI, $extinfo;
 

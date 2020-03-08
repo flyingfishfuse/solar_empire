@@ -61,6 +61,7 @@ class GameVars(database.Model):
     score_method               = database.Column(database.Integer, default = 1)
     num_systems                = database.Column(database.Integer, default = 200)
     num_ports                  = database.Column(database.Integer, default = 50)
+    num_starports              = database.Column(database.Integer, default = 50)
     ships_built                = database.Column(database.Integer)
     is_game_paused             = database.Column(database.Boolean)
     logged_in_players          = database.Column(database.Integer)
@@ -83,29 +84,59 @@ class GameVars(database.Model):
     flag_planet_attack         = database.Column(database.Boolean)
 
 class SystemInfo(database.Model):
-    asdf = "asdf"
+    name                = database.Column(database.String(128))
+    system_id           = database.Column(database.Integer)
+    location_id         = database.Column(database.Integer)
+    x_loc               = database.Column(database.Integer)
+    y_loc               = database.Column(database.Integer)
+
+class System(SystemInfo):    
+    has_pizza_delivery  = database.Column(database.Boolean, default = False)
+    has_fighters        = database.Column(database.Boolean)
+    has_starport        = database.Column(database.Boolean, default = False)
+    navigation_hazard   = database.Column(database.Boolean, default = False)
+    num_planets         = database.Column(database.Integer)
+
+class StarPort(database.Model):
+    name                = database.Column(database.String(128))
+    system_id           = database.Column(database.Integer)
+    location_id         = database.Column(database.Integer)
+    x_loc               = database.Column(database.Integer)
+    y_loc               = database.Column(database.Integer)
 
 class PlanetInfo(database.Model):
     #planet ID 1 : EARTH
-    planet_id        = database.Column(database.Integer)
-    planet_num       = database.Column(database.Integer)  
-    name             = database.Column(database.String(128))
-    x_loc            = database.Column(database.Integer)
-    y_loc            = database.Column(database.Integer)
-    location         = database.Column(database.String(128))
-    user_id_of_owner = database.Column(database.Integer)
-    tech_resources   = database.Column(database.Integer) 
-    fuel_resources   = database.Column(database.Integer)
-    organic_resource = database.Column(database.Integer)
-    metal_resources  = database.Column(database.Integer)
-    population       = database.Column(database.Integer)
-    has_fighters     = database.Column(database.Boolean)
-    fighter_count    = database.Column(database.Integer)
+    planet_id               = database.Column(database.Integer)
+    planet_num              = database.Column(database.Integer)
+    name                    = database.Column(database.String(128))
+    location_id             = database.Column(database.String(128))
+    user_id_of_owner        = database.Column(database.Integer)
+
 
 class Planet(PlanetInfo):
     #...
-    has_pizza_delivery  = database.Column(database.Boolean, default = False)
+    has_pizza_delivery      = database.Column(database.Boolean, default = False)
+    has_port                = database.Column(database.Boolean, default = False)
+    has_factory             = database.Column(database.Boolean, default = False)
+    has_mine                = database.Column(database.Boolean, default = False)
+    has_shield              = database.Column(database.Boolean, default = False)
+    has_fighters            = database.Column(database.Boolean)
+    uses_slaves             = database.Column(database.Boolean, default = False)
 
+    tech_resources          = database.Column(database.Integer) 
+    fuel_resources          = database.Column(database.Integer)
+    organic_resource        = database.Column(database.Integer)
+    metal_resources         = database.Column(database.Integer)
+    
+    population              = database.Column(database.Integer)
+    fighter_count           = database.Column(database.Integer)
+    shield_amount           = database.Column(database.Integer)
+
+class PlanetPort(PlanetInfo):
+    tech_resources_mined    = database.Column(database.Integer) 
+    fuel_resources_mined    = database.Column(database.Integer)
+    organic_resource_mined  = database.Column(database.Integer)
+    metal_resources_mined   = database.Column(database.Integer)
 
 class Weapons(database.Model):
     name_cost = "asdf"
