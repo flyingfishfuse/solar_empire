@@ -235,40 +235,6 @@ def print_page(title, text):
 		pageStop(title)
 
 
-def main_html_head(str:title):
-	user_options = [] 
-	directories  = []
-	applied_css_style = URL_SHORT + '/css/style' + user_options['color_scheme']
-	user_options = ['color_scheme': 1] + '.css'
-	page_title = ""
-	javascript_location = URL_SHORT + '/js/common.js'
-
-
-#prints the bottom of a page.
-def print_footer():
-	print("</body>")
-	print("</html>")
-
-def make_table(input, width = ""):
-	return_str = "<table cellspacing=1 cellpadding=2 border=0 width><tr bgcolor=#555555>";
-	for each in input:
-		return_str + "\n<td>{}</td>".format(each)
-	return return_str + "\n</tr>"
-
-
-#outputs a row of a table with the number values made bold;
-# -- expects a array.
-def make_row(input):
-	return_string = "\n<tr bgcolor=#333333 align=left>"
-	#only make numbers bold
-	for each in input:
-		if ( value < 48 or value > 57 ):
-			return_string + "\n<td>{}</td>".format(each)
-		else :
-			return_string + "\n<td><b>{}</b></td>".format(each)
-	return return_string + "\n</tr>"
-
-
 #//function used to work out players scores
 def score_func(login_id,full):
 #Listed below are all of the score methods, and some info on them.

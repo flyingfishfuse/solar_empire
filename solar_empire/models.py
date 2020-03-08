@@ -1,5 +1,6 @@
 import solar_empire
 from solar_empire import database
+from solar_empire.configuration_options import *
 
 class User(database.Model):
     login_id        = database.Column(database.Integer, primary_key=True)
@@ -57,7 +58,7 @@ class ClanPost(database.Model):
     user_id = database.Column(database.String(128))
 
 class GameVars(database.Model):
-    score_method               = database.Column(database.Integer)
+    score_method               = database.Column(database.Integer default = 1)
     ships_built                = database.Column(database.Integer)
     is_game_paused             = database.Column(database.Boolean)
     logged_in_players          = database.Column(database.Integer)
@@ -70,9 +71,11 @@ class GameVars(database.Model):
     sudden_death_turns_feft    = database.Column(database.Integer)
     are_we_political           = database.Column(database.Boolean)
     game_name                  = database.Column(database.String(128))
+    #turns required to attack per round? set to 30?
     sv_turns                   = database.Column(database.Integer)
     #we allowing the quark disruptor?
     quark                      = database.Column(database.Boolean)
+    quark_damage               = database.Column(database.Integer, default = QUARK_DAMAGE)
     turns_before_planet_attack = database.Column(database.Integer)
     # is planet attacking allowed?
     flag_planet_attack         = database.Column(database.Boolean)

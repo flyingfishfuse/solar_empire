@@ -2,7 +2,7 @@
 from flask import Flask
 from flask import request
 import solar_empire
-from solar_empire.models import User, UserShip, GameVars
+from solar_empire.models import *
 
 #Get game info if not admin (loaded for admin in check_auth)
 if (User.login_id != ADMIN_ID):
