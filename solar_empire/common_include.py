@@ -6,6 +6,22 @@ from solar_empire.configuration_options import *
 def return_game_var(var):
     return GameVars.query.filter_by(var)
 
+def grab_starport_name():
+	return names.gen_name()
+
+def add_to_db(thingie):
+    database.session.add(thingie)
+    database.session.commit
+
+#check to see if a system already has a port
+def planet_has_port(planet):
+    found_planet = Planet.query.filter_by(planet_id = planet )
+    return found_planet.has_port
+
+def system_has_port(sys_id):
+    found_system = System.query.filter_by(system_id = sys_id)
+    return found_system.has_starport
+
 def date_time_NOW():
 	time_now = datetime.now()
 	# dd/mm/YY H:M:S
@@ -201,8 +217,7 @@ def popup_help(topic, height, width, string = "Info"):
 #//makes a ship using the parts specified in $ship_parts (array), ship_owner (also array)
 #//returns id of ship inserted.
 #function make_ship($ship_parts, $ship_owner)
-	#insert into ${db_name}_ships (ship_name, login_id, login_name, clan_id, shipclass, class_name, class_name_abbr, fighters, max_fighters, max_shields, cargo_bays, mine_rate_metal, mine_rate_fuel, config, size, upgrades, move_turn_cost, point_value, num_ot, num_dt, num_pc, num_ew) values('".trim((string)$ship_parts['ship_name'])."', '$ship_owner[login_id]', '$ship_owner[login_name]', '$ship_owner[clan_id]', '$ship_parts[type_id]', '$ship_parts[name]', '$ship_parts[class_abbr]', '$ship_parts[fighters]', '$ship_parts[max_fighters]', '$ship_parts[max_shields]', '$ship_parts[cargo_bays]', '$ship_parts[mine_rate_metal]', '$ship_parts[mine_rate_fuel]', '$ship_parts[config]', '$ship_parts[size]', '$ship_parts[upgrades]', '$ship_parts[move_turn_cost]', '$ship_parts[point_value]', '$ship_parts[num_ot]', '$ship_parts[num_dt]', '$ship_parts[num_pc]', '$ship_parts[num_ew]')");
-
+	
 
 #def gameVars(db_name):
 

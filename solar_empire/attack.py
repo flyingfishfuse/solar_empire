@@ -7,7 +7,7 @@ from solar_empire.configuration_options import *
 def attack_planet(planet_num, user_id):
     user_info = User.query.filter_by(login_id = user_id).first()
     planet_info = PlanetInfo.query.filter_by(planet_id = planet_num)
-    turns_left = GameVars.turns_before_planet_attack
+    ceasefire_turns_left = return_game_var('turns_before_planet_attack')
         
         #quark disruptor... fookin 'ell mate
     if GameVars.quark and UserShip.has_quark:
@@ -20,7 +20,7 @@ def attack_planet(planet_num, user_id):
                 print("The planet <b class=b1>PlanetInfo.planet_name]</b> is not in this system.")
             elif user_info.turns_run < user_info.safe_turns_left:
                 print("You can't attack during the first <b>{}</b> turns of having your account.").format(GameVars.turns_before_planet_attack)
-            elif GameVars.flag_planet_attack == False :
+            elif return_game_var('flag_planet_attack') == False :
                 #im just gonna leave that there :p
 		        print("The admin presenelty has planet attacking disabled.")
             elif planet_info.login_id== 1 :

@@ -11,32 +11,25 @@ from solar_empire.names.names import *
 num_ports 			= return_game_var("num_ports")
 num_starports 		= return_game_var("num_starports")
 num_systems 		= return_game_var('num_systems')
+num_planets         = return_game_var('num_planets')
 num_black_markets   = return_game_var('num_black_markets')
 mineral_sum 		= return_game_var('mineral_total')
 metal_sum			= return_game_var('metal_total')
 fuel_sum   		    = return_game_var('fuel_total')
 
-def grab_starport_name():
-	return names.gen_name()
+all_systems         = System.query.all()
+all_planets         = Planet.query.all()
 
-def add_to_db(thingie):
-    database.session.add(thingie)
-    database.session.commit
-
-#check to see if a system already has a port
-def planet_has_port(planet):
-    found_planet = Planet.query.filter_by(planet_id = planet )
-    return found_planet.has_port
-
-def system_has_port(sys_id):
-    found_system = System.query.filter_by(system_id = sys_id)
-    return found_system.has_starport
+planet_metal    = random.randint(range ( 100 , metal_total    / num_planets ))
+planet_fuel     = random.randint(range ( 100 , fuel_total     / num_planets ))
+planet_mineral  = random.randint(range ( 100 , mineral_total  / num_planets ))
+planet_organics = random.randint(range ( 100 , organics_total / num_planets ))
 
 #//add starports to the universe.
 # we map location ID's to system ID's
 
 def add_starports_se1():
-	for port in range( num_starports - 1):
+	for port in range( 1 , num_starports - 1):
         #create template dict for new port
 		possible_new_starport = { 'location_id' : 0 }
 		possible_new_starport['location_id'] = random.randint(2, num_systems)
@@ -63,7 +56,7 @@ def add_blackmarket_se1()
 				 "One Eyed Doyle", \
 				 "The Ministry of Offence"]
 	
-	blackmarket_type = 0;
+	blackmarket_type = 0
 
 	for thing in num_black_markets:
 		possible_new_black_market = { 'location_id' : 0 }
@@ -73,97 +66,31 @@ def add_blackmarket_se1()
 		#print "<div id=''  USER### Created Blackmarket # in <script>document.all.addbms1.   .scrollIntoView();</script></div>");
 
 #//function that will pre-generate planets.
-def add_planets():
-	for planetoid in num_planets:
+def add_planets(): 
+	#account for earth
+	planetoid_list      = { 'planet_id' : 0 }
+
+	for planetoid in range( 1 , num_planets - 1 ):
+		count  = 1
+		planetoid_list.update('planet_id': count )
+		count  = count + 1
+		Planet(name = names.gen_name( 'all' ))
+	print "Randomly Placed Planets Done.\n<br>"
+
+	for planets in planetoid_list:
 		
-	for planetoid in Planets.query.getall():
-		planet_location = random.randint(2, num_systems)
+#//function that places random events around the universe.
+def random_event_placer():
+	pass
+	#//high level random events
 
-		if($systems[$planet_loc - 1]['event_random'] != 0){ //no planets in random event systems
-			continue 1;
-		}
-		$planet_name = $systems[$planet_loc -1]['name']." #".$ct;
-		$planetary_metal = round((mt_rand(1, 50) / 100) * $metal_sum);
-		$planetary_fuel = round((mt_rand(1, 50) / 100) * $fuel_sum);
-		$planet_img = mt_rand(1, 15);
-		$planetary_figs = ($planetary_metal + $planetary_fuel) * 1.1;
-		$p_id = $ct + 1;
-		dbn("insert into ${db_name}_planets (planet_id, planet_name, location, login_id, login_name, fighters, cash, clan_id, metal, fuel, pass, planet_img) values('$p_id', '$planet_name', $planet_loc, '0', 'None', '$planetary_figs', '1', 0, '$planetary_metal', '$planetary_fuel', '0', '$planet_img')");
-		//print "Planet $ct created at $planet_loc\n<br>";
-	}
-	print "Randomly Placed Planets Done.\n<br>";
+#//save the universe
+def save_universe_se1():
 
-#if pre-genned planets are off, then planetary slots will be implemented elsewhere.
-}
-
-
-//function that places random events around the universe.
-function random_event_placer()
-{
-	global $UNI, $systems, $db_name;
-
-	//high level random events
-	if($UNI['random_events'] == 3){
-		//black holes
-		$to_do = ceil($UNI['numsystems'] / 110);
-		for($i=1; $i <= $to_do; $i++){
-			$place = mt_rand(2, $UNI['numsystems']);
-			dbn("update ${db_name}_stars set event_random = 1, star_name = 'Black Hole', planetary_slots = 0 where star_id = '$place'");
-			$systems[$place - 1]['event_random'] = 1;
-			$systems[$place - 1]['name'] = "Black Hole";
-			$systems[$place - 1]['planetary_slots'] = 0;//no planets in BH systems.
-		}
-	}
-}
-
-
-
-//save the universe
-function save_universe_se1(&$systems, &$ports, &$bmarks, $table_stars, $table_ports, $table_bms, $delete=true) {
-	global $UNI,$db_name;
-
-	if($delete) {
-		if(!empty($table_stars)) {
-			dbn("delete from $table_stars");
-		}
-		if(!empty($table_ports)) {
-			dbn("delete from $table_ports");
-		}
-		if(!empty($table_bms)) {
-			dbn("delete from $table_bms");
-		}
-	}
-
-	if(!empty($table_stars)) {
-		foreach($systems as $system) {
-			$link_arr = array();
-			if((string)$system['links'] != ""){//don't link all systems to 1 automatically.
-				$link_arr = array_map("plus_one", explode(',', $system['links']));
-			}
-			$link_arr = array_pad($link_arr, $UNI['maxlinks'], 0);
-			dbn("insert into $table_stars set star_id = ".($system['num'] + 1).", star_name = \"".addslashes($system['name'])."\", x_loc = $system[x_loc], y_loc = $system[y_loc], link_1 = '$link_arr[0]', link_2 = '$link_arr[1]', link_3 = '$link_arr[2]', link_4 = '$link_arr[3]', link_5 = '$link_arr[4]', link_6 = '$link_arr[5]', metal = '$system[metal]', fuel = '$system[fuel]', planetary_slots = '$system[planetary_slots]', wormhole = '$system[wormhole]'");
-		}
-		dbn("update se_games set num_stars = '$UNI[numsystems]' where db_name = '$db_name'");
-	}
-
-	if(!empty($table_ports)) {
-		foreach($ports as $port) {
-			dbn("insert into $table_ports set location = ".($port['location'] + 1));
-		}
-	}
-
-	if(!empty($table_bms)) {
-		foreach($bmarks as $bmark) {
-			dbn("insert into $table_bms set location = '$bmark[location]', bmrkt_type = '$bmark[bm_type]', bm_name = '$bmark[bm_name]'");
-		}
-	}
-}
-
-//add minerals to the systems
-function add_minerals(&$systems) {
-	global $UNI,$extinfo;
-
-	foreach($systems as $system) {
+#//add minerals to the systems
+def add_minerals():
+	planetary_figs = (planet_metal + planet_fuel) * 1.1
+	for each in systems:
 		if($system['num'] == 0) {
 			continue;
 		}

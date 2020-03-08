@@ -1,26 +1,15 @@
 #!/usr/bin/python3
-import pip
-import datetime
 import solar_empire.configuration_options
 from solar_empire.configuration_options import *
 from solar_empire.models import *
-:TODO
-## require a hacking tool to alter a POST parameter to access an AI
+
+##DOTO: require a hacking tool to alter a POST parameter to access an AI
 ## AI invader CLAN "network"
 ## have a field that you modify and use burpsuite
 ## to change things and you get sent to a "control panel"
 ### Make a new route in flask and dont advertise it but hide it "in the source"
 ## allowing you to command the enemy... enemy armies are limited
 #if requirements not installed, get them, necessary for non-install migrations
-def import_or_install(package):
-    for each in package:
-        try:
-            __import__(package)
-        except ImportError:
-            pip.main(['install', package])       
-
-#get all the things!
-import_or_install(things_this_app_needs)
 
 from flask import Flask, render_template, Response, Request
 from flask_sqlalchemy import SQLAlchemy
@@ -43,6 +32,10 @@ database.session.add(admin)
 database.session.add(guest)
 database.session.commit()
 
+
+########################################################################
+## move to routes.py
+########################################################################
 @solar_empire_server.route('/', methods=['GET', 'POST'])
 @solar_empire_server.route('/login', methods=['GET', 'POST'])
 @solar_empire_server.route('/user', methods=['GET', 'POST'])
@@ -65,6 +58,10 @@ database.session.commit()
 @solar_empire_server.route('/logout', methods=['GET', 'POST'])
 @solar_empire_server.route('/logout', methods=['GET', 'POST'])
 
+
+########################################################################
+## move to page_indexes.py
+########################################################################
 def index():
     return render_template('index.html')
 
@@ -77,6 +74,20 @@ def game_page():
 def bilkos_blackmarket_shop():
     return render_template('bilkos.html')
 
+########################################################################
+## move to new_game_setup.py
+########################################################################
+from solar_empire.generator_functions import *
+make_systems()
+add_planets()
+add_starports()
+add_blackmarkets()
+place_resources()
+
+
+########################################################################
+## move to ... right here?
+########################################################################
 
 if __name__ == '__main__':
     solar_empire_server.run()

@@ -28,6 +28,20 @@ class UserShip(User):
     fighter_type               = database.Column(database.Integer)
     fighter_count              = database.Column(database.Integer)
     cargo_bay_size             = database.Column(database.Integer)
+    size                       = database.Column(database.Integer)
+    ship_name                  = database.Column(database.String(128))
+    clan_id                    = database.Column(database.Integer) 
+    shipclass                  = database.Column(database.String(128)) 
+    class_name                 = database.Column(database.String(128))
+    class_name_abbr            = database.Column(database.String(128))
+    fighters_max               = database.Column(database.Integer)    
+    mine_rate_metal            = database.Column(database.Integer)
+    mine_rate_fuel             = database.Column(database.Integer)
+    move_turn_cost             = database.Column(database.Integer)
+    point_value                = database.Column(database.Integer)
+    num_ot                     = database.Column(database.Integer)
+    num_dt                     = database.Column(database.Integer)
+    num_pc                     = database.Column(database.Integer) 
     # Manifest is a serialized dict of :+
     #    {"equipment_name" : "number_of_units"}
     cargo_manifest             = database.Column(database.PickleType)
@@ -71,6 +85,7 @@ class GameVars(database.Model):
     num_ports                  = database.Column(database.Integer, default = 50)
     num_starports              = database.Column(database.Integer, default = 50)
     num_black_markets          = database.Column(database.Integer, default = 25)
+    max_planets_in_system      = database.Column(database.Integer, default = 6)
     ships_built                = database.Column(database.Integer)
     is_game_paused             = database.Column(database.Boolean)
     logged_in_players          = database.Column(database.Integer)
@@ -91,6 +106,7 @@ class GameVars(database.Model):
     turns_before_planet_attack = database.Column(database.Integer)
     # is planet attacking allowed?
     flag_planet_attack         = database.Column(database.Boolean)
+    random_events              = database.Column(database.Integer)
 
 class SystemInfo(database.Model):
     name                = database.Column(database.String(128))
@@ -136,7 +152,8 @@ class Planet(PlanetInfo):
     fuel_resources          = database.Column(database.Integer)
     organic_resource        = database.Column(database.Integer)
     metal_resources         = database.Column(database.Integer)
-    
+    mineral_resources       = database.Column(database.Integer)
+
     population              = database.Column(database.Integer)
     fighter_count           = database.Column(database.Integer)
     shield_amount           = database.Column(database.Integer)
