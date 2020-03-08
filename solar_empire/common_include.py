@@ -3,6 +3,9 @@ import solar_empire.models
 from datetime import datetime
 from solar_empire.configuration_options import *
 
+def return_game_var(var):
+    return GameVars.query.filter_by(var)
+
 def date_time_NOW():
 	time_now = datetime.now()
 	# dd/mm/YY H:M:S

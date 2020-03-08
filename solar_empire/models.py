@@ -23,42 +23,44 @@ class User(database.Model):
 #fuck I love python... you PUT THE USER
 ## IN THE SHIP!
 class UserShip(User):
-    ship_id          = database.Column(database.String(128))
-    ship_type        = database.Column(database.String(128))
-    fighter_type     = database.Column(database.Integer)
-    fighter_count    = database.Column(database.Integer)
-    cargo_bay_size   = database.Column(database.Integer)
+    ship_id                    = database.Column(database.String(128))
+    ship_type                  = database.Column(database.String(128))
+    fighter_type               = database.Column(database.Integer)
+    fighter_count              = database.Column(database.Integer)
+    cargo_bay_size             = database.Column(database.Integer)
     # Manifest is a serialized dict of :+
     #    {"equipment_name" : "number_of_units"}
-    cargo_manifest   = database.Column(database.PickleType)
-    location         = database.Column(database.String(128))
-    configuration    = database.Column(database.String(128))
-    equipment        = database.Column(database.PickleType)
-    damage_taken     = database.Column(database.Integer)
-    shields_max      = database.Column(database.Integer)
-    shields_current  = database.Column(database.Integer)
-    hull_max         = database.Column(database.Integer)
-    hull_current     = database.Column(database.Integer)
+    cargo_manifest             = database.Column(database.PickleType)
+    location                   = database.Column(database.String(128))
+    configuration              = database.Column(database.String(128))
+    equipment                  = database.Column(database.PickleType)
+    damage_taken               = database.Column(database.Integer)
+    shields_max                = database.Column(database.Integer)
+    shields_current            = database.Column(database.Integer)
+    hull_max                   = database.Column(database.Integer)
+    hull_current               = database.Column(database.Integer)
     #special weapons
     #shots
-    quark            = database.Column(database.Integer)
-    black_hole_gun   = database.Column(database.Integer)
+    quark                      = database.Column(database.Integer)
+    black_hole_gun             = database.Column(database.Integer)
     #time
-    nova_wave_time   = database.Column(database.Integer)
+    nova_wave_time             = database.Column(database.Integer)
 
 class PublicPost(database.Model):
-    time = database.Column(database.String(128))
-    content = database.Column(database.String(528))
-    user_id = database.Column(database.String(128))
+    time                       = database.Column(database.String(128))
+    content                    = database.Column(database.String(528))
+    user_id                    = database.Column(database.String(128))
 
 class ClanPost(database.Model):
-    clan = database.Column(database.String(128))
-    time = database.Column(database.String(128))
-    content = database.Column(database.String(528))
-    user_id = database.Column(database.String(128))
+    clan                       = database.Column(database.String(128))
+    time                       = database.Column(database.String(128))
+    content                    = database.Column(database.String(528))
+    user_id                    = database.Column(database.String(128))
 
 class GameVars(database.Model):
-    score_method               = database.Column(database.Integer default = 1)
+    score_method               = database.Column(database.Integer, default = 1)
+    num_systems                = database.Column(database.Integer, default = 200)
+    num_ports                  = database.Column(database.Integer, default = 50)
     ships_built                = database.Column(database.Integer)
     is_game_paused             = database.Column(database.Boolean)
     logged_in_players          = database.Column(database.Integer)
@@ -99,6 +101,11 @@ class PlanetInfo(database.Model):
     population       = database.Column(database.Integer)
     has_fighters     = database.Column(database.Boolean)
     fighter_count    = database.Column(database.Integer)
+
+class Planet(PlanetInfo):
+    #...
+    has_pizza_delivery  = database.Column(database.Boolean, default = False)
+
 
 class Weapons(database.Model):
     name_cost = "asdf"
