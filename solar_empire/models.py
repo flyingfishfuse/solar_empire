@@ -24,15 +24,26 @@ class User(database.Model):
 class UserShip(User):
     ship_id          = database.Column(database.String(128))
     ship_type        = database.Column(database.String(128))
-    fighter_type     = database.Column(database.String(128))
-    fighter_count    = database.Column(database.String(128))
-    cargo_bay_size   = database.Column(database.String(128))
+    fighter_type     = database.Column(database.Integer)
+    fighter_count    = database.Column(database.Integer)
+    cargo_bay_size   = database.Column(database.Integer)
     # Manifest is a serialized dict of :+
     #    {"equipment_name" : "number_of_units"}
     cargo_manifest   = database.Column(database.PickleType)
     location         = database.Column(database.String(128))
     configuration    = database.Column(database.String(128))
-    equipment        = database.Column(database.String(128))
+    equipment        = database.Column(database.PickleType)
+    damage_taken     = database.Column(database.Integer)
+    shields_max      = database.Column(database.Integer)
+    shields_current  = database.Column(database.Integer)
+    hull_max         = database.Column(database.Integer)
+    hull_current     = database.Column(database.Integer)
+    #special weapons
+    #shots
+    quark            = database.Column(database.Integer)
+    black_hole_gun   = database.Column(database.Integer)
+    #time
+    nova_wave_time   = database.Column(database.Integer)
 
 class PublicPost(database.Model):
     time = database.Column(database.String(128))
@@ -85,3 +96,24 @@ class PlanetInfo(database.Model):
     population       = database.Column(database.Integer)
     has_fighters     = database.Column(database.Boolean)
     fighter_count    = database.Column(database.Integer)
+
+class Weapons(database.Model):
+    name_cost = "asdf"
+
+class Equipment(database.Model):
+    name_cost = "asdf"
+
+class SpecialWeapons(database.Model):
+    allowed = "asdf"
+
+class TechResources(database.Model):
+    price = "asdf"
+
+class OrganicResources(database.Model):
+    price = "asdf"
+
+class MetalResources(database.Model):
+    price = "asdf"
+
+class FuelResources(database.Model):
+    asdf = "asdf"
