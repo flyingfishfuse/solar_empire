@@ -25,8 +25,6 @@ database.session.add(admin)
 database.session.add(guest)
 database.session.commit()
 
-from solar_empire.routes import *
-
 ########################################################################
 ## move to routes.py
 ########################################################################

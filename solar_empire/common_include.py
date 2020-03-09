@@ -25,7 +25,15 @@ def user_by_id(id_of_user):
 
 def return_user_variable(user_id , var):
 	user_to_probe = user_by_id(user_id) 
-	
+
+def pay_bounty(user_with_bounty, user_with_money, comission_percent):
+	amount = round((amount /100) * comission_percent) + amount + 1
+	bount = round((list_em[bounty] / 100) * commission_percent
+	bount1 = round((topay[bounty] / 100) * commission_percent
+	pass
+
+def set_bounty(user_with_problem, user_in_trouble):
+	pass
 
 def grab_starport_name():
 	return names.gen_name()

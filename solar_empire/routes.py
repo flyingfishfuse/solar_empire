@@ -1,4 +1,5 @@
 import solar_empire
+from solar_empire import *
 from solar_empire.configuration_options import *
 
 solar_empire_server.route('/',             methods=['GET', 'POST'])
@@ -6,7 +7,7 @@ solar_empire_server.route('/login',        methods=['GET', 'POST'])
 solar_empire_server.route('/user',         methods=['GET', 'POST'])
 solar_empire_server.route('/diary',        methods=['GET', 'POST'])
 solar_empire_server.route('/location',     methods=['GET', 'POST'])
-solar_empire_server.route('/news',         methods=['GET', 'POST'])
+solar_empire_server.route('/news_network', methods=['GET', 'POST'])
 solar_empire_server.route('/politics',     methods=['GET', 'POST'])
 solar_empire_server.route('/message',      methods=['GET', 'POST'])
 solar_empire_server.route('/mpage',        methods=['GET', 'POST'])

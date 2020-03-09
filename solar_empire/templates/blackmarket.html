@@ -42,3 +42,60 @@ get_var('Name your new ship','bm_ships.php',"Your fleet presently consists of <b
 "</table>";
 #Blackmarket Ships
 "<p><a href=help.php?ship_info=-1&shipno=-2 target=_blank>List all information for all Blackmarket ships.</a>";
+
+"Access Denied","You are not in system #1."
+commission = 7
+<h1>The Charity Shop</h1>
+<p>Welcome to our humble abode, we offer a variety of services including
+benevolence funds (bounties).</p>
+<p>We charge a measly <strong>commission% commission</strong>, but I am sure
+that you will find that our service is fairly <em>efficient</em>.</p>
+
+"Bounty","You do not have enough money to place that bounty."
+"Bounty","You may not place a bounty on yourself."
+"Bounty","You may not place a bounty on a clan-mate."
+"Bounty","You may not place a bounty on the Admin."
+"Bounty","You may not place a bounty during the first <b>turns_before_attack</b> turns of your account's existence. This is because placing a bounty is a form of attack."
+"Bounty","Negative sums can not be placed for bounties."
+"Bounty","You didn't state an amount to place on targets head."
+"You have added <b>initial</b> Credits to <b class=b1>'s</b> bounty, making the present bounty <b>returned[0]</b>. You were charged <b>amount</b> Credit(s) for the transaction.<p>"
+"You have placed <b>initial</b> Credits on <b class=b1>'s</b> head. You were charged <b>amount</b> Credit(s) for the transaction.<p>"
+"You do not have enough turns to add the message, but rest assured, the bounty has been added non-the-less."
+"<br>You have also been charged 1 turn for the additional message."
+"Bounty","You have no money. how do you expect to pay off a bounty?"
+
+"<option value=list_em[login_id]>login_name - bount"
+"There is no-one you may pay a bounty off for.<br>It is only possible to pay off a clan mates bounty."
+"<FORM action=bounty.php>"
+"Select Player whose bounty you wish to pay off.<br>You may only pay off a fellow clan mates bounty.<br>You will pay an extra <b>commission</b>% on top of the original bounty if you pay it off.<p>"
+"You <b class=b1>must</b> pay off the whole bounty at once.<p>"
+"<select name=payoff>"
+"</select>"
+"<p><INPUT type=submit value=Submit></form><p>"
+
+"Bounty","You do not have enough money. You require <b>bount</b> to pay this bounty off."
+"Bounty","The admin may have nothing to do with bounties."
+Bounty Payoff : Are you sure you want to spend <b>bount</b> credits to get rid of the bounty on <b class=b1>topay[login_name]</b>?",'sure','yes'
+"You have paid off the bounty on <b class=b1>login_name</b>, at a cost of <b>bount</b> Credits.<p>"
+"Bounty","You may not pay-off a bounty on anyone, other than yourself, or a clan-mate."
+<ul>
+<li><a href="bounty.php?place=1">Place a bounty</a></li>
+<li><a href="bounty.php?payoff=-1">Payoff a bounty</a></li>
+</ul>
+
+"Bounty","You may not place a bounty during the first <b>turns_before_attack</b> turns of your accounts' existence. This is because placing a bounty is a form of attack."
+<h2>Place a bounty</h2>
+<form action="bounty.php" method="post" name="bounty_form">
+<p><select name="target">
+
+"\t\t<option value="">login_name</option>\n"
+</select> Who you want to <em>donate</em> to</p>
+<p><input type="text" name="amount" size="10" /> Amount of credits</p>
+<p><input type="submit" value="Submit" />
+<h3>Anonymous message</h3>
+<p>If you like you can also attach a anonymous message with the bounty.
+This service costs just one turn.</p>
+<p><textarea name="bount_mess" value="var_bount" cols="50" rows="20"></textarea></p>
+</form>
+
+"</table><br>"

@@ -1,0 +1,62 @@
+"<p><a href=science.php>Return to Observatory</a>";
+"<p><a href=location.php>Back to the Star System</a>";
+'<p><a href=news.php>Back to News</a><br>'
+"Last <b>$news_posts_show</b> posts to the news.<br>"
+"<a href=news.php?prev=$prev3>Back to posts $prev3 to $prev</a><p>"
+"Posts $prev to $prev2 of the news.<br>"
+"<h2>Search the News:</h2>\n"
+<form method="post" action="news.php">
+<p><input type="text" name="term" size="20" />
+<input type="submit" value="Search" /></p>
+</form>
+<h2>There are $news_ents[0] entries</h2>
+<table class="simple">
+<tr>
+<th>Date</th>
+<th>Headline</th>
+</tr>
+
+"\t<tr>\n\t\t<td>" . date("M d - H:i",$news['timestamp']) .
+ "</td>\n\t\t<td>" . $news['headline'] . "</td>\n\t</tr>\n"
+"</table>\n"
+"<p><a href=news.php?prev=$prev2>Posts $prev2 to $prev3</a>"
+"<a href=news.php?prev=0>Back to start</a><p>"
+
+
+
+"Observatory","The <b class=b1>Observatory </b>is only accessable from system <b>#1</b>.");
+"Earth");
+"Last <b>user_options[news_back]</b> news posts relating to random events:<br>";
+"</table><br>";
+"<p>There are a total of <b>events[0]</b> systems with random events in them.";
+"<br>These include:<br>";
+#Mining Rushes
+"<br><b>ran_ev[0]</b> <b class=b1>Mining Rush(es)</b>.";
+#Artifical SuperNova
+"<br><b>ran_ev[0]</b> <b class=b1>Artificial SuperNova(s)</b> set to explode.";
+#SuperNova
+"<br><b>ran_ev[0]</b> <b class=b1>Star(s) Set to go SuperNova</b>(Explode).";
+#SuperNova Remnant - Unknown
+"<br><b>ran_ev[0]</b> Unknown <b class=b1>SuperNova Remnant(s)</b>.";
+#SuperNova Remnant - Safe
+"<br><b>ran_ev[0]</b> Safe<b class=b1> SuperNova Remnant(s)</b>.";
+#Black holes
+"<br><b>ran_ev[0]</b> <b class=b1>Black Hole(s)</b>.";
+#Solar Storm
+"<br><b>ran_ev[0]</b> <b class=b1>Solar Storm(s)</b> in Progress.";
+#Nebula
+"<br>About <b>count</b> <b class=b1>Nebula</b>, covering <b>ran_ev[0]</b> systems.";
+"<p>There are no random events in this game.";
+#WormHoles
+"<p>WormHole Count:";
+"<br><b>owayworm</b> <b class=b1>One-Way</b> wormhole(s).";
+"<br><b>twayworm</b> <b class=b1>Two-Way</b> wormhole(s).";
+"<br>There are no <b class=b1>Two-Way</b> wormholes.";
+"<br>There are no <b class=b1>One-Way</b> wormholes.";
+"<br><b>twayworm</b> <b class=b1>Two-Way</b> wormhole(s).";
+"<br>There are no wormholes of any type.";
+"The <b class=b1>Observatory of Sol</b> is home of the <b class=b1>Science Institute of Sol</b>.";
+"<br>The random event level for this game is <b>random_events</b> (max is <b>3</b>).";
+"<p><a href=filename?list=1>Listing of Random Events/WormHoles</a>";
+"<br><a href=filename?news=1>News of Random Events</a>";
+"<p><a href=location.php>Back to the Star System</a>";
