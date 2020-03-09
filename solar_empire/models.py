@@ -12,7 +12,7 @@ class User(database.Model):
     max_turns       = database.Column(database.Integer)
     turns_run       = database.Column(database.Integer)
     safe_turns_left = database.Column(database.Integer)
-    cash            = database.Column(database.Integer)
+    cash_available  = database.Column(database.Integer)
     on_planet       = database.Column(database.Boolean)
     pocket_space    = database.Column(database.String(128))
     def __repr__(self):

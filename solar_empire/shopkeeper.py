@@ -33,9 +33,10 @@ output_html + "You may not contact a blackmarket that is not in the same system 
 output_html + "Error: The local Pirates who operate this service have refused you entry. How can you be a Captain with no ship!!!"
 output_html + "Error: Admin in his/her near infinite wisdom has disabled the Blackmarket"
 
+
 def upgrade_ship(id_of_user, id_of_ship):
 	#Plasma Cannon
-
+	user_cash = return_user_variable(id_of_user, 'cash_available')
 	if upgrade_to_buy == 3 :
 		if user_cash < plasma_cannon_c:
 			"Shiver me hull plates! You don't have enough Credits.<p>"
