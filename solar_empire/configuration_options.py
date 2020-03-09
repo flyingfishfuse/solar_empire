@@ -1,7 +1,6 @@
 import os
 from flask.config import Config
-import solar_empire
-from solar_empire.models import GameVars
+import random
 
 VERSION            = 'Generic SE 2.9.1 - MODIFIED:Python Language Conversion -  Version : 0.01'
 DATABASE_HOST      = "localhost"
@@ -35,5 +34,5 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 
-GameVars.sv_turns = 30
+#GameVars.sv_turns = 30
 QUARK_DAMAGE = random.randint(400,1000)

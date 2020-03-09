@@ -1,34 +1,35 @@
 #Tech and Credit costs of Advanced Upgrades
 
-#Credit Cost
-#turret costs - based on size of ship
-plasma_cannon_c = round(55000 * (UserShip.query.filter_by('size') / 100)) * 15
-silicon_armour_c = round(65000 * (UserShip.query.filter_by('size') / 100)) * 15
-electronic_warfare_c = 60000
-genesis_c = 1000000
-terra_i_c = 250000
-#Support Unit Cost
-#turret costs based on size of ship
-plasma_cannon_t = round(700 * (UserShip.query.filter_by('size') / 100)) * 5
-silicon_armour_t = round(800 * (UserShip.query.filter_by('size') / 100)) * 5
-electronic_warfare_t = 300
-genesis_t = 0
-terra_i_t = 500
-#maximum amount of each weapon allowed on the ship.
-max_sa = 5
-max_pc = 5
-max_ew = 5
-#value of buy determines upgrade to be purchased
-#new if statement to prevent multiple occurance of config abbrs
-#new addition of num_ot,num_dt, etc to allow multiple upgrades of same type
+def price_calc():
+    #Credit Cost
+    #turret costs - based on size of ship
+    plasma_cannon_c = round(55000 * (UserShip.query.filter_by('size') / 100)) * 15
+    silicon_armour_c = round(65000 * (UserShip.query.filter_by('size') / 100)) * 15
+    electronic_warfare_c = 60000
+    genesis_c = 1000000
+    terra_i_c = 250000
+    #Support Unit Cost
+    #turret costs based on size of ship
+    plasma_cannon_t = round(700 * (UserShip.query.filter_by('size') / 100)) * 5
+    silicon_armour_t = round(800 * (UserShip.query.filter_by('size') / 100)) * 5
+    electronic_warfare_t = 300
+    genesis_t = 0
+    terra_i_t = 500
+    #maximum amount of each weapon allowed on the ship.
+    max_sa = 5
+    max_pc = 5
+    max_ew = 5
+    #value of buy determines upgrade to be purchased
+    #new if statement to prevent multiple occurance of config abbrs
+    #new addition of num_ot,num_dt, etc to allow multiple upgrades of same type
+    
+ "<p><a href=black_market.php?bmrkt_id=$bmrkt_id>Return to Blackmarket</a>"
+ "<p><a href=location.php>Close Contact</a>"
+"Blackmarket","You may not contact a blackmarket that is not in the same system as you are in. Stop playing with the URL's'"
+"Error","The local Pirates who operate this service have refused you entry. How can you be a Captain with no ship!!!"
+"Error","Admin in his/her near infinite wisdom has disabled the Blackmarket"
 
- "<p><a href=black_market.php?bmrkt_id=$bmrkt_id>Return to Blackmarket</a>";
- "<p><a href=location.php>Close Contact</a>";
-"Blackmarket","You may not contact a blackmarket that is not in the same system as you are in. Stop playing with the URL's'");
-"Error","The local Pirates who operate this service have refused you entry. How can you be a Captain with no ship!!!");
-"Error","Admin in his/her near infinite wisdom has disabled the Blackmarket");
-
-if buy == 3 #Plasma Cannon
+if upgrade_to_buy == 3 #Plasma Cannon
 	if user.cash < plasma_cannon_c
 		elif "Shiver me hull plates! You don't have enough Credits.<p>"
 	elif user[tech] < plasma_cannon_t

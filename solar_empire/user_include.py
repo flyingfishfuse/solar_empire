@@ -3,6 +3,7 @@ from flask import Flask
 from flask import request
 import solar_empire
 from solar_empire.models import *
+from solar_empire.common_include import *
 
 #Get game info if not admin (loaded for admin in check_auth)
 if (User.login_id != ADMIN_ID):
@@ -23,8 +24,6 @@ if (User.login_id != ADMIN_ID):
 #user_ship = userShip(user['ship_id'])
 
 if (user_ship == None & user['ship_id'] != None) :
-	database("SELECT `ship_id` FROM `{db_name}_ships` WHERE `login_id` = " + user['login_id'])
-	other = dbr(1)
 
 if (other == false): 
     user['ship_id'] = None

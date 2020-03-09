@@ -4,19 +4,17 @@ from solar_empire.configuration_options import *
 
 class User(database.Model):
     login_id        = database.Column(database.Integer, primary_key=True)
+    user_id         = database.Column(database.Integer)
     username        = database.Column(database.String(64), index=True, unique=True)
     email           = database.Column(database.String(120), index=True, unique=True)
     password_hash   = database.Column(database.String(128))
-    ship_id         = database.Column(database.String(128))
     location        = database.Column(database.String(128))
-    turns           = database.Column(database.Integer)
+    max_turns       = database.Column(database.Integer)
     turns_run       = database.Column(database.Integer)
     safe_turns_left = database.Column(database.Integer)
     cash            = database.Column(database.Integer)
     on_planet       = database.Column(database.Boolean)
     pocket_space    = database.Column(database.String(128))
-
-
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -71,6 +69,23 @@ class ClanPost(database.Model):
     content                    = database.Column(database.String(528))
     user_id                    = database.Column(database.String(128))
 
+#grid layout
+#galactic core	
+#clusters
+	#number of clusters
+	#stars per cluster
+	#size of cluster in pixels
+#ring layout
+	#number of degrees between each star
+#layered rings layout
+	#single ring
+	#2 rings
+	#30% of the stars go into the first ring.
+	#the rest of the stars (minus Sol).
+	#10% of the stars go into the first ring.
+#MAP_LAYOUT GAME VARIABLE
+# GOES FROM 1-6 with INTEGERs
+
 class GameVars(database.Model):
     score_method               = database.Column(database.Integer, default = 1)
     mineral_total              = database.Column(database.Integer, default = 1)
@@ -80,12 +95,14 @@ class GameVars(database.Model):
     # we are limiting the cash and everything else is trade/production
     money_total                = database.Column(database.Integer, default = 1)
     mineral_total              = database.Column(database.Integer, default = 1)
+    size                       = database.Column(database.Integer, default = 1000)
     num_systems                = database.Column(database.Integer, default = 200)
     num_planets                = database.Column(database.Integer, default = 100)
     num_ports                  = database.Column(database.Integer, default = 50)
     num_starports              = database.Column(database.Integer, default = 50)
     num_black_markets          = database.Column(database.Integer, default = 25)
     max_planets_in_system      = database.Column(database.Integer, default = 6)
+    map_layout                 = database.Column(database.Integer, default = 1)
     ships_built                = database.Column(database.Integer)
     is_game_paused             = database.Column(database.Boolean)
     logged_in_players          = database.Column(database.Integer)

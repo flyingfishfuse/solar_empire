@@ -32,7 +32,7 @@ max_dt = 5
 		if(usership.max_fighters + fighter_inc >= 5000) 
 			 "It is against regulations to have more than 4,999 fighter capacity on a ship unless the ship is registered as a battleship.<br>To do that you'll have to purchase a battleship upgrade from Bilkos.<p>"
 		else:
-			 make_basic_upgrade("Fighter","max_fighters",fighter_inc,basic_cost)
+			 make_basic_upgrade(max_fighters,basic_cost ,material_cost)
 			 #Shield Capacity
 		if usership.max_shields >=1 :
 			 "Ships with Sub-Space Jump drieves are not allowed to have shields on due to technical problems involving the dynamics of warp-point generation.<p>"

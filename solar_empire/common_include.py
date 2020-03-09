@@ -1,13 +1,31 @@
 import solar_empire
 import solar_empire.models
+from solar_empire import *
+from solar_empire.models import *
+
 from datetime import datetime
 from solar_empire.configuration_options import *
 
-def add_resources(player, resource_type, resource_amount):
+def add_basic_upgrade(str:variable, \
+					  int:cash_cost , \
+					  int:mineral_cost, \
+					  int:metal_cost, \
+					  int:fuel_cost, \
+					  int:tech_cost):
+	pass
+
+def add_resources(str:player, str:resource_type, int:resource_amount):
 	pass
 
 def return_game_var(var):
     return GameVars.query.filter_by(var)
+
+def user_by_id(id_of_user):
+	return User.query.filter_by(user_id = id_of_user).first()
+
+def return_user_variable(user_id , var):
+	user_to_probe = user_by_id(user_id) 
+	
 
 def grab_starport_name():
 	return names.gen_name()
