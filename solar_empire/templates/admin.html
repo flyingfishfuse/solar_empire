@@ -1,0 +1,10 @@
+"\n\n<P><TABLE BORDER='1' BORDERCOLOR='#000000' CELLSPACING='0' CELLPADDING='5'><TR><TD BGCOLOR='#333333'><B CLASS='b1'>$sender</B> - $date</TD></TR><TR><TD BGCOLOR='#333333'>".stripslashes($message)."</TD></TR></TABLE>\n";
+<form action="post_server_news.php" method="post">
+	<input type="hidden" name="pass" value="$pass" />
+	<input type="hidden" name="new_post" value="1" />
+<TABLE BORDER='0' CELLSPACING='0' CELLPADDING='5'>
+<TR><TD>Your Name:</TD><TD><INPUT TYPE='text' NAME='sender'></TD></TR>
+<TR><TD>Message:</TD><TD><TEXTAREA NAME='message' COLS='60' ROWS='10'></TEXTAREA></TD></TR>
+<TR><TD COLSPAN='2' ALIGN='center'><INPUT TYPE='submit' VALUE='Post'></TD></TR>
+</table></FORM>
+</body></html>

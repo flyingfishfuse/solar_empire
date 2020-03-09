@@ -23,15 +23,16 @@ class User(database.Model):
 class UserShip(User):
     ship_id                    = database.Column(database.String(128))
     ship_type                  = database.Column(database.String(128))
+    ship_name                  = database.Column(database.String(128))
+    class_abbreviation         = database.Column(database.String(128))
     fighter_type               = database.Column(database.Integer)
     fighter_count              = database.Column(database.Integer)
     cargo_bay_size             = database.Column(database.Integer)
     size                       = database.Column(database.Integer)
-    ship_name                  = database.Column(database.String(128))
     clan_id                    = database.Column(database.Integer) 
     shipclass                  = database.Column(database.String(128)) 
     class_name                 = database.Column(database.String(128))
-    class_name_abbr            = database.Column(database.String(128))
+
     fighters_max               = database.Column(database.Integer)    
     mine_rate_metal            = database.Column(database.Integer)
     mine_rate_fuel             = database.Column(database.Integer)
