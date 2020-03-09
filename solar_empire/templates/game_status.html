@@ -8,9 +8,20 @@
     });
 </script>
 
-<input type="button" id="oven_timer" value="Bake an Apple pie" />
-<input type="button" id="pause_button" value="Give Adam Sandler the Remote" />
+</form>
+<div id="game_status_sidebar">
+<form name="control_panel" id="control_panel" action="" method="POST">
+    <input type="button" id="oven_timer" value="Bake an Apple pie" />
+    <input type="button" id="pause_button" value="Give Adam Sandler the Remote" />
+    <br/>
+    add stuff to player inventory
+    <input type="text" id="metal" value="1000" name="metal_value"/>
+    <input type="text" id="fuel" value="1000" name="fuel_value"/>
+    <input type="text" id="tech" value="10" name="tech_value"/>
+    <input type="text" id="minerals" value="1000" name="minerals_value"/>
+    <input type="text" id="fighters" value="1000" name="fighters_value">
 <input type="button" id="give_minerals" value="They Require More Minerals" />
-<div id="game_status_sidebar"></div>
+
+</div>
 <div id="game_status_topbar"></div>
 <div id="game_status_main_display"></div>

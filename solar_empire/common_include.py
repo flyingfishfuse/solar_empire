@@ -3,6 +3,9 @@ import solar_empire.models
 from datetime import datetime
 from solar_empire.configuration_options import *
 
+def add_resources(player, resource_type, resource_amount):
+	pass
+
 def return_game_var(var):
     return GameVars.query.filter_by(var)
 

@@ -1,9 +1,13 @@
 Welcome to the Solar Empire Source Code
 Last updated: April 25th 2004 by Moriarty
 
+now being translated to python by flyingfishfuse
+this is the readme for the old php Version
+there is going to be a whole lot of stuff getting 
+moved around and reshuffleified and baked and minced and 
+all those  fun words
 
 Release Version 1.3
-
 
 Solar Empire is pretty hard to get installed and working. This is partly to
 discourage people from setting up their server if they have no idea what they're
