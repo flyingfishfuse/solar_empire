@@ -1,0 +1,76 @@
+Error","You are unable to buy equipment here.");
+
+#if ( alternate_play_1 == 1){
+	$mining_switch_cost = round($ship_stats[cost]/10);
+#fighter cost is now based upon the admin var.
+#$fighter_cost = 100;
+$shield_cost = 50;
+$genesis_cost = $cost_genesis_device;
+$bomb_cost = $cost_bomb;
+$sn_cost = $bomb_cost * 5;
+ "<p><a href=equip_shop.php>Return to Equipment Shop</a>";
+#someone is switching mining types.
+#check to see if alternate style of play is in effect.
+"That modification is not available with this style of play.<p>";
+ "You cannot afford to switch mining types. The cost is generally 10% of the original price of the ship.<p>";
+ "This ship has no mining capability.<br>This modification simply switches the mining rates around, it does not add mining capability.";
+('Switch Mining',$filename,"Are you sure you want to switch mining rates on this ship? At present this ship has a metal mining rate of: <b>$user_ship[mine_rate_metal]</b> and a fuel mining rate of: <b>$user_ship[mine_rate_fuel]</b>.<br><br>For the cost of <b>$mining_switch_cost</b> credits, you can make the metal rate: <b>$user_ship[mine_rate_fuel]</b>, and the fuel rate: <b>$user_ship[mine_rate_metal]</b>.<br><br>This can be reversed at any time by purchasing another mining switch.<br>This will <b class=b1>NOT</b> use an upgrade slot.",'sure','');
+ "Mining Rates switched for <b>$mining_switch_cost</b> Credits.<p>";
+#switch the fleet
+ "That modification is not available with this style of play.<p>";
+ "You do not have enough cash to switch the <b>$total_cost[num]</b> ships that can be switched in this system. <br>The cost would be <b>$total_cost[cost]</b><p>";
+ "You do not have any ships in this system that can be switched. Switching simply switches the mining rates around, but none of your ships in this system have any mining capabilities.<p>";
+('Switch Mining',$filename,"Are you sure you want to switch mining rates on <b>$total_cost[num]</b> ships in this system? The price will be <b>$total_cost[cost]</b> Credits<br><br>This can be reversed at any time by purchasing another mining switch.<br>This will <b class=b1>NOT</b> use any upgrade slots.",'sure','');
+ "Mining Rates for fleet switched, at a cost of <b>$total_cost[cost]</b> Credits. Total of <b>$total_cost[num]</b> ships affected.<p>";
+//function that allows for quick and simple purchase of basic items.
+ "Your ship is already full of <b class=b1>$item_str</b>.";
+Buy $item_str",'equip_shop.php',"How many <b class=b1>$item_str</b> do you want to buy?",'amount',$amount_can_buy);
+ "You can not afford that many <b class=b1>$item_str</b>.<p>";
+ "Your ship can't hold that many more <b class=b1>$item_str</b>.<p>";
+ "<b>$amount</b> <b class=b1>$item_str</b> purchased for <b>$total_cost</b> Credits.<p>";
+// checks
+ "The admin has set it so as genesis devices are un-available.";
+Buy Genesis Device',$filename,'Are you sure you want to buy a genesis device?','sure','');
+ "You can not afford a genesis device.<p>";
+ "Genesis device purchased for <b>$genesis_cost</b> Credits.<p>";
+Buy Gamma Bomb',$filename,'Are you sure you want to buy a gamma bomb?','sure','');
+ "You can not afford a gamma bomb.<p>";
+ "Gamma bomb purchased for <b>$bomb_cost</b> Credits.<p>";
+ "Admin has disabled the purchasing of Bombs. However if you have one you can still use it.<p>";
+Buy Alpha Bomb',$filename,'Are you sure you want to buy a Alpha bomb?','sure','');
+ "You can not afford a Alpha bomb.<p>";
+ "Alpha bomb purchased for <b>$bomb_cost</b> Credits.<p>";
+ "Admin has disabled the purchasing of Bombs. However if you have one you can still use it.<p>";
+ "You may only own one SuperNova Effector at a time.<p>";
+It is not possible to purchase or use SuperNova Effectors when the Admin Variable for random events is set to less than <b>3</b>. <br>At present it is set to <b class=b1>$random_events</b>";
+ "You can not afford a SuperNova Effector.<p>";
+ "Admin has disabled the purchasing of Bombs. However if you have one you can still use it.<p>";
+Buy SuperNova Effector',$filename,'Are you sure you want to buy a SuperNova Effector?','sure','');
+ "SuperNova Effector purchased for <b>$sn_cost</b> Credits.<p>";
+ //Fighters taken from planet so far.
+Failed","You don't have enough money for one fighter, let alone a fleet of them.<br>Come back when you can afford it");
+Failed","This operation failed as there are no ships that have fighter bays empty in this system that belong to you.");
+Load all ships','equip_shop.php',"There are <b>$maths[0]</b> empty fighter bays in <b>$maths[1]</b> ships in this system. <br>Do you want to fill as many as you can afford to fill?",'sure','yes');
+//player can load ship.
+ "<br><b class=b1>$ships[ship_name]</b> had its fighter cargo increased by <b>$free</b> to maximum capacity.";
+//player will run out of cash.
+ "<br><b class=b1>$ships[ship_name]</b>s fighter count was increased to <b>$t868</b>.";
+Fighters Loaded","<b>$ship_counter</b> ships had their fighters augmented by new fighters from Sol.<br>Total New Fighters = <b>$taken</b>; Cost = <b>$cost</b><p>More Detailed Statistics :".$out);
+("No Ships","No ships where loaded as all ships in this system are already full of fighters.");
+ //fill fleet functionality
+ //fighters
+ "<p>Equipment Shop:";
+ "<p>Ship Stuff:";
+"<p>Ship Equipment:";
+ "<br><a href=$filename?buy=1>Fighters</a> - Cost: <b>$fighter_cost</b> each - <a href=$filename?fill_fleet=1>Fill Fleet</a>";
+ "<br><a href=$filename?buy=2>Shields</a> - Cost: <b>$shield_cost</b> each - <a href=$filename?fill_fleet=2>Fill Fleet</a>";
+ "<br><a href=$filename?switch=1>Mining Switcher</a> $mining_switch_cost - <a href=$filename?mass_switch=1>Switch Fleet</a>";
+ "<p>Planet Stuff:";
+ "<br><a href=$filename?buy=5>Genesis Device</a>: $genesis_cost";
+ "<p>Bombs:";
+ "<br><a href=$filename?buy=7>Alpha Bomb</a>: $bomb_cost";
+ "<br><a href=$filename?buy=6>Gamma Bomb</a>: $bomb_cost";
+ "<br><a href=$filename?buy=9>SuperNova Effector</a>: $sn_cost";
+ "<br><a href=$filename?buy=7>Transwarp Drive</a>: $transwarp_cost";
+ "<p><a href=help.php?equip=1 target=_blank>Information about equipment</a>";
+ "<p><a href=earth.php>Return to Earth</a>";

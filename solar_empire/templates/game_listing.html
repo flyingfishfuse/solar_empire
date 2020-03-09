@@ -1,0 +1,75 @@
+"The <b class=b1>Admin</b> of this game has banned you from it, until <b>".date( "D jS M - H:i",$in_game['banned_time'])."</b> or until the admin releases the ban.<br>During this period your fleets/planets are susceptable to the normal wiles of the game.<br><br>The reason given by the admin was:<br><br> ".stripslashes($in_game['banned_reason']);
+"The <b class=b1>Admin</b> has banned you from the game until it resets, whenever that may be, or until the Admin releases the ban.<br><br>The reason given by the admin was:<br><br>".stripslashes($in_game['banned_reason']);
+//not banned from game, so may continue.
+//set the user in the game, and increase login count by 1.
+//Update score
+//user joining selected game
+//determine when retired if retired, and that isn't rejoining within illicit time.
+//if player retired just before reset, let player join the new game.
+//game full check
+"<b class=b1>$game_info[name]</b> is Full. Try a Different Game.";
+print_header("Game Full");
+"Admin has disabled logins for this game (<b class=b1>$game_info[name]</b>). Try a Different Game";
+"You have retired from this game within the last <b>".$retire_period."</b> hours.<br>You must wait until <b>$result</b> before you may rejoin this game.";
+"Choose Username");
+<p>Please enter the name you would like to play under in
+<strong><?php print $game_info['name']; ?></strong>.</p>
+<form action="game_listing.php" method="post">
+   <p><input name="in_game_name" value="<?php print esc($p_user[login_name]); ?>" size="10" />
+   <input type="hidden" name="game_selected" value="<?php print esc($_GET[game_selected]); ?>" /></p>
+   <p>Enter the name for your first ship.</p>
+   <p><input name="ship_name" size="10" /></p>
+   <p><input type="submit" value="Join" /></p>
+</form>
+<?php
+#validate proposed username
+"Invalid login name. No slashes, no spaces and minimum of three characters.";
+"<p><a href=javascript:history.back()>Back to Joining Form</a>";
+#determine if that username is already in user by another player in the game, or another player as a server name.
+("Choose Username");
+"There is already a user in this game, or on the server, with that username.";
+"<br><br><a href=\"javascript:history.back()\">Try a different name.</a>";
+//create user's first ship
+'Ship #' . $start_ship . ' is missing, the user ' .
+"cannot join the game.', E_USER_ERROR);"
+//create user account within game
+//insert user options
+//send the intro message (if there is one to send).
+//update user game counter, and in-game status
+//end join process
+//list games
+#get tip of the day
+<div id="logo"><img src="img/se_logo.jpg" alt="Solar Empire" /></div>
+
+<div id="gameExtras">
+   <h2>Tip of the day</h2>
+   <p><?php print $tip_today['tip_content']; ?></p>
+
+   <h2>Recent news</h2>
+<?php require_once('inc/server_news.inc.html'); ?>
+</div>
+
+<h1>Game Listing for <?php print $p_user['login_name']; ?></h1>
+<p>To enter or join a game, click its name below:</p>
+<div id="gameList">
+<h2>You are currently playing in</h2>
+<ul>
+   <li><a href="">
+</ul>
+<h2>Unjoined games</h2>
+<ul>
+   <li><a href="">
+</ul>
+</div>
+<h2>Options</h2>
+<ul>
+   <li><a href=logout.php?logout_gamelist=1>Logout Completely</a></li>
+   <li><a href="bugs_tracker.php">Bug Tracking</a></li>
+   <li><a href="credits.php" target="_blank">Credits</a></li>
+</ul>
+
+<h2>Places to go</h2>
+<ul>
+   <li><a href="http://home.solar-empire.net/" target="_blank">Home of Solar Empire</a></li>
+   <li><a href="http://forum.solar-empire.net/" target="_blank">Solar Empire forum</a></li>
+</ul>
