@@ -1,0 +1,16 @@
+<script>
+    $(document).ready( function() {
+        $('#oven_timer').click(function() {
+           $.ajax("{{ url_for('game_status') }}").done(function (reply) {
+              $('#container').html(reply);
+           });
+        });
+    });
+</script>
+
+<input type="button" id="oven_timer" value="Bake an Apple pie" />
+<input type="button" id="pause_button" value="Give Adam Sandler the Remote" />
+<input type="button" id="give_minerals" value="They Require More Minerals" />
+<div id="game_status_sidebar"></div>
+<div id="game_status_topbar"></div>
+<div id="game_status_main_display"></div>

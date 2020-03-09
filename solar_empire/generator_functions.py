@@ -25,6 +25,12 @@ planet_fuel     = random.randint(range ( 100 , fuel_total     / num_planets ))
 planet_mineral  = random.randint(range ( 100 , mineral_total  / num_planets ))
 planet_organics = random.randint(range ( 100 , organics_total / num_planets ))
 
+
+#gamevars
+#min_fuel_per_system
+#max_fuel_per_system
+#fuel_percent_coefficient
+
 #//add starports to the universe.
 # we map location ID's to system ID's
 
@@ -77,35 +83,29 @@ def add_planets():
 		Planet(name = names.gen_name( 'all' ))
 	print "Randomly Placed Planets Done.\n<br>"
 
-	for planets in planetoid_list:
+	for planet in planetoid_list:
+		add_minerals(planet)
 		
 #//function that places random events around the universe.
 def random_event_placer():
 	pass
 	#//high level random events
 
-#//save the universe
-def save_universe_se1():
-
 #//add minerals to the systems
-def add_minerals():
+def add_minerals(type_of_fill = "random"):
 	planetary_figs = (planet_metal + planet_fuel) * 1.1
 	for each in systems:
-		if($system['num'] == 0) {
-			continue;
-		}
-		if(mt_rand(0,100) < $UNI['fuelpercent']) {
-			$systems[$system['num']]['fuel'] = mt_rand($UNI['minfuel'],$UNI['maxfuel']);
-		}
-		if(mt_rand(0,100) < $UNI['metalpercent']) {
-			$d3 = $systems[$system['num']]['metal'] = mt_rand($UNI['minmetal'],$UNI['maxmetal']);
-		}
-		if($extinfo) {
-			print("<div id='addmin1$system[num]'>-Adding minerals to system #".($system['num']+1)."<script>document.all.addmin1$system[num].scrollIntoView();</script></div>");
+		if type_of_fill = "random"
+			#we modify with a co-ef... gives ability to scale in single var
+			# set co-eff to 1 to prevent scaling
+			return_game_var('fuel_percent_coefficient') * \
+				amount_of_fuel_in_system = random.randint(range(return_game_var('min_fuel_per_system'),\
+																return_game_var('max_fuel_per_system')))
+			return_game_var('metal_percent_coefficient') * \
+				amount_of_fuel_in_system = random.randint(range(return_game_var('min_metal_per_system'),\
+																return_game_var('max_metal_per_system')))
 
-		}
-	}
-}
+		print("<div id=''>-Adding minerals to system #<script>document.all.{}.scrollIntoView();</script></div>").format(game_status_html)
 
 //create the star systems
 function make_systems_1(&$systems) {

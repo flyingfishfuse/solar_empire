@@ -37,3 +37,4 @@ class Config(object):
 
 GameVars.sv_turns = 30
 QUARK_DAMAGE = random.randint(400,1000)
+game_status_html = 
