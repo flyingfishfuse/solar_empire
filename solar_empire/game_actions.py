@@ -5,6 +5,28 @@ from solar_empire.generator_functions import *
 from solar_empire.models import *
 from solar_empire.common_include import *
 
+def add_resources(player, resource_type, resource_amount):
+	pass
+
+def return_game_var(var):
+    return GameVars.query.filter_by(var)
+
+def grab_starport_name():
+	return names.gen_name()
+
+def add_to_db(thingie):
+    database.session.add(thingie)
+    database.session.commit
+
+def change_game_var(the_var , new_value):
+    current_value            = return_game_var(the_var)
+    new_game_variable_value  = 
+
+def hit_the_brakes():
+    #game already paused
+    if return_game_var('is_game_paused') == True:
+
+
 
 def game_status():
     if request.method == 'POST' and Request.form.post('oven_timer'):
