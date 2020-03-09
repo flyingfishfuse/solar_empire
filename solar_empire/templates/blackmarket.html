@@ -1,0 +1,44 @@
+You've reached <b class=b1>$bmrkt[bm_name]'s</b> Blackmarket";
+
+".<br>We have all the gadgets you could possibly want. From Starships, to surveillence technology - All strictly illegal, of course.<br>";
+
+"<br><a href=bm_ships.php?from_0=1>Advanced Ships and Alien Starships</a>";
+"<br><a href=bm_upgrades.php?from_0=1>Blackmarket Upgrades and Alien Devices</a>";
+"<p><a href=location.php>Close Contact</a><br>";
+"<p><a href=black_market.php>Return to Blackmarket</a>";
+"<p><a href=location.php>Close Contact</a>";
+#Blackmarket Controls
+"Blackmarket","You may not contact a blackmarket that is not in the same system as you are in. Stop playing with the URL's'","?research=1");
+"Error","Admin in his/her near infinite wisdom has disabled the Blackmarket","?research=1");
+#Beginning of Blackmarket ship purchase
+"Error","That ships is not available for purchase at this time.","?research=1");
+//begin ship checks
+"Flagship","You may only own one <b>Flagship</b> class ship at a time.");
+"You already own <b>$numships[0]</b> ship(s). The admin has set the max number of ships players may have. The limit is <b>$max_ships</b>.";
+"You may not buy this ship type.";
+"You can't afford a <b class=b1>$ship_stats[name]</b>.";
+"You don't have enough Tech. Support Units for a <b class=b1>$ship_stats[name]</b>.";
+"<p><a href=bm_ships.php>Return to Blackmarket Ships</a>";
+get_var('Name your new ship','bm_ships.php',"Your fleet presently consists of <b>$num_ships[total_ships]</b> ships.<br>Please enter a name for your new <b class=b1>$ship_stats[name]</b>:(20 Char Max)",'ship_name','');
+// remove old escape pods
+// build the new ship
+#the game goes all screwy if a player get's hold of ship_id 1.
+"<p>A word of warning: You may only own one Flagship class ship at a time.<br>Also, each Flagship class ship you buy will be twice as expensive as the last time.<br>This is a galactic consensus to help keep them out of the hands of reckless types.";
+"<br><p>Your payment of <b>$ship_stats[cost]</b> Credits and <b>$ship_stats[tcost]</b> Tech. Support Units has been accepted, and your <b>$ship_stats[name]</b> has been delivered.<br>";
+"<p>May your new <b>$ship_stats[name]</b> bring you strength and your enemies' ruin!".$oo_str;
+"Blackmarket Ship Purchased",$error_str);
+"Blackmarket Ships");
+"<p>Welcome to <b>Reilly's Shipbuilders</b>, a division of <b class=b1>$bmrkt[bm_name]'s</b> Blackmarket.";
+"<br><p>If it's cutting edge ships you want, you've found the right place.<br>";
+#list all alient ships.
+"<p>Available Blackmarket Ships:";
+//skip non-tech ships.
+ "<a href=bm_ships.php?mass=$ship_stats[type_id]>Buy Many</a>";
+"<a href=bm_ships.php?ship_type=$ship_stats[type_id]>$ship_stats[name]</a>", "$ship_stats[class_abbr]", "<b>$ship_stats[cost]</b>", "<b>$ship_stats[tcost]</b>", "<a href=bm_ships.php?ship_type=$ship_stats[type_id]>Buy One</a>", $ab_text, popup_help("ship_info=1&shipno=$ship_stats[type_id]",300,400)));
+"<p>There are no ships avaiable from this blackmarket at this time.";
+"<p>{$classs available:";
+"<br><b>None</b>";
+"Ship Name","Abbrv.","Credit Cost","Tech Unit Cost"));
+"</table>";
+#Blackmarket Ships
+"<p><a href=help.php?ship_info=-1&shipno=-2 target=_blank>List all information for all Blackmarket ships.</a>";

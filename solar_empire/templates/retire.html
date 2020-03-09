@@ -1,0 +1,26 @@
+'Are you sure you want to retire this account?','sure','yes');
+<form action=retire.php method=POST name=reason>";
+<input type=hidden name=$var value='$value'>";
+<input type=hidden name=give_reason value=1>";
+"You are about to retire <b clan=b1>$target_info[login_name]</b> for:";
+"<input type=text name=reason value=><p><input type=submit value=Submit></form>";
+#if user is a clan leader, give option to disband clan or assign new leader
+"Before you retire this person, you must first select whether you want their clan to be disbanded, or assign a new leader to it:";
+"<form action=retire.php method=POST name=retiring>";
+"<input type=hidden name=$var value='$value'>";
+"<p>Disband Clan <INPUT type=radio name=what_to_do value=1 CHECKED> / Assign New Clan Leader<INPUT type=radio name=what_to_do value=2><p><INPUT type=submit value='Submit'></form>";
+#removing the clan
+"The $clan[clan_name] (<font color=$clan[sym_color]>$clan[symbol]</font>) Clan Disbanded.");
+"Please select which of the below you would like to be the new clan leader:";
+"<form action=retire.php method=POST name=retiring2>";
+"<input type=hidden name=what_to_do value='$what_to_do'>";
+"<select name=leader_id>";
+"<option value=$member_name[login_id]>$member_name[login_name]</option>";
+"</select>";
+"<input type=hidden name=$var value='$value'>";
+"<p><INPUT type=submit value='Submit'></form>";
+Assign New Clan Leader",$new_page);
+"No Reason";
+"Admin Retired <b class=b1>$target_info[login_name]</b> for <b>$reason.</b>");
+Was Retired By The Admin");
+Retired","<b class=b1>$target_info[login_name]</b> has been removed from the game.");

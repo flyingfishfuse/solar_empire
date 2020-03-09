@@ -1,0 +1,90 @@
+"Error","Bilkos Auction House does not exist at this location.");
+'location'
+"<p><a href=earth.php>Return to Earth</a>";
+"<p><a href=port.php>Back to the Port</a>";
+#percentage new bids must increase over old ones.
+#work out the number of seconds an item is to remain in bilkos for.
+"<br>Select a catogory to see lots presently available. New lots arrive hourly.<br>";
+"<br><a href=bilkos.php?view=1>Ships</a> - (<b>$out[1]</b>)";
+"<br><a href=bilkos.php?view=2>Equipment</a> - (<b>$out[2]</b>)";
+"<br><a href=bilkos.php?view=3>Upgrades</a> - (<b>$out[3]</b>)";
+"<br><a href=bilkos.php?view=4>Misc</a> - (<b>$out[4]</b>)";
+"<br><a href=bilkos.php?view=5>Planetary</a> - (<b>$out[5]</b>)";
+"<p><a href=bilkos.php?show_won=1>Collect Item(s)</a> - (<b>$do_now[0]</b>)";
+"<p>";
+/*
+upgrades
+up2 = terra maelstrom
+all below require 1 free upgrade slot:
+upbs = battleship
+upfig600 = increase fighter cap by 600
+upfig1500 = increase fighter cap by 1500
+upattack = +200 shield cap. +600 fighter cap.
+
+equip
+warpack = 2alpha + 4 gammas
+deltabomb = 1 Delta Bomb
+
+planetary
+4-9 = shield capacity =X000, charge rate = *X
+MLPad = Missile Launch Pad.
+
+misc
+10 - 80 = X turns.
+*/
+"You did not win this item.";
+"You have not won this item yet";
+"You may only collect this item the bilkos store at Earth, as that is where the central repository if goods is stored.";
+"You may not collect this item as you are already at the ship limit.";
+"<p>Collection of the <b class=b1>$ship_stats[name]</b> complete.<br>You are now in command of your new ship.<p>Have a nice day.<br><br>";
+"This ship has already had its Super Weapon upgraded.";
+"Your Quark Disrupter has now been upgraded to a Terra Maelstrom... Have Fun!";
+"You must be commanding a ship with a Quark Disrupter on it to be able to collect this item.";
+"You must be commanding a ship with at least one upgrade pod free to collect this upgrade.";
+"This ship already has the battleship upgrade. Please command a different ship and try again.";
+"This ship has now been upgraded to a <b class=b1>Battleship</b> class ship. This means more damage will be done when attacking, more shields generated per hour, and the maximum fighter capacity can go above $max_non_warship_fighters.";
+"Here's 600 more Fighter Capacity.";
+"Here's 1500 more Fighter Capacity.";
+"Ships with SubSpace Jump Drives cannot have shields on them.";
+"Your ship has been upgraded with a further 200 shield capacity, and 600 fighter capacity.";
+"Here's your Warpack. Enjoy.";
+"Sorry. You may only have one Delta bomb at a time. These things <b>are</b> Contraband you know!";
+"Here's your Delta Bomb. Enjoy.";
+"You cannot collect your turns because adding these to your present turns would take you over the turn limit.";
+"Here are your <b>$item[item_code]</b> turns.";
+"That Planet does not belong to you.";
+"This planet has already had its shield generater upgraded.";
+"Shield Generater on <b class=b1>$planets[planet_name]</b> is now lvl <b>$item[item_code]</b>.<br>This means Shield Capacity of <b>$charge_cap</b> and <b>$item[item_code]</b>* Shield Generation Rate.";
+"This planet already has a <b class=b1>Missile Launch Pad</b>";
+"<b class=b1>Missile Launch Pad</b> fitted on <b class=b1>$planets[planet_name]</b>.";
+"You have no planets and so cannot collect this lot.";
+"Select Planet to install this Lot on.";
+"<form method=post action=bilkos.php name=despatch_form>";
+"<input type=hidden name=collect value=$collect>";
+"<select name=destination>";
+"<option value=$planets[planet_id]> $planets[planet_name] ";
+"</select>";
+"<p><INPUT type=submit value=Install></form><p>";
+"This item is not for sale.";
+"This item has been removed from sale. Hard luck.";
+"Sorry, you do not have enough money";
+"That bid is not large enough. Minimum bid increases of <b>$rate%</b> are accepted.<br>Minimum bid on this item is <b>$new_price</b>";
+"Thats a ridiculous bid.";
+"You may not bid for a ship as you are already at the Ship Limit.";
+"<br>Bid successful. <br>Provided no-one out bids you within the next <b>$bilkos_time hrs</b>, you will soon be the proud new owner of a <b class=b1>$item[item_name]</b>.";
+"Please place a bid for this <b class=b1>$item[item_name]</b>.<br>Present bid stands at: <b>$item[going_price]</b>;<br>New bid must be at least: <b>$new_price</b>";
+"<form method=post action=bilkos.php name=bid_form>";
+"<input type=hidden name=bid value=$bid>";
+"<input type=text name=new_bid size=10>";
+" - <INPUT type=submit value=Bid></form><p>";
+"<a href=bilkos.php>Back to Bilkos</a>";
+"Make a Bid",$text);
+"Current stock:<p>";
+"None - Sorry.";
+" - <a href=bilkos.php?bid=$items[item_id]>Bid</a>";
+"</table>";
+"<br>You have at least one item to collect, which you have already paid for. Click the link next to the item to collect it";
+ " - <a href=bilkos.php?collect=$collect[item_id]>Collect</a>";
+"</table>";
+"Bilkos Auction House",$text);
+

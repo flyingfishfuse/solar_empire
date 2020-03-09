@@ -1,0 +1,401 @@
+<?php
+
+require_once('inc/user.inc.php'
+
+get_star
+
+'Error', 'This star-system does not exist, please regenerate the universe.'
+
+
+print_link(
+{
+global 
+if(
+"&lt<a href=\"location.php?toloc=\"></a>&gt "
+
+
+
+isLinked(, $linkNo
+{
+switch ($linkNo
+case ['link_1']:
+case ['link_2']:
+case ['link_3']:
+case ['link_4']:
+case ['link_5']:
+case ['link_6']:
+case ['wormhole']:
+return 0
+
+
+return 1
+
+
+
+
+ "Star System"
+""
+""
+""
+'Retire','location.php','<p><b class=b1>Warning!</b> This will permanently remove your account from this game. <br>Are you sure you want to retire?','sure','yes'
+"Before you retire you must first select whether you want your clan to be disbanded, or assign a new leader to it:"
+ "<form action=location.php method=POST name=retiring>"
+ "<input type=hidden name=$var value='$value'>"
+ "<p>Disband Clan <INPUT type=radio name=what_to_do value=1 CHECKED> / Assign New Clan Leader<INPUT type=radio name=what_to_do value=2><p><INPUT type=submit value='Submit'></form>"
+"Retiring",
+"Please select which of the below you would like to be the new clan leader:"
+ "<form action=location.php method=POST name=retiring2>"
+ "<input type=hidden name=what_to_do value='$what_to_do'>"
+ "<select name=leader_id>"
+ "<option value=$member_name[login_id]>$member_name[login_name]</option>"
+ "</select>"
+ "<input type=hidden name=$var value='$value'>"
+ "<p><INPUT type=submit value='Submit'></form>"
+"Assign New Clan Leader",
+"<p><a href=game_listing.php>Go to Game List</a>"
+"Account Removed"
+login_id "Retired From Game"
+"You have been removed from the Game."
+// check for being dead
+<p>Your ship was destroyed by <b class=b1>$user[last_attack_by]</b> at <b>$diedAt</b></p>
+<p><a href=earth.php>Buy a ship to continue playing</a></p>
+//sudden_death
+#"<p>You are out of the game permanently."
+"<p>You are out of the game for <b>$hours_after_death</b> hours."
+"<p>Name your new ship."
+"<form action=ship_build.php method=POST>"
+"<input type=hidden name=ship_type value=t_ship>"
+"<input name=ship_name> "
+"<input type=submit name=Submit></form>"
+'End of the road'
+// Check for on_planet
+//Tow all
+"Ships in Tow"
+"Ships Released"
+"Unable to Tow Ships."
+"No Ships Selected.<p>"
+"<b>$q_m</b> Ship(s Added to Tow Group.<p>"
+"<b>$q_m</b> Ship(s Removed from Group.<p>"
+// command a different ship
+"Error","It is not possible to command this ship."
+"Command Failed","You are not able to take command of this ship remotely, as it would require <b>$dist</b> turns and you only have <b>$user[turns]</b><p>"
+ "Remote Command"
+"Command Transfered. Cost <b>2</b> turns<p>"
+"Command Failed","You are not able to take command of this ship remotely, as it would require <b>$dist</b> turns and you only have <b>$user[turns]</b><p>"
+ "Remote Command"
+"Command Transfered. Cost <b>$dist</b> turns<p>"
+"Command Transfered.<p>"
+//Transwarp Burst
+"Transwarp","Your ship is not equipped with a Transwarp Drive."
+"Transwarp","You need <b>15</b> turns to use Transwarp Burst"
+'Transwarp Burst','location.php',"Are you sure you want to engage the <b class=b1>Transwarp Burst</b>? <br>This will cost <b>15</b> turns and send you and any towed ships to a random location.",'sure','yes'
+ #make a random system number up.
+"You and all towed ships have ended up in system <b class=b1>#$new_loc</b>"
+// Transwarp
+#$tw_distance 15
+#max distance jumped is based on the size of the universe.
+#ship_warp_cost > 1{
+#$mathstuff2 round((get_star_dist(location$transwarp + $ship_count / 4 + 1
+#$mathstuff round((($ship_warp_cost / 3 +1 * $mathstuff2
+#$mathstuff round((get_star_dist(location$transwarp + $ship_count / 4 + 1
+"Transwarp","Your ship is not equipped with a transwarp drive."
+"You're already there!"
+"Transwarp","Invalid transwarp destination."
+"Transwarp","Your Transwarp drive cannot warp that far. Maximum Transwarp distance of $tw_distance Light Years."
+"Transwarp","You need <b>$mathstuff</b> turns to warp that far."
+//$mathstuff1 get_star_dist($user[location],$transwarp
+//random event stuff
+//subspace jump
+"Sub-Space","This does not have a Sub-Space Jump Drive."
+"You're already there!"
+"Sub-Space","You need <b>$turn</b> turns to get that far"
+"Sub-Space","You can only tow <b>10 </b>ships through subspace, you are towing <b>$num_towed</b>.<br><br>To have unlimited tow capability, purchase and install the <b class=b1>Wormhole Stabiliser</b> Upgrade."
+"Sub-Space","Where are you trying to go? That location doesn't excist. You can only go from systems <b>1</b> to <b>$num_ss[0] </b>using any form of transport."
+//random event stuff
+// Process page location command if given
+// checks
+#ship_warp_cost < 0{ #warp cost is determined by largest ship in fleet.
+//ship destroyed warp cost in turns
+#set it to warp_cost so can keep generic
+ #warp cost is set by admin
+#set to warp_cost so as to keep generic
+"Sorry, you can't move because you have less than <b>$ship_warp_cost</b> turn(s. <br>This is the present turn cost to move between systems, as set by the <b class=b1>Admin</b>.<p>"
+"Sorry, you can't more because you have less than <b>$warp_cost</b> turn(s.<br>This is the amount of turns required to move the largest ship in your present fleet.<br>Differernt ships use different amounts of turns to move between systems. See the help for more information."
+"It is not possible to get to the wormhole to jump to that system, because the hostile fighters in this system get in the way."
+"That system does not excist.<p>"
+"You are already there.<p>"
+"This star system does not have a link to (#<b>$toloc</b>.<p>"
+#simpler & quicker version of ramscooping.
+#ramscooping using the mammoth ramjet
+#ramscooping using the asteroid processor.
+"<font color=#00aaaa><center><p>This is a <b class=b1>Nebula</b> system. <a href=help.php?random=1 target=_blank>(help</a>"
+"<p><b class=b1>Warning! Warning! </b>Any ship left in this system will take damage. <b class=b1>Warning! Warning!</center></b><p></font>"
+"Nebula"
+'event_random'4
+"<center><p>This system has a recently discovered <b class=b1>metal rich deposit </b>in it."
+"<p>Mining of <b>metal </b>in this system is <b class=b1>quadrupled</b> (*4.</center>"
+"Metal rush"
+'event_random'5
+"<center><p>This system is going to go <b class=b1>SuperNova </b>some time soon."
+"<p><b class=b1>Warning! Warning! </b>"
+"<br>Staying in this system could prove disastrous. When the star in this system explodes, <b class=b1> EVERYTHING</b> in the system will be destroyed.<br>"
+"<b class=b1>Warning! Warning!</center></b><p>"
+ "SuperNova"
+ 'event_random'6
+"<center><p>This system has recently gone SuperNova. The Supernova remnant is very rich in minerals."
+"<p><b class=b1>Warning! Warning! </b>"
+"<br>Mining of <b class=b1>Metal and Fuel </b>in this system is much faster. <b class=b1>However</b>, this system <b class=b1>may</b> shortly turn into a <b class=b1>black hole</b>. There's no saying if/when though. <br>Mine at your own risk.<br>"
+"<b class=b1>Warning! Warning!</center></b><p>"
+ "SuperNova Remnant"
+ 'event_random'14
+"<center><p>This system has gone SuperNova. The Supernova Remnant is very rich in minerals."
+"<br>The <font color=lime>- - - Science Institute of Sol - - -</font> have deemed this system safe, and say it will <b class=b1>not</b> turn into a BlackHole.</center>"
+ "Safe SuperNova Remnant"
+ 'event_random'10
+"<center><p><b class=b1>Warning! Warning! </b>"
+"<br>This is going to go SuperNova within <b class=b1>48</b> hours. <br>This is an artificially created SuperNova.<br>"
+"<b class=b1>Warning! Warning!</center></b><p>"
+ "Artificial SuperNova"
+ 'event_random'11
+"<center><p><b class=b1>Warning! Warning! </b>"
+"<br>This is going to go SuperNova within <b class=b1>24</b> hours. <br>This is an artificially created SuperNova.<br>"
+"<b class=b1>Warning! Warning!</center></b><p>"
+ "Artificial SuperNova"
+ 'event_random'12
+"<center><p><b class=b1>Warning! Warning! </b>"
+"<br>There is increased Solar Activity in this System, creating a Solar Storm.<br>This means that all shields on all ships are reduced to zero for the duration of the storm.<br>"
+"<b class=b1>Warning! Warning!</center></b><p>"
+ "Solar Storm"
+"<p align=\"center\">This system is guarded by the <b>$[fighters]</b> fighters of <b class=b1>$[planet_name]</b>.</p>"
+"<a href=planet.php?planet_id=$&want_access=1>Request Access</a>, "
+"<a href=attack.php?quark=1&planet_num=$>Fire Quark Displacer</a>, "
+"<a href=attack.php?terra=1&planet_num=$>Fire Terra Maelstrom</a>, "
+"<a href=planet.php?planet_id=$&attack_planet=1>Attack</a> or Run Away: "
+"Run Away: "
+"<p><a href=\"bombs.php?sn_effect=1\">Use SuperNova Effector</a><p>"
+"<br>AutoWarp to Next System: &lt<a href=location.php?toloc=autowarp=>$</a>&gt"
+"<br>AutoWarp to Next System: &lt<a href=location.php?toloc=$>$</a>&gt"
+"</center>"
+"Hostile Planet",$error_str
+#Normal system:
+"It is not possible to mine in a system where the fighters are set to Hostile.<p>"
+"This ship cannot mine metal."
+"This ship cannot mine fuel."
+"This ship has no mining ability."
+"Ship Mining"
+"It is not possible to mine in a system where the fighters are set to hostile.<p>"
+  #normal mining
+#mass mining
+"Fleet Mining"
+"This ship has no mining ability, However any ships in this system that you own that can mine, are now mining."
+"Couldn't Tow Ship.<p>"
+'Jettison Cargo','location.php','Are you sure you want to Jettison all Cargo in this ship?','sure','yes'
+ "<br>You mercyless blighter. Those poor innocent (dead colonists. What did they ever do to you?"
+ "Without provocation, <b class=b1></b> jettisoned <b></b> colonists into open space.<br>Reason being: \"Planetlubbers the lot of em. I\'ve seen scurvy with more guts (and the guts of someone with scurvy\""
+ "<br>Thats just nasty. Those colonists didn't stand a chance"
+ "Ghastly. <b class=b1></b> just jettisoned <b></b> colonists into deep space.<br>Explaination being \"Bloomin Unions.\""
+ "<br>What will the relatives of those poor (dead colonists think of you now?"
+ "<b></b> (dead colonists are now floating around in space courtesy of <b class=b1></b>.<br>When asked what happened: \"Aye laddy, it twas \'im *pointing to innocent cabin boy*\""
+ "<br>You gonna go out there are sweep up that mess of (dead colonists you justmade?<br>Thought not."
+ "<b class=b1></b> just brutally murdered <b></b> colonists by jettisoning them into space. <br>The excuse: \"But they were already dead guvn\'r\""
+ "<br>Its a good thing your crew is as heartless as you are. Slaughtering colonists like that indeed."
+ "No heart <b class=b1></b> just lived up to the name by deciding to (and actually doing it too! jettison <b></b> colonists into open space. When interviewed: \"I\'m not heartless. Just coldly calculating.\""
+ "Cargo Jettisoned. \n<p>"
+#ships has been told to defend the fleet
+"<p>Ship is now defending the fleet.</p>"
+"<p>Unable to comply.</p>"
+"<p>Ship has now resumed normal activities.</p>"
+"<p>Unable to comply.</p>"
+//this will show any remaining autowarps the player is trying to perform.
+" - <a href=\"autowarp.php\">Set New AutoWarp</a>"
+"&lt<a href=location.php?toloc=autowarp=>$</a>&gt"
+ "&lt<a href=location.php?toloc=$>$</a>&gt"
+" - <a href=\"autowarp.php\">Set AutoWarp</a>"
+#determine system metal info
+"<b>[metal]</b>"
+" - (Currently Mining - <a href=location.php?mine_all=1>Fleet Mining</a>"
+" - <a href=location.php?mine=1>Mine</a> - <a href=location.php?mine_all=1>Fleet Mining</a>"
+" - <a href=location.php?mine_all=1>Fleet Mining</a>"
+#determine system fuel info
+"<b>[fuel]</b>"
+" - (Currently Mining - <a href=location.php?mine_all=2>Fleet Mining</a>"
+" - <a href=location.php?mine=2>Mine</a> - <a href=location.php?mine_all=2>Fleet Mining</a>"
+" - <a href=location.php?mine_all=2>Fleet Mining</a>"
+#use table based method for displaying system info.
+"<table class=\"simple\">"
+"<tr><th>Star System</th><td>#<b>$user[location]</b> - <b class=b1>[star_name]</b>"
+" (<b>[planetary_slots]</b> Planetary Slots"
+"</td></tr>"
+#warp links
+"<tr><th>Warp Links</th><td>"
+//ensure user is in a system that exists.
+"</td>"
+"<th>Wormhole</th><td><a href=location.php?toloc=[wormhole]>[wormhole]</a></td>"
+  //user not in a system that exists, so make a link to system 1.
+"&lt<a href=location.php?toloc=1>1</a>&gt "
+"<tr>" #end warp links
+#autowarp
+"<tr><th>Autowarp ($num_aw_left</th><td>- $sys_to_go</td></tr>"
+#metal and fuel
+"<tr><th>Metals</th><td>".$metal_str."</td></tr>"
+"<tr><th>Fuels</th><td>".$fuel_str."</td></tr>"
+"<tr><td colspan=\"2\">$user_loc_message</td></tr>"
+"<tr><td colspan=\"2\">$random_str</td></tr>"
+"</table>"
+#use original, normal text method.
+"<center><b class=b1>[star_name]</b> Star System (<b>#$user[location]</b>"
+"<br><b>[planetary_slots]</b> Planetary Slots"
+#warp links
+"<br>Warp: "
+//ensure user is in a system that exists.
+"<br />AutoWarp to next System - <b>$num_aw_left</b> Warp(s Left"
+"<br />Wormhole to : <a href=location.php?toloc=[wormhole]>[wormhole]</a>"
+  //user not in a system that exists, so make a link to system 1.
+"&lt<a href=location.php?toloc=1>1</a>&gt "
+#metal and fuel
+"<br>Metals: ".$metal_str
+"<br>Fuels: ".$fuel_str
+"</center>"
+"<p>"
+// ports
+"Starport - <a href=port.php?port_id=$port[port_id]>Dock</a><br>"
+// blackmarkets
+"black_market.php"
+"bm_ships.php"
+"bm_upgrades.php"
+"bm_bombs.php"
+"<br>"
+"<b class=b1>$bmrkt[bm_name]'s</b> Blackmarket - <a href=".$bm_t[$bmrkt['bmrkt_type']]."?bmrkt_id=$bmrkt[bmrkt_id]>Contact</a><br>"
+"<br>"
+# Planet Listings
+#//system 1. Only earth
+"Planet <b class=b1>Earth</b> - <a href=earth.php>Land</a> <br>"
+#seperate user planets from other planets
+"Planet <b class=b1>[planet_name]</b> (w/ <b>[fighters]</b> fighters - <a href=planet.php?planet_id=>Land</a><br>"
+ #other players planets
+ "<br>Planet <b class=b1>[planet_name]</b> "
+ "(w/ <b>[fighters]</b> fighters"
+ "- <a href=planet.php?planet_id=>Land</a>"
+ "- <a href=planet.php?planet_id=&attack_planet=1>Attack</a>"
+//quark disrupter
+ " - <a href=attack.php?quark=1&planet_num=>Fire Quark Displacer</a>"
+//terra maelstrom
+ " - <a href=attack.php?terra=1&planet_num=>Fire Terra Maelstrom</a>"
+
+ " - <a href=planet.php?planet_id=>Have Pass</a>"
+ "<b class=b1>Observatory</b> of <b>Sol</b> - <a href=science.php>Visit</a>"
+#determine if user has any planets in the system
+"Your planets:<br>".$temp2_str."<br>"
+"Other planets:<br>".
+# Player Ship Listings
+"<p>"
+"You have $count[0] ship(s in this system.<p>"
+"<p><a href='location.php?towall=1'>Tow All</a> - <a href='location.php?towall=2'>Release All</a><p>"
+"<form method=\"post\" action=\"location.php\" name=\"ship_towing\">\n"
+"Tow<INPUT type=radio name=tow_release value=1 CHECKED> / Release<INPUT type=radio name=tow_release value=2>"
+" - <a href=javascript:TickAll(\"ship_towing\">Invert Ship Selection</a>"
+//" - Select All/None<INPUT NAME=select_all TYPE=checkbox VALUE=\"Select all\" onClick=\"TickAll( \"ship_towing\" \">"
+" - <input type=\"submit\" value=\"Tow/Release\"><p>"
+/* HANDLE USER SHIPS */
+/* SHOW FULL LIST OF USER SHIPS */
+"<I>You're presently in command of your only ship in this system.</I><P>"
+"<A HREF='location.php?show_user_ships=2'>Show Summary of Your Ships</A><P>"
+#Loop through all of a players ships in the system.
+#ship is cloaked.
+ "<b class=cloak>"
+ "</b>"
+# IF SHOW ABBRIVIATED SHIP CLASSES IS SET, THEN...
+# IF SHOW ABBRIVIATED SHIP CLASSES IS NOT SET, THEN...
+#ship being towed and using original method
+" - <a href=location.php?tow=$ships[ship_id]>Stop Towing</a>"
+#ship being towed using Mori's method
+" - (Towing"
+#no ship being towed by original method
+" - <a href=location.php?tow=$ships[ship_id]>Tow</a>"
+#show checkbox (for Moris tow method
+" - <a href=location.php?command=$ships[ship_id]>Command</a>"
+" - <a href=location.php?defender=$ships[ship_id]>Passive</a>"
+" - <a href=location.php?defender_t=$ships[ship_id]>Defending</a>"
+" - <input type=checkbox name=do_ship[$ships[ship_id]] value=$ships[ship_id]><br>"
+" - <a href=location.php?command=$ships[ship_id]>Command</a>"
+" - <a href=location.php?defender=$ships[ship_id]>Passive</a><br>"
+" - <a href=location.php?defender_t=$ships[ship_id]>Defending</a><br>"
+"<br>"
+ # end of looping through all of players' ships.
+"<p><a href='location.php?towall=1'>Tow All</a> - <a href='location.php?towall=2'>Release All</a></p>"
+#end of original method
+"Tow <input type=radio name=tow_release value=\"1\" checked=\"checked\"> / Release <INPUT type=radio name=tow_release value=2>"
+//" - Select All/None<INPUT NAME=select_all TYPE=checkbox VALUE=\"Select all\" onClick=\"TickAll(ship_towing\">"
+" - <a href=javascript:TickAll(\"ship_towing\">Invert Ship Selection</a>"
+" - <input type=submit value='Tow/Release'></form>"
+#end of moris tow method
+"</form>"
+#otherwise just plain print this
+/* SHOW SUMMARY OF USER SHIPS */
+"<p>You are commanding the only ship you have in this system.</p>"
+"<p><a href=\"location.php?show_user_ships=1\">Show all of your ships</a></p>\n"
+"<B>$ships[class_name]s</B>: $ships[total] w/ <b>$ships[fighters]</b> Fighters"
+#show config for ships.
+" - <input type=checkbox name=do_ship_type[$ships[shipclass]] value=$ships[shipclass]><br>"
+" <a href=location.php?tow_group=0&class=$ships[shipclass]>Stop Towing$group_tow_text</a><br>"
+" <a href=location.php?tow_group=1&class=$ships[shipclass]>Tow$group_tow_text</a><br>"
+"</form>"
+/* HANDLE Enemy SHIPS */
+/* SHOW FULL LIST OF ENEMY SHIPS */
+#there are other ships in the system
+"<p><a href=\"location.php?show_enemy_ships=2\">Give summary of other ships</a></p>\n"
+#loop through other players ships.
+#reset cloaked ship info.
+#player is able to see only non-cloaked ships, unless conditions are met.
+#sets some cloak text into a string, if a ship is cloaked.
+ "<b class=cloak>"
+ "</b>"
+#non-abbriviated ship class.
+#abbriviated ship class.
+#hs without scanner
+"<b class=cloak>::::: ".discern_size($ships['size']." Disturbance Detected:::::</b>"
+# hs, with scanner.
+"<b>Unknown Owner</b><b class=cloak> $ships[ship_name] ($ships[class_name] w/ <b>$ships[fighters]</b> fighters</b>"
+# ls, no scanner.
+"<b class=cloak>:::::Cloaked $ships[class_name] Detected:::::</b>"
+
+"<br>"
+" - <a href=attack.php?target=$ships[ship_id]>Attack</a><br>"
+ #end of loop through other ships
+"<p><i>There are no other ships in this system.</i></p>\n"
+/* SHOW SUMMARY OF ENEMY SHIPS*/
+"<p>There are no other ships in this system.</p>\n"
+"<p><a href=\"location.php?show_enemy_ships=1\">Full list of other ships</a></p>\n"
+#show un-cloaked ships
+" has <b>$ships[total]</b> Ship(s w/ <b>$ships[fighters]</b> Fighters"
+#show attack link next to group of ships.
+"<br>"
+" - <a href=attack.php?target=$to_attack[ship_id]>Attack</a><br>"
+#show cloaked ships if certain conditions are met.
+"<b class=cloak> has <b>$ships[total]</b> Cloaked Ship(s w/ <b>$ships[fighters]</b> Fighters</b>"
+"<b class=cloak> has <b>$ships[total]</b> Highly Cloaked Ship(s w/ <b>$ships[fighters]</b> Fighters</b>"
+#show attack link next to group of Lightly cloaked ships.
+"<br>"
+" - <a href=attack.php?target=$to_attack[ship_id]>Attack</a><br>"
+#give only brief details about cloaked ships if none of the requisite conditions are met.
+ # end of loop of other players ships.
+#cloaked ships the player cannot tell many details about.
+"<b class=cloak><b>$cloaked_ships</b> Cloaked Ship(s w/ <b>$cloaked_figs</b> Fighters</b>".$cloaked_attack_link."<br>"
+"<b class=cloak><b>$cloaked_ships</b> Cloaked Ship(s</b><br>"
+"<div id=\"locBar\">\n"
+
+user_options['show_minimap']{
+"\t<a href=\"map.php\"><img id=\"miniMap\" src=\"" .
+"img/' . $db_name . '_maps/sm' . location'] . '.png' .
+"\" alt=\"Map of systems around {location']\" /></a>\n"
+"\t<p><a href=\"map.php\">Full Universe Map</a></p>\n"
+"\t<p><a href=\"location.php?jettison=1\">Jettison Cargo</a></p>\n"
+"\t<p><a href=\"planet_build.php?location=$user[location]\">Use Genesis Device</a> ($user[genesis]</p>\n"
+"\t<p><a href=\"bombs.php?alpha=1\">Use Alpha Bomb</a> ($user[alpha]</p>\n"
+"\t<p><a href=\"bombs.php?bomb_type=1\">Use Gamma Bomb</a> ($user[gamma]</p>\n"
+"\t<p><a href=\"bombs.php?bomb_type=2\">Use Delta Bomb</a>! ($user[delta]</p>\n"
+"\t<p><a href=\"bombs.php?sn_effect=1\">Use SuperNova Effector</a>!</p>\n"
+"<br><b><form name=transwarp_form action='location.php' method=POST><a href='javascript:alert(\"Use Transwarp to travel a short distance across the universe without warp links. Limit of 15 light years.\\nCan tow unlimited number of ships however each additional ship towed adds one turn to Warp cost.\\n\\t\\t\\t\\tCost: 5+ turns\"'>Transwarp Jump</a> - <a href='location.php?transburst=1'>Burst</a><br>Destination: <input type='text' size='3' maxlength='3' name='transwarp'><br><input type='submit' value='Engage'></form></b><p>"
+"<p><b><form name=subspace_form action='location.php' method=POST><a href='javascript:alert(\"Use Sub-Space Jump to travel to anywhere in the Galaxy.\\nCan tow only 10 ships.\\n\\t\\tCost:10+ turns.\"'>SubSpace Jump</a><br>Destination: <input type='text' size='3' maxlength='3' name='subspace'><br><input type='submit' value='Engage'></form></b><p>"
+"</div>\n<div id=\"locInfo\">"
+ '</div>'
