@@ -88,24 +88,25 @@ def add_blackmarket_se1():
 def add_planets(): 
 	#account for earth and sol
 	# generate the planets
-	planetoid_list = { 'planet_id' : 0 }
+	planetoid_list          = [{'planet_id' : 0} , {'system_id' : 0}]
+	coefficient_of_chaos	= random.randint(1, return_game_var('num_systems'))
+	max_planets_per_system  = return_game_var('max_planets_in_system')
+	count                   = 1
 	for planetoid in range( 8 , num_planets):
-		count  = 1
-		planetoid_list.update('planet_id', count )
-		count  = count + 1
-		Planet(name = names.gen_name( 'all' ))
+	# adds a randomly selected system id to the planet
+	# makes the planet reside in that system
+	# multiple planets can have the same system ID
+		planetoid_list.append([{'planet_id': count} ,{'system_id' : coefficient_of_chaos}])
+		count = count + 1
+		Planet(name = names.gen_name('all'))
 	#planets have been made, now place them in the universe
-	for system in list_of_spawned_systems:
-# TODO
-		count 					= 1
-		skipped_system 			= None
-		system_to_place_planet  = None
-		max_planets_per_system  = return_game_var('max_planets_in_system')
-		for planetoid in planetoid_list:
-#		for planetoid in Planet.query.all():
-
 	for planet in planetoid_list:
-		add_minerals(planet)
+		# wow I hate doing the following, multi-dimensional arrays... ugh!
+		# if it wasnt in the loop, to access it you would do 
+		# two of the [0] instead of one like so
+		# noodles = planetoid_list[0][0]['planet_id']
+		planet_id_from_list = planet[0]['planet_id']
+		add_minerals(planet_id_from_list)
 	print_to_console("Randomly placed planets... placed")
 
 ##def that places random events around the universe.
