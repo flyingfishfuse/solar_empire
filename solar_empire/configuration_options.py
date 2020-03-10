@@ -1,13 +1,12 @@
 import os
 from flask.config import Config
 import random
-
+#software stuff
 VERSION            = 'Generic SE 2.9.1 - MODIFIED:Python Language Conversion -  Version : 0.01'
-DATABASE_HOST      = "localhost"
-DATABASE           = "solar_empire-python"
-DATABASE_USER      = "moop"
-DATABASE_PASSWORD  = "password"
+basedir = os.path.abspath(os.path.dirname(__file__))
+things_this_app_needs = ['flask' , "flask-sqlalchemy"]
 
+#server stuff
 SERVER_NAME        = "Solar Empire: 2020 - Python Edition"
 SERVER_ADDRESS     = ('localhost', 4443)
 HTTP_HOST          = "gamebiscuits"
@@ -18,20 +17,21 @@ URL_FULL           = "https://" + HTTP_HOST + SERVER_HOST + DOMAIN + GAME_DIR
 URL_SHORT          = "asdf"
 SEND_AUTH_MAIL     = True
 SESSION_TIME_LIMIT = 3600
-
+#user stuff
 ADMIN_NAME = "Emperor of Sol"
 ADMIN_PASSWORD = "password"
 ADMIN_EMAIL = "game_admin" + "@" + HTTP_HOST + SERVER_HOST + DOMAIN
 ADMIN_USER_ID = 1
 OWNER_ID = 1
 
-
+#DB STUFF 
+DATABASE_HOST      = "localhost"
+DATABASE           = "solar_empire-python"
+DATABASE_USER      = "moop"
+DATABASE_PASSWORD  = "password"
+USER_TABLE_NAME = "User"
 MAX_USER_TURNS = 30
 DANGER_STRING= "you should NEVER see this string. Something errored HARD . TACOCAT"
-
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-things_this_app_needs = ['flask' , "flask-sqlalchemy"]
 
 class Config(object):
     # ...

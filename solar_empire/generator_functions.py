@@ -5,9 +5,6 @@ from solar_empire.configuration_options import *
 from solar_empire.common_include import *
 from solar_empire.names.names import *
 
-
-##deletes all image files.
-#def clearImages(path)
 num_ports 			= return_game_var("num_ports")
 num_starports 		= return_game_var("num_starports")
 num_systems 		= return_game_var('num_systems')
@@ -33,17 +30,29 @@ planet_organics = random.randint(range ( 100 , organics_total / num_planets ))
 
 ##add starports to the universe.
 # we map location ID's to system ID's
+#generates name for starport
+def grab_starport_name():
+	return names.gen_name()
+
+def get_starport_by_id(starport_id):
+	pass
+
+def add_resources_to_starport_by_id(starport_id):
+	get_starport_by_id()
+	pass
 
 def add_starports_se1():
 	for port in range( 1 , num_starports - 1):
         #create template dict for new port
 		possible_new_starport = { 'location_id' : 0 }
-		possible_new_starport['location_id')= random.randint(2, num_systems)
+		possible_new_starport['location_id'] = random.randint(2, num_systems)
         #map location_id to system_id... looks up system_id by location_id
         #system has no port, build one
         if system_has_port(possible_new_starport['location_id']) == False :
 		    spawned_starport = StarPort(name = grab_starport_name, system_id = possible_new_starport['location_id'])
-			add_to_spawned_starport)
+		# Add resources to port, subtracting that amount from the universes available pool
+			add_resources_to_starport_by_id(spawned_starport.system_id)
+
 			#print "<div id='' USER### Created port #"" in location <script>document.all.addports1 location .scrollIntoView(</script></div>"
 		else:
 			pass

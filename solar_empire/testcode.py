@@ -33,11 +33,15 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 solar_empire_server = Flask(__name__ , template_folder="templates" )
-solar_empire_server.config.from_object(Config)
+solar_empire_server.config[SQLALCHEMY_DATABASE_URI] = 'sqlite:///' + DATABASE + '.' + HTTP_HOST + '.db'
+solar_empire_server.config[SQLALCHEMY_TRACK_MODIFICATIONS] = True 
+
+#solar_empire_server.config.from_object(Config)
 database    = SQLAlchemy(solar_empire_server)
 
 #without the flask migrate module, you need to instantiate
-# databases with default values.
+# databases with default values. That module wont be loaded 
+# yet during the creation of a NEW game
 class User(database.Model):
     login_id        = database.Column(database.Integer,     default = 0, \
                                                             primary_key=True)
@@ -47,7 +51,7 @@ class User(database.Model):
                                                             unique=True)
     email           = database.Column(database.String(120), index=True, unique=True)
     password_hash   = database.Column(database.String(128), default = DANGER_STRING)
-    location        = database.Column(database.String(128), default = "E'Arth")
+    location        = database.Column(database.Integer,     default = 1) #E'Arth
     max_turns       = database.Column(database.Integer,     default = MAX_USER_TURNS)
     turns_run       = database.Column(database.Integer,     default = 0)
     safe_turns_left = database.Column(database.Integer,     default = 60)

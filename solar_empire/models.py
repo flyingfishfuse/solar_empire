@@ -3,6 +3,7 @@ from solar_empire import database
 from solar_empire.configuration_options import *
 
 class User(database.Model):
+    __tablename__   = USER_TABLE_NAME
     login_id        = database.Column(database.Integer, primary_key=True)
     user_id         = database.Column(database.Integer)
     username        = database.Column(database.String(64), index=True, unique=True)
