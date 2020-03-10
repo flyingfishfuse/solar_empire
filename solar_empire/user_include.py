@@ -1,27 +1,29 @@
 #!/usr/bin/python3
-from flask import Flask
-from flask import request
 import solar_empire
 from solar_empire.models import *
 from solar_empire.common_include import *
 
 #generic link to go back to the start system
-system_view = "<p><a href=\"location\">Back to the Star System</a><br>"
+system_view = "<p><a href='location'>Back to the Star System</a><br>"
 #damage capacity of the silicon armour module
 
-def user_by_id(id_of_user):
+def return_user_by_id(id_of_user):
 	return User.query.filter_by(user_id = id_of_user).first()
 
 def return_user_list():
 	pass
 
 def return_user_variable(user_id , var):
-	user_to_probe = user_by_id(user_id) 
+	user_to_probe = return_user_by_id(user_id) 
 	pass
 
 def update_database(thing):
 	database.session.add(thing)
 	database.commit()
+	pass
+
+def change_user_variable(user_id):
+	user_to_modify = return_user_by_id(user_id)
 	pass
 
 def does_user_have_ship(user_id):
@@ -51,7 +53,7 @@ def buy_basic_upgrade(user_id, \
 					  fuel_cost, \
 					  tech_cost):
 	# remove the cost from player
-	user_to_modify     = user_by_id(user_id)
+	user_to_modify     = return_user_by_id(user_id)
 	# add amounts to current values for those things 
 	subtracted_cash    = return_user_variable(user_id , 'cash') - cash_cost
 	subtracted_mineral = return_user_ship_variable(user_id , 'mineral') - mineral_cost
@@ -68,139 +70,16 @@ def pay_bounty(user_with_bounty, user_with_money, comission_percent):
 	#bount1 = round((topay[bounty] / 100) * commission_percent
 	pass
 
+#/********************
+#Account updating functions
+#*********************/
 
-#function that will create a help-link.
-def popup_help(topic, height, width, string = "Info"):
-	return '<a href="' + topic + '" onclick="popup(\'' + topic + '\', ' + height + ',' + width + '); return false;">' + string + '</a>'
-
-def statusBar(user_id):
-	user_has_no_ship    = None 
-	user_to_show_bar_to = user_by_id(user_id)
-	#user is not in an escape pod
-	if does_user_have_ship(user_id):
-		ship_to_display = user_ship_for_info(user_id) 
-	else:
-		#user is in escape pod
-		user_has_no_ship = True
-# is game paused?
-	if (GameVars.is_game_paused == True):
-		game_menu = "<h1> {game_name} / game paused" + "</h1>\n".format(game_name = GameVars.game_name)
-	else :
-		game_menu = "<h1> {game_name} / game on!" + "</h1>\n".format(game_name = GameVars.game_name)
-# Active Users
-	game_menu + "<p>active users: {}</p>\n".format(GameVars.logged_in_players_int)
-	for each_player in return_user_list: 
-		game_menu + "<p>" + each_player + "</p>\n"
-# game paused information	
-	if (GameVars.is_game_paused == True):
-		game_menu + "<p>{count_days_left_in_game} days left</p>\n"
-        game_menu + "<h2>" + user_to_show_bar_to.name + \
-                    		 user_to_show_bar_to.clan_id + \
-                    		 user_to_show_bar_to.clan_sym + \
-                    		 user_to_show_bar_to.clan_sym_color + "</h2>\n"
-#safe turns left information
-	if (user_to_show_bar_to.turns_run < user_to_show_bar_to.safe_turns_left):
-		safe_turns_left = SAFE_TURNS - user_to_show_bar_to.turns_run 
-		game_menu + "<p><em>{safe_turns_left}</b> safe turn(s) left</em></p>\n".format(safe_turns_left = user_to_show_bar_to.safe_turns_left)
-	else:
-		game_menu + "<p><em>Leaving</em> newbie safety!</p>\n" + \
-			'You have just left Newbie safety.<p>This means that you are now attackable by any player who can attack. <p>Good Luck.'
-# Display turns left, tech and CASH BABY!
-		game_menu + "<table>\n\t<tr>\n\t\t<th>Turns</th>\n\t\t<td>" + \
-            user_to_show_bar_to.turns+ ' / ' + MAX_USER_TURNS + \
-			"</td>\n\t</tr>\n\t<tr>\n\t\t<th>Credits</th>\n\t\t<td>" + user_to_show_bar_to.cash + "</td>\n\t</tr>\n"
-		game_menu + "\t<tr>\n\t\t<th>Tech Units</th>\n\t\t<td>" + user_to_show_bar_to.tech + "</td>\n\t</tr>\n"
-# Print Ship Info
-	game_menu + "\t<tr>\n\t\t<th>Ships Killed</th>\n\t\t<td> " + \
-            user_to_show_bar_to.ships_killed + "</td>\n\t</tr>\n\t<tr>\n\t\t<th>Ships Lost</th>\n\t\t<td>" + \
-	        user_to_show_bar_to.ships_lost + "</td>\n\t</tr>\n\t<tr>\n\t\t<th>Score</th>\n\t\t<td>" + \
-	        user_to_show_bar_to.score + "</td>\n\t</tr>\n</table>\n"
-
-	if (user_to_show_bar_to.ship_id== None):
-	   game_menu + "<h2>Your ship is destroyed!</h2>\n"
-	else:
-	   game_menu + "<h2>" + \
-            popup_help('help?popup=1&ship_info=1&shipno=' + \
-		    ship_to_display.shipclass, 300, 600, ship_to_display.ship_name) + "</h2>\n<table>\n\t<tr>\n\t\t" + \
-            "<th>Class</th>\n\t\t<td>{user_ship_class_name}</td>\n\t</tr>\n\t".format(user_ship_class_name = ship_to_display.class_name) + \
-            "<tr>\n\t\t<th>Fighters</th>\n\t\t<td>" + \
-            ship_to_display.fighters+ ' / ' + \
-            ship_to_display.max_fighters+ "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Shields</th>\n\t\t<td>" + \
-            ship_to_display.shields+ ' / ' + \
-		    ship_to_display.max_shields+ "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Specials</th>\n\t\t<td>" + \
-            is_ship_cargo_empty + "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Cargo Bays</th>\n\t\t<td>"  + \
-            bay_storage(user_ship) + "</td>\n\t</tr>\n</table>\n"
-# LEFT SIDE	
-	game_menu + "<h2>Menu</h2>\n<ul>\n" + \
-				"\t<li><a href=\"location\">Star System</a></li>\n" + \
-				"\t<li><a href=\"diary\">Fleet Diary</a></li>\n" + \
-				"\t<li><a href=\"news\">Game News</a></li>\n"
-    
-	if (max_clans > 1 or user_to_show_bar_to.login_id== ADMIN_ID):
-		game_menu + "\t<li><a href=\"clan\">Clan Control</a></li>\n"
-	else:
-		if (enable_politics):
-			game_menu + "\t<li><a href=\"politics\">Politics</a></li>\n"
-		game_menu + "\t<li><a href=\"player_stat\">Player Ranking</a></li>\n</ul>\n<ul>\n"
-	
-	database("select count(message_id) from ${db_name}_messages where login_id = " + user_to_show_bar_to.login_id)
-	watlist(counted) = dbr()
-    game_menu + "\t<li><a href=\"mpage\">$counted Msg(s)</a> - <a href=\"message\">Send</a></li>\n"
-    database("select count(message_id) as new_messages from {db_name}_messages where timestamp > '{user[last_access_forum]}' && login_id = -1 && sender_id != '$user[login_id]'")
-    messg_count_forum = dbr()
-    temp_forum_text = ""
-    if (messg_count_forum['new_messages> 0):
-		temp_forum_text = "({messg_count_forum[new_messages]} <a href=/forum?last_time={user[last_access_forum]}&find_last=1>new</a>)"
-    game_menu + "\t<li><a href=\"forum\">Forum</a>$temp_forum_text</li>\n"
-
-    if (user_to_show_bar_to.login_id== ADMIN_ID or user_to_show_bar_to.login_id== OWNER_ID):
-        if (user_to_show_bar_to.login_id== ADMIN_ID):
-			database("select last_access_admin_forum from se_games where db_name = '{db_name}'")
-			l_view = dbr()
-			time_from = l_view['last_access_admin_forum
-        else:
-			time_from = time()
-        
-        database("select count(message_id) as new_messages from se_central_forum where timestamp > '$time_from'")
-        messg_count_forum = dbr()
-        adminForumNew = ""
-        if (messg_count_forum['new_messages> 0):
-            adminForumNew = " ({messg_count_forum[new_messages]} <a href=forum?last_time={time_from}&view_a_forum=1>new</a>)"
-        
-        game_menu + "\t<li><a href=\"forum?view_a_forum=1\">Admin Forum</a> {adminForumNew}</li>\n"
-	if (user_to_show_bar_to.login_id== ADMIN_ID or user_to_show_bar_to.login_id== OWNER_ID):
-		game_menu + "\t<li><a href=\"forum?clan_forum=1\">Clan Forums</a></li>\n"
-	else :
-        if ( user_to_show_bar_to.clan_id> 0) :
-		    database("select count(message_id) as new_messages from ${db_name}_messages where timestamp > '{user[last_access_clan_forum]}' && \
-                    login_id = -5 && \
-                    clan_id = '{user[clan_id]}' && \
-                    sender_id != '{user[login_id]}'")
-		    messg_count_clan_forum = dbr()
-		    temp_clan_forum_text_var = ""
-        if ( messg_count_clan_forum['new_messages> 0):
-		    temp_clan_forum_text_var = "({messg_count_clan_forum[new_messages]}<a href=forum?clan_forum=1&\
-                                        last_time={user[last_access_clan_forum]}&find_last=1>new</a>)"
-		    game_menu + "\t<li><a href=\"forum?clan_forum=1\"><span style=\"color: #" + \
-            user_to_show_bar_to.clan_sym_color + "\">" + \
-            user_to_show_bar_to.clan_sym + "</span> Forum</a>{temp_clan_forum_text_var}</li>\n"
-
-    game_menu + "\t<li><a href=\"http://forum.solar-empire.net/\">Global Forum</a></li>\n</ul>\n<ul>\n"
-
-    # admin lower sidebar
-    if (user_to_show_bar_to.login_id == ADMIN_ID or user_to_show_bar_to.login_id == OWNER_ID):
-		game_menu + "\t<li><a href=\"admin\">Admin</a></li>\n"
-		if (user_to_show_bar_to.login_id == OWNER_ID):
-			game_menu + "\t<li><a href=\"developer\">Server</a>\n"
-    
-    game_menu + "\t<li><a href=\"help\">Help</a></li>\n" + \
-	       "\t<li><a href=\"options\">Options</a></li>\n"
-    
-    if (user_to_show_bar_to.login_id != ADMIN_ID):
-		game_menu + "\t<li><a href=\"logout?logout_single_game=1\">Game List</a></li>\n"
-    
-    game_menu + "\t<li><a href=\"logout?comp_logout=1\">Logout</a></li>\n</ul>\n"
-    return game_menu
+#function that charges turns for something. Admin is exempt.
+def charge_turns(amount, user_id):
+	user = return_user_by_id(user_id)
+	if user.login_id != ADMIN_USER_ID :
+		user.turns_left - amount
+		user.turns_run + amount
 
 #function that can be used create a viable input form. Adds hidden vars.
 def get_var(title, page_name, text, var_name, var_default):
@@ -214,7 +93,7 @@ def get_var(title, page_name, text, var_name, var_default):
 	
 	if ( var_name == 'sure'):
 		input_form + "\n<input type=hidden name=sure value=yes>";
-		input_form + "\n<input type=submit name=submit value=Yes> - <input type='Button' width='30' value='No' onclick=\"javascript: history.back()\">\n</form>";
+		input_form + "\n<input type=submit name=submit value=Yes> - <input type='Button' width='30' value='No' onclick='javascript: history.back()'>\n</form>";
 	elif (var_name == 'passwd' or var_name == 'passwd_verify' or var_name == 'passwd2'):
 		input_form + "\n<input type=password name=$var_name value='$var_default' size=20> - "
 		input_form + "\n<input type=submit value=Submit>\n</form>"
@@ -231,23 +110,9 @@ def get_var(title, page_name, text, var_name, var_default):
 	pageStop(title)
 
 
-#/********************
-#Account updating functions
-#*********************/
 
-#function that charges turns for something. Admin is exempt.
-def charge_turns(amount):
-	if User.login_id == ADMIN_ID or OWNER_ID:
-		return "asdf"
-	database. (users set turns = turns - '$amount', turns_run = turns_run + '$amount' where login_id = '$user[login_id]'");
-	user_to_show_bar_to.turns - amount
-	user_to_show_bar_to.turns_run + amount
-}
-
-
-#//function that can give a user cash. Admin is exempt.
 def give_cash(amount):
-	if (User.login_id != ADMIN_ID):
+	if (User.login_id != ADMIN_USER_ID):
 		#user_to_show_bar_to.cash += $amount;
 
 #function takes cash from a player. Admin is exempt.
@@ -277,7 +142,7 @@ def give_cash(amount):
 
 #take the fighters down next (if needed).
 # don't want to hurt the admin now do we?
-	#if ( target['login_id != ADMIN_ID) {
+	#if ( target['login_id != ADMIN_USER_ID) {
 	#shield_damage = 0;
 #set ships_killed
 #// ship not destroyed
