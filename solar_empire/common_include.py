@@ -6,29 +6,11 @@ from solar_empire.models import *
 from datetime import datetime
 from solar_empire.configuration_options import *
 
-def buy_basic_upgrade(user_id, \
-					  upgrade, \
-					  cash_cost , \
-					  mineral_cost, \
-					  metal_cost, \
-					  fuel_cost, \
-					  tech_cost):
-	# remove the cost from player
-	# add the upgrade to player
-	#update database
-	pass
-
 def add_resources_to_player_by_id(player_id, resource_type, resource_amount):
 	pass
 
 def return_game_var(var):
     return GameVars.query.filter_by(var)
-
-def user_by_id(id_of_user):
-	return User.query.filter_by(user_id = id_of_user).first()
-
-def return_user_variable(user_id , var):
-	user_to_probe = user_by_id(user_id) 
 
 def pay_bounty(user_with_bounty, user_with_money, comission_percent):
 	amount = round((amount /100) * comission_percent) + amount + 1

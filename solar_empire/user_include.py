@@ -5,6 +5,42 @@ import solar_empire
 from solar_empire.models import *
 from solar_empire.common_include import *
 
+def user_by_id(id_of_user):
+	return User.query.filter_by(user_id = id_of_user).first()
+
+def return_user_variable(user_id , var):
+	user_to_probe = user_by_id(user_id) 
+	pass
+
+def return_user_ship_variable(user_ship_id , var):
+	usership = UserShip.query.filter_by()
+
+def buy_basic_upgrade(user_id, \
+					  upgrade, \
+					  cash_cost , \
+					  mineral_cost, \
+					  metal_cost, \
+					  fuel_cost, \
+					  tech_cost):
+	# remove the cost from player
+	user_to_modify = user_by_id(user_id)
+	# add amounts to current values for those things 
+	subtracted_cash = return_user_variable(user_id , 'cash') - cash_cost
+	subtracted_mineral = return_user_ship_variable(user_id , 'mineral') - mineral_cost
+	subtracted_metal   = return_user_ship_variable(user_id , 'metal') - metal_cost
+	subtracted_fuel    = return_user_ship_variable(user_id , 'fuel') - fuel_cost
+
+	# add the upgrade to player
+	#update database
+	pass
+
+def pay_bounty(user_with_bounty, user_with_money, comission_percent):
+	amount = round((amount /100) * comission_percent) + amount + 1
+	bount = round((list_em[bounty] / 100) * commission_percent
+	bount1 = round((topay[bounty] / 100) * commission_percent
+	pass
+
+
 #Get game info if not admin (loaded for admin in check_auth)
 if (User.login_id != ADMIN_ID):
 	#Get the game information
