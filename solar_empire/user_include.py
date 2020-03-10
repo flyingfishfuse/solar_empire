@@ -81,75 +81,30 @@ def charge_turns(amount, user_id):
 		user.turns_left - amount
 		user.turns_run + amount
 
-#function that can be used create a viable input form. Adds hidden vars.
-def get_var(title, page_name, text, var_name, var_default):
-	pageStart()
-	html_stuff = "<p>{title}</p>".format() + \
-        "<form name='{get_var_form}' action='{page_name}' method=\'post\'>"
-#flask get and post args processing goes here!!
-	input_form = ""
-	for each in request.args:
-		input_form + "\n<input type=hidden name={key}='{value}'>"
-	
-	if ( var_name == 'sure'):
-		input_form + "\n<input type=hidden name=sure value=yes>";
-		input_form + "\n<input type=submit name=submit value=Yes> - <input type='Button' width='30' value='No' onclick='javascript: history.back()'>\n</form>";
-	elif (var_name == 'passwd' or var_name == 'passwd_verify' or var_name == 'passwd2'):
-		input_form + "\n<input type=password name=$var_name value='$var_default' size=20> - "
-		input_form + "\n<input type=submit value=Submit>\n</form>"
-	elif ( var_name == 'text') :
-		input_form + "\n<textarea name=$var_name cols=50 rows=20 wrap=soft>" + var_default + "</textarea>"
-		input_form + "\n<p><input type=submit value=Submit></form>"
-	else :
-		input_form + "\n<input name=$var_name value='$var_default' size=20> - "
-		input_form + "\n<input type=submit value=Submit></form>"
-	if ( var_name != 'sure'):
-		input_form + "\n<script> document.get_var_form.$var_name.focus(); </script>"
-	else :
-		input_form + "\n<script> document.get_var_form.submit.focus(); </script>"
-	pageStop(title)
 
-
-
-def give_cash(amount):
-	if (User.login_id != ADMIN_USER_ID):
-		#user_to_show_bar_to.cash += $amount;
+def give_cash(user_id, amount):
+	pass
 
 #function takes cash from a player. Admin is exempt.
-	#function take_cash($amount)
+def take_cash(user_id, amount):
+	pass
 
-#take tech support units from a player. Admin is exempt.
-	#function take_tech($amount)
+def remove_resource_from_player(user_id, resource, amount):
+	pass
 
-#Give tech support units to a player. Admin is exempt.
-	#function give_tech($amount)
-
-#/********************
-#Message Functions
-#*********************/
-
-#sends $text to $to, from global $user
-	#function send_message($to,$text)
+def add_resource_to_player(user_id, resource, amount):
+	pass
 
 #function that damages a ship with a specified amount of damage.
 #send a negative number as the first arguement to destroy a ship outright.
-	#function damage_ship($amount,$fig_dam,$s_dam,$from,$target,$target_ship) {
-
-#set the shields down first off (if needed).
-	#target_ship['shields 
-#DB ships 
-#target_ship[ship_id]'");
-
-#take the fighters down next (if needed).
-# don't want to hurt the admin now do we?
-	#if ( target['login_id != ADMIN_USER_ID) {
+def damage_ship(amount, fig_dam, s_dam, attacker, target , target_ship):
+	#set the shields down first off (if needed).
+	#take the fighters down next (if needed).
+	# don't want to hurt the admin now do we?
 	#shield_damage = 0;
-#set ships_killed
-#// ship not destroyed
-	#users set last_attack = ".time().", last_attack_by = '$from[login_name]' where login_id = '$target[login_id]'");
-#	ships set fighters = fighters - '$amount', shields = shields - '$shield_damage' where ship_id = '$target_ship[ship_id]'");
-	#users set fighters_lost = fighters_lost + '$amount' where login_id = '$target[login_id]'");
-	#_users set fighters_killed = fighters_killed + '$amount' where login_id = '$from[login_id]'");
+	#set ships_killed
+	#// ship not destroyed
+
 
 #function retire_user($target)
 #	post_news("<b class=b1>$target_user[login_name]</b> Retired from the Game.");

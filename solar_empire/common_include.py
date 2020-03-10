@@ -233,6 +233,10 @@ def discern_size (size):
 def popup_help(topic, height, width, string = "Info"):
 	return '<a href="' + topic + '" onclick="popup(\'' + topic + '\', ' + height + ',' + width + '); return false;">' + string + '</a>'
 
+#prints to a fun little dev console in the admin area
+def print_to_console(text_to_console):
+	pass
+
 #//makes a ship using the parts specified in $ship_parts (array), ship_owner (also array)
 #//returns id of ship inserted.
 #function make_ship($ship_parts, $ship_owner)

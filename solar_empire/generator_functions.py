@@ -22,7 +22,8 @@ planet_fuel     = random.randint(range ( 100 , fuel_total     / num_planets ))
 planet_mineral  = random.randint(range ( 100 , mineral_total  / num_planets ))
 planet_organics = random.randint(range ( 100 , organics_total / num_planets ))
 
-
+max_system_fuel = return_game_var('max_fuel_per_system')
+min_system_fuel = return_game_var('min_fuel_per_system')
 #gamevars
 #min_fuel_per_system
 #max_fuel_per_system
@@ -38,60 +39,70 @@ def get_starport_by_id(starport_id):
 	pass
 
 def add_resources_to_starport_by_id(starport_id):
-	get_starport_by_id()
+	get_starport_by_id(starport_id)
 	pass
 
-def add_starports_se1():
-	for port in range( 1 , num_starports - 1):
-        #create template dict for new port
+def add_starports_sel():
+	for star_port in range( 1 , num_starports - 1):
+	#create template dict for new port
 		possible_new_starport = { 'location_id' : 0 }
 		possible_new_starport['location_id'] = random.randint(2, num_systems)
-        #map location_id to system_id... looks up system_id by location_id
-        #system has no port, build one
-        if system_has_port(possible_new_starport['location_id']) == False :
-		    spawned_starport = StarPort(name = grab_starport_name, system_id = possible_new_starport['location_id'])
+		#map location_id to system_id... looks up system_id by location_id
+		#system has no port, build one
 		# Add resources to port, subtracting that amount from the universes available pool
-			add_resources_to_starport_by_id(spawned_starport.system_id)
-
-			#print "<div id='' USER### Created port #"" in location <script>document.all.addports1 location .scrollIntoView(</script></div>"
+		if (system_has_port( possible_new_starport['location_id']) == False ):
+			spawned_starport = StarPort(name = grab_starport_name(), system_id = possible_new_starport['location_id'])
+# TODO 
+			#add_resources_to_starport_by_id(spawned_starport.system_id)
+			# save to DB
+			#format this string
+			print_to_console("<div id=''> USER: {} Created port #{} in location {}</div>")
 		else:
 			pass
 
+def return_blackmarket_name():
+	blackmarket_names = [ "Dodgy Dave", "Stinkin Sid", \
+				 "Goodie-bag Central", "The Department of Corruption", \
+				 "The Ultimate Goodies Store", "Stompin Jim", \
+				 "The War Cabinet", "Jim  -Dead Eye- Smarms", \
+				 "One Eyed Doyle", "The Ministry of Offence"]
+	return blackmarket_names[random.randint(1, len(blackmarket_names))]:
 
-##add BM's to the universe
-def add_blackmarket_se1()
-	blackmarket_names = [ "Dodgy Dave", \
-				 "Stinkin Sid", \
-				 "Goodie-bag Central", \
-				 "The Department of Corruption", \
-				 "The Ultimate Goodies Store", \
-				 "Stompin Jim", \
-				 "The War Cabinet", \
-				 "Jim  -Dead Eye- Smarms", \
-				 "One Eyed Doyle", \
-				 "The Ministry of Offence"]
 	
+##add BM's to the universe
+## we tie location id's to market id's to easily place and locate by system
+#The location id of a market is the SAME as the location id of the system its in
+# the market id of a blackmarket is the SAME as the location id of the system is it in
+def add_blackmarket_se1():
+	num_black_markets = return_game_var("num_black_markets")
 	blackmarket_type = 0
-
+ 	# copy the code for the starport generator here
 	for thing in num_black_markets:
 		possible_new_black_market = { 'location_id' : 0 }
-		possible_new_black_market['location_id')= random.randint(2, num_black_markets)
-		#bmrkt_type' => "", 'bm_name' => ""
-		#less blackmarkets than types
-		#print "<div id=''  USER### Created Blackmarket # in <script>document.all.addbms1.   .scrollIntoView(</script></div>"
+		possible_new_black_market['location_id'] = random.randint(1,num_black_markets)
+		for spawned_system in list_of_spawned_systems:
+			if system_has_black_market(possible_new_black_market['location_id']) == False ):
+				spawned_blackmarket = BlackMarket(location = possible_new_black_market['location'], \
+											blackmarket_name = return_black_market_name(), \
+											blackmarket_id = possible_new_black_market['location_id'] )
+# TODO 
+			#add_resources_to_blackmarket_by_id(spawned_starport.system_id)
+			# save to DB
+			# format this text, gotta have a function that lets a user place a blackmarket
+			print_to_console("<div id=''>  USER: {user_name} Created Blackmarket # in {place}</div>".format())
 
 ##def that will pre-generate planets.
+#The same rules for location id's and entity id's apply here
 def add_planets(): 
 	#account for earth
-	planetoid_list      = { 'planet_id' : 0 }
-
+	planetoid_list = { 'planet_id' : 0 }
 	for planetoid in range( 1 , num_planets - 1 ):
 		count  = 1
 		planetoid_list.update('planet_id': count )
 		count  = count + 1
 		Planet(name = names.gen_name( 'all' ))
-	print "Randomly Placed Planets Done.\n<br>"
-
+	print_to_console("Randomly placed planets... placed")
+	
 	for planet in planetoid_list:
 		add_minerals(planet)
 		
@@ -101,15 +112,15 @@ def random_event_placer():
 	##high level random events
 
 ##add minerals to the systems
+#we modify with a co-ef... gives ability to scale in single var
+# set co-eff to 1 to prevent scaling 
 def add_minerals(type_of_fill = "random"):
 	planetary_figs = (planet_metal + planet_fuel) * 1.1
 	for each in systems:
-		if type_of_fill = "random"
-			#we modify with a co-ef... gives ability to scale in single var
-			# set co-eff to 1 to prevent scaling
-			return_game_var('fuel_percent_coefficient') * \
-				amount_of_fuel_in_system = random.randint(range(return_game_var('min_fuel_per_system'),\
-																return_game_var('max_fuel_per_system')))
+		if type_of_fill == "random":
+			amount_of_fuel_in_system = random.randint(min_system_fuel, max_system_fuel))
+			fuel_coef = return_game_var('fuel_percent_coefficient')
+			fuel_placment = amount_of_fuel_in_system * fuel_coef
 			return_game_var('metal_percent_coefficient') * \
 				amount_of_fuel_in_system = random.randint(range(return_game_var('min_metal_per_system'),\
 																return_game_var('max_metal_per_system')))

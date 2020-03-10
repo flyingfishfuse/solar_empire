@@ -22,8 +22,8 @@ class User(database.Model):
 #fuck I love python... you PUT THE USER
 ## IN THE SHIP!
 class UserShip(User):
-    ship_id                    = database.Column(database.String(128))
-    ship_type                  = database.Column(database.String(128))
+    ship_id                    = database.Column(database.Integer,primary_key=True)
+    ship_type                  = database.Column(database.Integer)
     ship_name                  = database.Column(database.String(128))
     class_abbreviation         = database.Column(database.String(128))
     fighter_type               = database.Column(database.Integer)
@@ -72,17 +72,31 @@ class Brobdingnagian(GiantShip):
 class TerraMaelstrom(GiantShip):
     pass
 
-
-class PublicPost(database.Model):
+class ForumPost(database.Model):
+    __tablename__              = "base forum post class"
+    user_id                    = database.Column(database.String(128), primary_key=True)
     time                       = database.Column(database.String(128))
     content                    = database.Column(database.String(528))
-    user_id                    = database.Column(database.String(128))
 
-class ClanPost(database.Model):
+class PublicPost(ForumPost):
+    pass
+
+class ClanPost(ForumPost):
+    __tablename__              = "Clan Forum Fosts"
+    clan_post_id               = database.Column(database.Integer)
     clan                       = database.Column(database.String(128))
-    time                       = database.Column(database.String(128))
-    content                    = database.Column(database.String(528))
-    user_id                    = database.Column(database.String(128))
+
+class Store(database.Model):
+    __tablename__              = "base store class"
+    store_id                   = database.Column(database.Integer, primary_key=True)
+
+class Bilkos(Store):
+    pass
+
+class BlackMarket(Store):
+    blackmarket_id            = database.Column(database.Integer)
+    name                       = database.Column(database.String(128))
+    location                   = database.Column(database.Integer)
 
 #grid layout
 #galactic core	
