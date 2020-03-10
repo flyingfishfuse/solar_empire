@@ -12,8 +12,23 @@ def return_user_variable(user_id , var):
 	user_to_probe = user_by_id(user_id) 
 	pass
 
+def update_database(thing):
+	database.session.add(thing)
+	database.commit()
+
 def return_user_ship_variable(user_ship_id , var):
-	usership = UserShip.query.filter_by()
+	if does_user_have_ship(user_ship_id):
+		usership     = UserShip.query.filter_by(user_ship_id)
+		usership_var = usership.
+	else:
+		return False
+
+def does_user_have_ship(user_id):
+	if UserShip.query.filter_by(user_id).first() != None:
+		return True
+	else:
+		return False
+
 
 def buy_basic_upgrade(user_id, \
 					  upgrade, \
@@ -36,76 +51,37 @@ def buy_basic_upgrade(user_id, \
 
 def pay_bounty(user_with_bounty, user_with_money, comission_percent):
 	amount = round((amount /100) * comission_percent) + amount + 1
-	bount = round((list_em[bounty] / 100) * commission_percent
-	bount1 = round((topay[bounty] / 100) * commission_percent
+	#bount = round((list_em[bounty] / 100) * commission_percent
+	#bount1 = round((topay[bounty] / 100) * commission_percent
 	pass
-
-
-#Get game info if not admin (loaded for admin in check_auth)
-if (User.login_id != ADMIN_ID):
-	#Get the game information
-	game_info = GameVars
-
-#database("select * from ${db_name}_users where login_id = '$login_id'")
-#user = dbr(1)
-
-#database("select * from {$db_name}_user_options where login_id = " + user['login_id'])
-#user_options = dbr(1)
-# update last request (so as know when user last requested a page in THIS game.
-#dbn("UPDATE `{$db_name}_users` SET `last_request` = " + time() + " WHERE `login_id` = " + user['login_id'])
-#gameVars(db_name)
-# load the ship present usership
-
-
-#user_ship = userShip(user['ship_id'])
-
-if (user_ship == None & user['ship_id'] != None) :
-
-if (other == false): 
-    user['ship_id'] = None
-    database("UPDATE `{$db_name}_users` SET `ship_id` = NULL WHERE `login_id` = " + user['login_id'])
-else :
-	user['ship_id'] = other['ship_id']
-	user_ship = userShip(user['ship_id'])
-	user['location'] = user_ship['location']
-	database("UPDATE `{db_name}_users` SET `location` = " + user['location'] + 'WHERE `login_id` = ' + user['login_id'])
 
 #generic link to go back to the start system
 system_view = "<p><a href=\"location\">Back to the Star System</a><br>"
 #damage capacity of the silicon armour module
-upgrade_sa = 750
-
-def is_game_paused():
-    if (game_info['paused'] == True): 
-        return "Paused" 
-    else :
-        return "Unpaused"
-
-def is_ship_cargo_empty():
-    if (user_ship['config'] == None):
-        return ""
-    elif (user_ship['config'] != None):
-        return user_ship['config']
 
 
-def statusBar():
-    if (GameVars.is_game_paused == True):
+def statusBar(user_id, user_ship_id):
+	user_to_show_bar_to = user_by_id(user_id)
+	#user is not in an escape pod
+	if does_user_have_ship(user_id):
+
+	user_ship_for_info 
+	if (GameVars.is_game_paused == True):
 		game_menu = "<h1> {game_name}/ game paused" + "</h1>\n".format(game_name = GameVars.game_name)
-    else :
+	else :
 		game_menu = "<h1> {game_name}/ game on!" + "</h1>\n".format(game_name = GameVars.game_name)
-
-    game_menu + "<p>active users: {}</p>\n".format(GameVars.logged_in_players)
-    game_menu + "<p>" +   + "</p>\n"
+	game_menu + "<p>active users: {}</p>\n".format(GameVars.logged_in_players)
+	game_menu + "<p>" +   + "</p>\n"
 	
 	if (GameVars.is_game_paused == True):
-        game_menu + "<p>{count_days_left_in_game} days left</p>\n"
+		game_menu + "<p>{count_days_left_in_game} days left</p>\n"
         game_menu + "<h2>" + \
-                    user['name'] + \
-                    user['clan_id'] + \
-                    user['clan_sym'] + \
-                    user['clan_sym_color'] + "</h2>\n"
-	if (user['turns_run'] < turns_safe):
-		safe_turns_left = turns_safe - user['turns_run']
+                    user_to_show_bar_to.name+ \
+                    user_to_show_bar_to.clan_id+ \
+                    user_to_show_bar_to.clan_sym+ \
+                    user_to_show_bar_to.clan_sym_color+ "</h2>\n"
+	if (user_to_show_bar_to.turns_run< turns_safe):
+		safe_turns_left = turns_safe - user_to_show_bar_to.turns_run 
 		game_menu + "<p><em>{safe_turns_left}</b> safe turn(s) left</em></p>\n".format(safe_turns_left = safe_turns)
 	else:
 		game_menu + "<p><em>Leaving</em> newbie safety!</p>\n"
@@ -117,22 +93,22 @@ def statusBar():
             '{user[login_id]}',\
             'You have just left Newbie safety.<p>This means that you are now attackable by any player who can attack. <p>Good Luck.')")
 	game_menu + "<table>\n\t<tr>\n\t\t<th>Turns</th>\n\t\t<td>" + \
-            user['turns'] + ' / ' + \
+            user_to_show_bar_to.turns+ ' / ' + \
             max_turns     + "</td>\n\t</tr>\n\t<tr>\n\t\t<th>Credits</th>\n\t\t<td>" + \
-	        user['cash']  + "</td>\n\t</tr>\n"
+	        user_to_show_bar_to.cash + "</td>\n\t</tr>\n"
 	if (flag_research != 0):
 		game_menu + "\t<tr>\n\t\t<th>Tech Units</th>\n\t\t<td>" + \
-		        user['tech'] + "</td>\n\t</tr>\n"
+		        user_to_show_bar_to.tech+ "</td>\n\t</tr>\n"
 
 #/**************
 #* Print Ship Info
 #**************/
 	game_menu + "\t<tr>\n\t\t<th>Ships Killed</th>\n\t\t<td> " + \
-            user['ships_killed'] + "</td>\n\t</tr>\n\t<tr>\n\t\t<th>Ships Lost</th>\n\t\t<td>" + \
-	        user['ships_lost'] + "</td>\n\t</tr>\n\t<tr>\n\t\t<th>Score</th>\n\t\t<td>" + \
-	        user['score'] + "</td>\n\t</tr>\n</table>\n"
+            user_to_show_bar_to.ships_killed+ "</td>\n\t</tr>\n\t<tr>\n\t\t<th>Ships Lost</th>\n\t\t<td>" + \
+	        user_to_show_bar_to.ships_lost+ "</td>\n\t</tr>\n\t<tr>\n\t\t<th>Score</th>\n\t\t<td>" + \
+	        user_to_show_bar_to.score+ "</td>\n\t</tr>\n</table>\n"
 
-	if (user['ship_id'] == None):
+	if (user_to_show_bar_to.ship_id== None):
 	   game_menu + "<h2>Your ship is destroyed!</h2>\n"
 	else:
 	   game_menu + "<h2>" + \
@@ -141,10 +117,10 @@ def statusBar():
             user_ship['ship_name']) + "</h2>\n<table>\n\t<tr>\n\t\t" + \
             "<th>Class</th>\n\t\t<td>{user_ship[class_name]}</td>\n\t</tr>\n\t" + \
             "<tr>\n\t\t<th>Fighters</th>\n\t\t<td>" + \
-            user_ship['fighters'] + ' / ' + \
-            user_ship['max_fighters'] + "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Shields</th>\n\t\t<td>" + \
-            user_ship['shields'] + ' / ' + \
-		    user_ship['max_shields'] + "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Specials</th>\n\t\t<td>" + \
+            user_ship['fighters+ ' / ' + \
+            user_ship['max_fighters+ "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Shields</th>\n\t\t<td>" + \
+            user_ship['shields+ ' / ' + \
+		    user_ship['max_shields+ "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Specials</th>\n\t\t<td>" + \
             is_ship_cargo_empty + "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Cargo Bays</th>\n\t\t<td>"  + \
             bay_storage(user_ship) + "</td>\n\t</tr>\n</table>\n"
 # LEFT SIDE	
@@ -153,25 +129,25 @@ def statusBar():
 				"\t<li><a href=\"diary\">Fleet Diary</a></li>\n" + \
 				"\t<li><a href=\"news\">Game News</a></li>\n"
     
-	if (max_clans > 1 or user['login_id'] == ADMIN_ID):
+	if (max_clans > 1 or user_to_show_bar_to.login_id== ADMIN_ID):
 		game_menu + "\t<li><a href=\"clan\">Clan Control</a></li>\n"
 	else:
 		if (enable_politics):
 			game_menu + "\t<li><a href=\"politics\">Politics</a></li>\n"
 		game_menu + "\t<li><a href=\"player_stat\">Player Ranking</a></li>\n</ul>\n<ul>\n"
 	
-	database("select count(message_id) from ${db_name}_messages where login_id = " + user['login_id'])
+	database("select count(message_id) from ${db_name}_messages where login_id = " + user_to_show_bar_to.login_id'])
 	watlist(counted) = dbr()
     game_menu + "\t<li><a href=\"mpage\">$counted Msg(s)</a> - <a href=\"message\">Send</a></li>\n"
     database("select count(message_id) as new_messages from {db_name}_messages where timestamp > '{user[last_access_forum]}' && login_id = -1 && sender_id != '$user[login_id]'")
     messg_count_forum = dbr()
     temp_forum_text = ""
-    if (messg_count_forum['new_messages'] > 0):
+    if (messg_count_forum['new_messages> 0):
 		temp_forum_text = "({messg_count_forum[new_messages]} <a href=/forum?last_time={user[last_access_forum]}&find_last=1>new</a>)"
     game_menu + "\t<li><a href=\"forum\">Forum</a>$temp_forum_text</li>\n"
 
-    if (user['login_id'] == ADMIN_ID or user['login_id'] == OWNER_ID):
-        if (user['login_id'] == ADMIN_ID):
+    if (user_to_show_bar_to.login_id== ADMIN_ID or user_to_show_bar_to.login_id== OWNER_ID):
+        if (user_to_show_bar_to.login_id== ADMIN_ID):
 			database("select last_access_admin_forum from se_games where db_name = '{db_name}'")
 			l_view = dbr()
 			time_from = l_view['last_access_admin_forum']
@@ -181,39 +157,39 @@ def statusBar():
         database("select count(message_id) as new_messages from se_central_forum where timestamp > '$time_from'")
         messg_count_forum = dbr()
         adminForumNew = ""
-        if (messg_count_forum['new_messages'] > 0):
+        if (messg_count_forum['new_messages> 0):
             adminForumNew = " ({messg_count_forum[new_messages]} <a href=forum?last_time={time_from}&view_a_forum=1>new</a>)"
         
         game_menu + "\t<li><a href=\"forum?view_a_forum=1\">Admin Forum</a> {adminForumNew}</li>\n"
-	if (user['login_id'] == ADMIN_ID or user['login_id'] == OWNER_ID):
+	if (user_to_show_bar_to.login_id== ADMIN_ID or user_to_show_bar_to.login_id== OWNER_ID):
 		game_menu + "\t<li><a href=\"forum?clan_forum=1\">Clan Forums</a></li>\n"
 	else :
-        if ( user['clan_id'] > 0) :
+        if ( user_to_show_bar_to.clan_id> 0) :
 		    database("select count(message_id) as new_messages from ${db_name}_messages where timestamp > '{user[last_access_clan_forum]}' && \
                     login_id = -5 && \
                     clan_id = '{user[clan_id]}' && \
                     sender_id != '{user[login_id]}'")
 		    messg_count_clan_forum = dbr()
 		    temp_clan_forum_text_var = ""
-        if ( messg_count_clan_forum['new_messages'] > 0):
+        if ( messg_count_clan_forum['new_messages> 0):
 		    temp_clan_forum_text_var = "({messg_count_clan_forum[new_messages]}<a href=forum?clan_forum=1&\
                                         last_time={user[last_access_clan_forum]}&find_last=1>new</a>)"
 		    game_menu + "\t<li><a href=\"forum?clan_forum=1\"><span style=\"color: #" + \
-            user['clan_sym_color'] + "\">" + \
-            user['clan_sym'] + "</span> Forum</a>{temp_clan_forum_text_var}</li>\n"
+            user_to_show_bar_to.clan_sym_color + "\">" + \
+            user_to_show_bar_to.clan_sym + "</span> Forum</a>{temp_clan_forum_text_var}</li>\n"
 
     game_menu + "\t<li><a href=\"http://forum.solar-empire.net/\">Global Forum</a></li>\n</ul>\n<ul>\n"
 
     # admin lower sidebar
-    if (user['login_id'] == ADMIN_ID or user['login_id'] == OWNER_ID):
+    if (user_to_show_bar_to.login_id == ADMIN_ID or user_to_show_bar_to.login_id == OWNER_ID):
 		game_menu + "\t<li><a href=\"admin\">Admin</a></li>\n"
-		if (user['login_id'] == OWNER_ID):
+		if (user_to_show_bar_to.login_id == OWNER_ID):
 			game_menu + "\t<li><a href=\"developer\">Server</a>\n"
     
     game_menu + "\t<li><a href=\"help\">Help</a></li>\n" + \
 	       "\t<li><a href=\"options\">Options</a></li>\n"
     
-    if (user['login_id'] != ADMIN_ID):
+    if (user_to_show_bar_to.login_id != ADMIN_ID):
 		game_menu + "\t<li><a href=\"logout?logout_single_game=1\">Game List</a></li>\n"
     
     game_menu + "\t<li><a href=\"logout?comp_logout=1\">Logout</a></li>\n</ul>\n"
@@ -257,15 +233,15 @@ def charge_turns(amount):
 	if User.login_id == ADMIN_ID or OWNER_ID:
 		return "asdf"
 	database. (users set turns = turns - '$amount', turns_run = turns_run + '$amount' where login_id = '$user[login_id]'");
-	user['turns'] - amount
-	user['turns_run'] + amount
+	user_to_show_bar_to.turns - amount
+	user_to_show_bar_to.turns_run + amount
 }
 
 
 #//function that can give a user cash. Admin is exempt.
 def give_cash(amount):
 	if (User.login_id != ADMIN_ID):
-		#User['cash'] += $amount;
+		#user_to_show_bar_to.cash += $amount;
 
 #function takes cash from a player. Admin is exempt.
 	#function take_cash($amount)
@@ -386,10 +362,10 @@ def give_cash(amount):
 
 #a function to allow for easy addition of upgrades.
 def	make_standard_upgrade(upgrade_str, config_addon, cost, developement_id, tech_cost = 0):
-	if ( user['cash'] < cost):
+	if ( user_to_show_bar_to.cash'] < cost):
 		return "You can not afford to buy a <b class=b1>$upgrade_str</b>.<p>"
 
-	elif ( user['tech'] < tech_cost and tech_cost > 0):
+	elif ( user_to_show_bar_to.tech'] < tech_cost and tech_cost > 0):
 		return "Ignorant Planet Dweller. You don't have enough tech points.<p>"
 	
 	elif (user_ship['config'], config_addon) != false:
@@ -440,7 +416,7 @@ function fill_fleet($item_sql, $item_max_sql, $item_str, $item_cost, $script_nam
 	$maths = dbr(1);
 
 	//insufficient cash
-	if ( user['cash'] < $item_cost:
+	if ( user_to_show_bar_to.cash'] < $item_cost:
 		$ret_str .= "You do not have enough money for even 1 unit of <b class=b1>$item_str</b>. You certainly can't afford to fill a fleet.";
 	} elseif(empty($maths) || $maths['total_ships'] < 1) { //ensure there are some ships.
 		$ret_str .= "This operation failed as there are no ships that have any free capacity to hold <b class=b1>$item_str</b> in this system that belong to you.";
@@ -449,7 +425,7 @@ function fill_fleet($item_sql, $item_max_sql, $item_str, $item_cost, $script_nam
 		$total_cost = $maths['total_capacity'] * $item_cost;
 
 		//user CAN afford to fill the whole fleet
-		if ( total_cost <= $user['cash']) {
+		if ( total_cost <= $user_to_show_bar_to.cash']) {
 
 			if(empty($sure): //confirmation
 				get_var('Load ships',$script_name,"There is capacity for <b>$maths[total_capacity]</b> <b class=b1>$item_str</b> in <b>$maths[total_ships]</b> ships in this system. <p>You have enough money to fill all the ships with <b class=b1>$item_str</b>. Do you wish to do that?",'sure','yes');
@@ -468,7 +444,7 @@ function fill_fleet($item_sql, $item_max_sql, $item_str, $item_cost, $script_nam
 
 		//user CANNOT afford to fill the whole fleet, so we'll have to do it the hard way.
 		else :
-			$total_can_afford = floor($user['cash'] / $item_cost); //work out amount can afford.
+			$total_can_afford = floor($user_to_show_bar_to.cash'] / $item_cost); //work out amount can afford.
 
 			if(empty($sure)) { //confirmation
 				$extra_text = "<p><input type=radio name=fill_dir value=1 CHECKED> - Fill highest capacity ships ships first.";

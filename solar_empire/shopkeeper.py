@@ -4,6 +4,9 @@ from solar_empire.common_include import *
 from solar_empire.models import *
 from solar_empire.routes import *
 
+#damage capacity of the silicon armour module
+upgrade_sa = 750
+
 #Credit Cost
 #turret costs - based on size of ship
 plasma_cannon_c         = round(55000 * (UserShip.query.filter_by('size') / 100)) * 15

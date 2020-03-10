@@ -12,11 +12,18 @@ def add_resources_to_player_by_id(player_id, resource_type, resource_amount):
 def return_game_var(var):
     return GameVars.query.filter_by(var)
 
-def pay_bounty(user_with_bounty, user_with_money, comission_percent):
-	amount = round((amount /100) * comission_percent) + amount + 1
-	bount = round((list_em[bounty] / 100) * commission_percent
-	bount1 = round((topay[bounty] / 100) * commission_percent
-	pass
+def is_game_paused():
+    #if (game_info['paused'] == True): 
+    #    return "Paused" 
+    #else :
+        return "Unpaused"
+
+def is_ship_cargo_empty(ship_id):
+	#ship_to_inspect = 
+    #if (ship_to_inspect.config == None):
+    #    return ""
+    #elif (ship_to_inspect.config != None):
+        return 'blarg'
 
 def set_bounty(user_with_problem, user_in_trouble):
 	pass
