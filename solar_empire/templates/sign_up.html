@@ -1,0 +1,27 @@
+
+ print_header("New Account Creation");
+ "You need to enter a Login Name.";
+ "<p><a href=javascript:history.back()>Back to Sign-up Form</a>";
+ "Invalid login name. No slashes, no spaces, no HTML permitted in name, and a minimum of three characters.";
+ "<p><a href=javascript:history.back()>Back to Sign-up Form</a>";
+ "You need to enter a first name.";
+ "It's generally regarded as bad practise to use your login name as your password.<br>You should use a different password.";
+ "The email addresses you entered did not match.";
+ "You need to Enter an Email Address.";
+ "Please Enter a Valid Email Address";
+ print_header("New Account Creation");
+ "The passwords you entered did not match.<br>They are case-sensitive.";
+ "Login name already taken";
+ "There is already an account with that email address";
+ "A new Solar Empire account has been created on " . $_SERVER['HTTP_HOST'] . " for you.\r\n
+ Once you have logged into the account you will be able to join any game on the server.\r\n
+ Your login name for the server is $login_name.\r\n
+ Your Authorisation code is $auth.\r\n
+ You will need your authorisation code the first time you log in.\r\n
+ Welcome to the Server. We hope you enjoy the games.";
+ "Authorisation mail sent successfully. You will need it the first time you try to sign in.<p>";
+ "You have <b class=b1>one week</b> to activate the account with the given authorisation code.<br>If it is not authorised within a week, the account will be deleted and you will have to signup again.<p>";
+ "ERROR! - Unable to send Authorisation mail for some reason.<p>";
+ "The account will be deleted automatically in about 1 week.<br>You can then try again.<p>";
+ "Congratulations, your account has been set up.";
+ "<br><a href=\"login_form.php\">Click Here</a> to return to the login page.";

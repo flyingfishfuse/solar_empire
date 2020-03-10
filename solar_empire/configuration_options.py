@@ -30,7 +30,6 @@ DATABASE           = "solar_empire-python"
 DATABASE_USER      = "moop"
 DATABASE_PASSWORD  = "password"
 USER_TABLE_NAME = "User"
-MAX_USER_TURNS = 30
 DANGER_STRING= "you should NEVER see this string. Something errored HARD . TACOCAT"
 
 class Config(object):
@@ -41,3 +40,5 @@ class Config(object):
 
 #GameVars.sv_turns = 30
 QUARK_DAMAGE = random.randint(400,1000)
+SAFE_TURNS   = 60
+MAX_USER_TURNS = 30

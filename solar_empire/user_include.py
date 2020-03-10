@@ -5,8 +5,15 @@ import solar_empire
 from solar_empire.models import *
 from solar_empire.common_include import *
 
+#generic link to go back to the start system
+system_view = "<p><a href=\"location\">Back to the Star System</a><br>"
+#damage capacity of the silicon armour module
+
 def user_by_id(id_of_user):
 	return User.query.filter_by(user_id = id_of_user).first()
+
+def return_user_list():
+	pass
 
 def return_user_variable(user_id , var):
 	user_to_probe = user_by_id(user_id) 
@@ -15,13 +22,7 @@ def return_user_variable(user_id , var):
 def update_database(thing):
 	database.session.add(thing)
 	database.commit()
-
-def return_user_ship_variable(user_ship_id , var):
-	if does_user_have_ship(user_ship_id):
-		usership     = UserShip.query.filter_by(user_ship_id)
-		usership_var = usership.
-	else:
-		return False
+	pass
 
 def does_user_have_ship(user_id):
 	if UserShip.query.filter_by(user_id).first() != None:
@@ -29,6 +30,18 @@ def does_user_have_ship(user_id):
 	else:
 		return False
 
+def user_ship_for_info(user_id):
+	if does_user_have_ship(user_id):
+		pass
+	else:
+		pass
+
+def return_user_ship_variable(user_id , var):
+	if does_user_have_ship(user_id):
+		usership = user_ship_for_info(user_id)
+		#usership_var = usership
+	else:
+		return False
 
 def buy_basic_upgrade(user_id, \
 					  upgrade, \
@@ -38,9 +51,9 @@ def buy_basic_upgrade(user_id, \
 					  fuel_cost, \
 					  tech_cost):
 	# remove the cost from player
-	user_to_modify = user_by_id(user_id)
+	user_to_modify     = user_by_id(user_id)
 	# add amounts to current values for those things 
-	subtracted_cash = return_user_variable(user_id , 'cash') - cash_cost
+	subtracted_cash    = return_user_variable(user_id , 'cash') - cash_cost
 	subtracted_mineral = return_user_ship_variable(user_id , 'mineral') - mineral_cost
 	subtracted_metal   = return_user_ship_variable(user_id , 'metal') - metal_cost
 	subtracted_fuel    = return_user_ship_variable(user_id , 'fuel') - fuel_cost
@@ -55,72 +68,66 @@ def pay_bounty(user_with_bounty, user_with_money, comission_percent):
 	#bount1 = round((topay[bounty] / 100) * commission_percent
 	pass
 
-#generic link to go back to the start system
-system_view = "<p><a href=\"location\">Back to the Star System</a><br>"
-#damage capacity of the silicon armour module
 
+#function that will create a help-link.
+def popup_help(topic, height, width, string = "Info"):
+	return '<a href="' + topic + '" onclick="popup(\'' + topic + '\', ' + height + ',' + width + '); return false;">' + string + '</a>'
 
-def statusBar(user_id, user_ship_id):
+def statusBar(user_id):
+	user_has_no_ship    = None 
 	user_to_show_bar_to = user_by_id(user_id)
 	#user is not in an escape pod
 	if does_user_have_ship(user_id):
-
-	user_ship_for_info 
+		ship_to_display = user_ship_for_info(user_id) 
+	else:
+		#user is in escape pod
+		user_has_no_ship = True
+# is game paused?
 	if (GameVars.is_game_paused == True):
-		game_menu = "<h1> {game_name}/ game paused" + "</h1>\n".format(game_name = GameVars.game_name)
+		game_menu = "<h1> {game_name} / game paused" + "</h1>\n".format(game_name = GameVars.game_name)
 	else :
-		game_menu = "<h1> {game_name}/ game on!" + "</h1>\n".format(game_name = GameVars.game_name)
-	game_menu + "<p>active users: {}</p>\n".format(GameVars.logged_in_players)
-	game_menu + "<p>" +   + "</p>\n"
-	
+		game_menu = "<h1> {game_name} / game on!" + "</h1>\n".format(game_name = GameVars.game_name)
+# Active Users
+	game_menu + "<p>active users: {}</p>\n".format(GameVars.logged_in_players_int)
+	for each_player in return_user_list: 
+		game_menu + "<p>" + each_player + "</p>\n"
+# game paused information	
 	if (GameVars.is_game_paused == True):
 		game_menu + "<p>{count_days_left_in_game} days left</p>\n"
-        game_menu + "<h2>" + \
-                    user_to_show_bar_to.name+ \
-                    user_to_show_bar_to.clan_id+ \
-                    user_to_show_bar_to.clan_sym+ \
-                    user_to_show_bar_to.clan_sym_color+ "</h2>\n"
-	if (user_to_show_bar_to.turns_run< turns_safe):
-		safe_turns_left = turns_safe - user_to_show_bar_to.turns_run 
-		game_menu + "<p><em>{safe_turns_left}</b> safe turn(s) left</em></p>\n".format(safe_turns_left = safe_turns)
+        game_menu + "<h2>" + user_to_show_bar_to.name + \
+                    		 user_to_show_bar_to.clan_id + \
+                    		 user_to_show_bar_to.clan_sym + \
+                    		 user_to_show_bar_to.clan_sym_color + "</h2>\n"
+#safe turns left information
+	if (user_to_show_bar_to.turns_run < user_to_show_bar_to.safe_turns_left):
+		safe_turns_left = SAFE_TURNS - user_to_show_bar_to.turns_run 
+		game_menu + "<p><em>{safe_turns_left}</b> safe turn(s) left</em></p>\n".format(safe_turns_left = user_to_show_bar_to.safe_turns_left)
 	else:
-		game_menu + "<p><em>Leaving</em> newbie safety!</p>\n"
-		dbn("update ${db_name}_users set turns_run = turns_run + 1 where login_id = '{user[login_id]}'")
-		dbn("insert into ${db_name}_messages (timestamp,sender_name, sender_id, login_id, text) \
-            values('{current_time}',\
-            '{user[login_name]}',\
-            '{user[login_id]}',\
-            '{user[login_id]}',\
-            'You have just left Newbie safety.<p>This means that you are now attackable by any player who can attack. <p>Good Luck.')")
-	game_menu + "<table>\n\t<tr>\n\t\t<th>Turns</th>\n\t\t<td>" + \
-            user_to_show_bar_to.turns+ ' / ' + \
-            max_turns     + "</td>\n\t</tr>\n\t<tr>\n\t\t<th>Credits</th>\n\t\t<td>" + \
-	        user_to_show_bar_to.cash + "</td>\n\t</tr>\n"
-	if (flag_research != 0):
-		game_menu + "\t<tr>\n\t\t<th>Tech Units</th>\n\t\t<td>" + \
-		        user_to_show_bar_to.tech+ "</td>\n\t</tr>\n"
-
-#/**************
-#* Print Ship Info
-#**************/
+		game_menu + "<p><em>Leaving</em> newbie safety!</p>\n" + \
+			'You have just left Newbie safety.<p>This means that you are now attackable by any player who can attack. <p>Good Luck.'
+# Display turns left, tech and CASH BABY!
+		game_menu + "<table>\n\t<tr>\n\t\t<th>Turns</th>\n\t\t<td>" + \
+            user_to_show_bar_to.turns+ ' / ' + MAX_USER_TURNS + \
+			"</td>\n\t</tr>\n\t<tr>\n\t\t<th>Credits</th>\n\t\t<td>" + user_to_show_bar_to.cash + "</td>\n\t</tr>\n"
+		game_menu + "\t<tr>\n\t\t<th>Tech Units</th>\n\t\t<td>" + user_to_show_bar_to.tech + "</td>\n\t</tr>\n"
+# Print Ship Info
 	game_menu + "\t<tr>\n\t\t<th>Ships Killed</th>\n\t\t<td> " + \
-            user_to_show_bar_to.ships_killed+ "</td>\n\t</tr>\n\t<tr>\n\t\t<th>Ships Lost</th>\n\t\t<td>" + \
-	        user_to_show_bar_to.ships_lost+ "</td>\n\t</tr>\n\t<tr>\n\t\t<th>Score</th>\n\t\t<td>" + \
-	        user_to_show_bar_to.score+ "</td>\n\t</tr>\n</table>\n"
+            user_to_show_bar_to.ships_killed + "</td>\n\t</tr>\n\t<tr>\n\t\t<th>Ships Lost</th>\n\t\t<td>" + \
+	        user_to_show_bar_to.ships_lost + "</td>\n\t</tr>\n\t<tr>\n\t\t<th>Score</th>\n\t\t<td>" + \
+	        user_to_show_bar_to.score + "</td>\n\t</tr>\n</table>\n"
 
 	if (user_to_show_bar_to.ship_id== None):
 	   game_menu + "<h2>Your ship is destroyed!</h2>\n"
 	else:
 	   game_menu + "<h2>" + \
             popup_help('help?popup=1&ship_info=1&shipno=' + \
-		    user_ship['shipclass'], 300, 600, \
-            user_ship['ship_name']) + "</h2>\n<table>\n\t<tr>\n\t\t" + \
-            "<th>Class</th>\n\t\t<td>{user_ship[class_name]}</td>\n\t</tr>\n\t" + \
+		    ship_to_display.shipclass, 300, 600, ship_to_display.ship_name) + "</h2>\n<table>\n\t<tr>\n\t\t" + \
+            "<th>Class</th>\n\t\t<td>{user_ship_class_name}</td>\n\t</tr>\n\t".format(user_ship_class_name = ship_to_display.class_name) + \
             "<tr>\n\t\t<th>Fighters</th>\n\t\t<td>" + \
-            user_ship['fighters+ ' / ' + \
-            user_ship['max_fighters+ "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Shields</th>\n\t\t<td>" + \
-            user_ship['shields+ ' / ' + \
-		    user_ship['max_shields+ "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Specials</th>\n\t\t<td>" + \
+            ship_to_display.fighters+ ' / ' + \
+            ship_to_display.max_fighters+ "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Shields</th>\n\t\t<td>" + \
+            ship_to_display.shields+ ' / ' + \
+		    ship_to_display.max_shields+ "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Specials</th>\n\t\t<td>" + \
             is_ship_cargo_empty + "</td>\n\t</tr>\n\t<tr>\n\t\t" + "<th>Cargo Bays</th>\n\t\t<td>"  + \
             bay_storage(user_ship) + "</td>\n\t</tr>\n</table>\n"
 # LEFT SIDE	
@@ -136,7 +143,7 @@ def statusBar(user_id, user_ship_id):
 			game_menu + "\t<li><a href=\"politics\">Politics</a></li>\n"
 		game_menu + "\t<li><a href=\"player_stat\">Player Ranking</a></li>\n</ul>\n<ul>\n"
 	
-	database("select count(message_id) from ${db_name}_messages where login_id = " + user_to_show_bar_to.login_id'])
+	database("select count(message_id) from ${db_name}_messages where login_id = " + user_to_show_bar_to.login_id)
 	watlist(counted) = dbr()
     game_menu + "\t<li><a href=\"mpage\">$counted Msg(s)</a> - <a href=\"message\">Send</a></li>\n"
     database("select count(message_id) as new_messages from {db_name}_messages where timestamp > '{user[last_access_forum]}' && login_id = -1 && sender_id != '$user[login_id]'")
@@ -150,7 +157,7 @@ def statusBar(user_id, user_ship_id):
         if (user_to_show_bar_to.login_id== ADMIN_ID):
 			database("select last_access_admin_forum from se_games where db_name = '{db_name}'")
 			l_view = dbr()
-			time_from = l_view['last_access_admin_forum']
+			time_from = l_view['last_access_admin_forum
         else:
 			time_from = time()
         
@@ -264,13 +271,13 @@ def give_cash(amount):
 	#function damage_ship($amount,$fig_dam,$s_dam,$from,$target,$target_ship) {
 
 #set the shields down first off (if needed).
-	#target_ship['shields'] 
+	#target_ship['shields 
 #DB ships 
 #target_ship[ship_id]'");
 
 #take the fighters down next (if needed).
 # don't want to hurt the admin now do we?
-	#if ( target['login_id'] != ADMIN_ID) {
+	#if ( target['login_id != ADMIN_ID) {
 	#shield_damage = 0;
 #set ships_killed
 #// ship not destroyed
@@ -296,7 +303,7 @@ def give_cash(amount):
 	#"select x_loc,y_loc from ${db_name}_stars where star_id = '$s1' || star_id = '$s2'");
 	#star1
 	#star2
-	#dist = round(sqrt(abs((star1['x_loc'] - star2['x_loc']) * 2) + abs((star1['y_loc'] - star2['y_loc'])*2)))
+	#dist = round(sqrt(abs((star1['x_loc - star2['x_loc) * 2) + abs((star1['y_loc - star2['y_loc)*2)))
 	#return dist
 
 #function to check if a player is dead and out during sudden death.
@@ -319,7 +326,7 @@ def give_cash(amount):
 	#ship_stats = $ship_types[2]; #ep is num 2
 	#(ship_name, login_id, login_name, shipclass, class_name, class_name_abbr, fighters, max_fighters, max_shields, cargo_bays, mine_rate_metal, mine_rate_fuel, move_turn_cost, location, config,clan_id";
 	#values('Escape Pod',target[login_id],
-	#target['location'] = $rand_star;
+	#target['location = $rand_star;
 
 
 #function that returns a hostile planet checking query
@@ -338,20 +345,20 @@ def give_cash(amount):
 #Function to figure out the bonuses offered by weapon upgrades
 #function bonus_calc($ship)
 	#defensive turret : lvl 1
-#	$dam['dt'] = round(330 * (mt_rand(75, 125) / 100)) * $ship['num_dt'];
+#	$dam['dt = round(330 * (mt_rand(75, 125) / 100)) * $ship['num_dt;
 
 	#offensive turret : lvl 1
-#	$dam['ot'] = round(200 * (mt_rand(80, 120) / 100)) * $ship['num_dt'];
+#	$dam['ot = round(200 * (mt_rand(80, 120) / 100)) * $ship['num_dt;
 
 	#silicon armour : lvl 2
-#	$dam['sa'] = round($upgrade_sa * (mt_rand(90, 110) / 100)) * $ship['num_sa'];
+#	$dam['sa = round($upgrade_sa * (mt_rand(90, 110) / 100)) * $ship['num_sa;
 
 	#plasma cannon : lvl 2
-#	$dam['pc'] = round(420 * (mt_rand(92, 108) / 100)) * $ship['num_pc'];
+#	$dam['pc = round(420 * (mt_rand(92, 108) / 100)) * $ship['num_pc;
 
 	#electronic warfare module : lvl 1
-#	$dam['ewd'] = round(325 * (mt_rand(85, 115) / 100)) * $ship['num_ew'];
-#	$dam['ewa'] = round(225 * (mt_rand(80, 120) / 100)) * $ship['num_ew'];
+#	$dam['ewd = round(325 * (mt_rand(85, 115) / 100)) * $ship['num_ew;
+#	$dam['ewa = round(225 * (mt_rand(80, 120) / 100)) * $ship['num_ew;
 
 #	return $dam;
 
@@ -362,21 +369,21 @@ def give_cash(amount):
 
 #a function to allow for easy addition of upgrades.
 def	make_standard_upgrade(upgrade_str, config_addon, cost, developement_id, tech_cost = 0):
-	if ( user_to_show_bar_to.cash'] < cost):
+	if ( user_to_show_bar_to.cash < cost):
 		return "You can not afford to buy a <b class=b1>$upgrade_str</b>.<p>"
 
-	elif ( user_to_show_bar_to.tech'] < tech_cost and tech_cost > 0):
+	elif ( user_to_show_bar_to.tech < tech_cost and tech_cost > 0):
 		return "Ignorant Planet Dweller. You don't have enough tech points.<p>"
 	
-	elif (user_ship['config'], config_addon) != false:
+	elif (ship_to_display.config, config_addon) != false:
 		return "Your ship is already equipped with a <b class=b1>$upgrade_str</b>.<br>There is no point in having more than one on a ship.<p>"
 
-	elif (user_ship['upgrades'] < 1):
+	elif (ship_to_display.upgrades < 1):
 		return "";
 	else :
 		take_cash(cost);
 		take_tech(tech_cost);
-		user_ship['config'] + ":" + config_addon;
+		ship_to_display.config + ":" + config_addon;
 		#update db_name    ships set config = '
 		# user_ship[config] ', 
 		# upgrades = upgrades - 1 where ship_id = '$user[ship_id]'");
@@ -416,16 +423,16 @@ function fill_fleet($item_sql, $item_max_sql, $item_str, $item_cost, $script_nam
 	$maths = dbr(1);
 
 	//insufficient cash
-	if ( user_to_show_bar_to.cash'] < $item_cost:
+	if ( user_to_show_bar_to.cash < $item_cost:
 		$ret_str .= "You do not have enough money for even 1 unit of <b class=b1>$item_str</b>. You certainly can't afford to fill a fleet.";
-	} elseif(empty($maths) || $maths['total_ships'] < 1) { //ensure there are some ships.
+	} elseif(empty($maths) || $maths['total_ships < 1) { //ensure there are some ships.
 		$ret_str .= "This operation failed as there are no ships that have any free capacity to hold <b class=b1>$item_str</b> in this system that belong to you.";
 	else :
 		//work out the total value of them all.
-		$total_cost = $maths['total_capacity'] * $item_cost;
+		$total_cost = $maths['total_capacity * $item_cost;
 
 		//user CAN afford to fill the whole fleet
-		if ( total_cost <= $user_to_show_bar_to.cash']) {
+		if ( total_cost <= $user_to_show_bar_to.cash) {
 
 			if(empty($sure): //confirmation
 				get_var('Load ships',$script_name,"There is capacity for <b>$maths[total_capacity]</b> <b class=b1>$item_str</b> in <b>$maths[total_ships]</b> ships in this system. <p>You have enough money to fill all the ships with <b class=b1>$item_str</b>. Do you wish to do that?",'sure','yes');
@@ -436,7 +443,7 @@ function fill_fleet($item_sql, $item_max_sql, $item_str, $item_cost, $script_nam
 				if ( cargo_run == 0: //not cargo bay stuff
 					$user_ship[$item_sql] = $user_ship[$item_max_sql];
 				else : //cargo bay stuff
-					$user_ship[$item_sql] += $user_ship['empty_bays'];
+					$user_ship[$item_sql] += $ship_to_display.empty_bays;
 				}
 
 				$ret_str .= "<b>$maths[total_capacity]</b> <b class=b1>$item_str</b> were added to <b>$maths[total_ships]</b> ships.<br>All ships are now at maximum capacity.";
@@ -444,7 +451,7 @@ function fill_fleet($item_sql, $item_max_sql, $item_str, $item_cost, $script_nam
 
 		//user CANNOT afford to fill the whole fleet, so we'll have to do it the hard way.
 		else :
-			$total_can_afford = floor($user_to_show_bar_to.cash'] / $item_cost); //work out amount can afford.
+			$total_can_afford = floor($user_to_show_bar_to.cash / $item_cost); //work out amount can afford.
 
 			if(empty($sure)) { //confirmation
 				$extra_text = "<p><input type=radio name=fill_dir value=1 CHECKED> - Fill highest capacity ships ships first.";
@@ -471,7 +478,7 @@ function fill_fleet($item_sql, $item_max_sql, $item_str, $item_cost, $script_nam
 				while($ships = dbr2(1)) { //loop through the ships
 
 					$ship_counter++; //increment counter
-					$free_space = $ships['max'] - $ships[$item_sql]; //capacity of present ship
+					$free_space = $ships['max - $ships[$item_sql]; //capacity of present ship
 
 					if ( free_space < $used_copy_afford) { //can load ship
 						$used_copy_afford -= $free_space; //num to use
@@ -479,20 +486,20 @@ function fill_fleet($item_sql, $item_max_sql, $item_str, $item_cost, $script_nam
 
 						$temp_str .= "<br><b class=b1>$ships[ship_name]</b> had its $item_str cargo increased by <b>$free_space</b> to maximum capacity.";
 
-						if ( ships['ship_id'] == $user_ship['ship_id']: //do the user ship too.
+						if ( ships['ship_id == $ship_to_display.ship_id: //do the user ship too.
 							if ( cargo_run == 0: //not cargo bay stuff
 								$user_ship[$item_sql] = $user_ship[$item_max_sql];
 							else : //cargo bay stuff
-								$user_ship[$item_sql] += $user_ship['empty_bays'];
+								$user_ship[$item_sql] += $ship_to_display.empty_bays;
 							}
 						}
 
 					else : //cannot load ship whole ship.
 						dbn("update ${db_name}_ships set $item_sql = $item_sql + '$used_copy_afford' where ship_id = '$ships[ship_id]'");
 
-						if ( ships['ship_id'] == $user_ship['ship_id'] && $cargo_run == 0: //do the user ship too.
+						if ( ships['ship_id == $ship_to_display.ship_id && $cargo_run == 0: //do the user ship too.
 							$user_ship[$item_sql] += $used_copy_afford;
-						} elseif ( ships['ship_id'] == $user_ship['ship_id']) { //cargo bay stuff
+						} elseif ( ships['ship_id == $ship_to_display.ship_id) { //cargo bay stuff
 							$user_ship[$item_sql] += $used_copy_afford;
 						}
 						$temp_str .= "<br><b class=b1>$ships[ship_name]</b>s <b class=b1>$item_str</b> count was increased by <b>$used_copy_afford</b>.";
@@ -517,39 +524,39 @@ function fill_fleet($item_sql, $item_max_sql, $item_str, $item_cost, $script_nam
 
 //function that will return a list of the contents of the ships cargo bays.
 function bay_storage($ship:
-	if(empty($ship['cargo_bays'])) {
+	if(empty($ship['cargo_bays)) {
 		return "\n<b>None</b>";
 	}
 	$ret_str = "";
-	if(!empty($ship['metal'])) {
+	if(!empty($ship['metal)) {
 		$ret_str .= "\n<b>$ship[metal]</b> Metals";
 	}
-	if(!empty($ship['fuel'])) {
+	if(!empty($ship['fuel)) {
 		if(!empty($ret_str):
 			$ret_str .= "<br>";
 		}
 		$ret_str .= "\n<b>$ship[fuel]</b> Fuels";
 	}
-	if(!empty($ship['organ'])) {
+	if(!empty($ship['organ)) {
 		if(!empty($ret_str):
 			$ret_str .= "<br>";
 		}
 		$ret_str .= "\n<b>$ship[organ]</b> Organics";
 	}
-	if(!empty($ship['elect'])) {
+	if(!empty($ship['elect)) {
 		if(!empty($ret_str):
 			$ret_str .= "<br>";
 		}
 		$ret_str .= "\n<b>$ship[elect]</b> Electronics";
 	}
-	if(!empty($ship['colon'])) {
+	if(!empty($ship['colon)) {
 		if(!empty($ret_str):
 			$ret_str .= "<br>";
 		}
 		$ret_str .= "\n<b>$ship[colon]</b> Colonists";
 	}
 	empty_bays($ship);
-	if ( ship['empty_bays'] > 0) {
+	if ( ship['empty_bays > 0) {
 		if(!empty($ret_str):
 			$ret_str .= "<br>";
 		}

@@ -33,74 +33,47 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 solar_empire_server = Flask(__name__ , template_folder="templates" )
-solar_empire_server.config[SQLALCHEMY_DATABASE_URI] = 'sqlite:///' + DATABASE + '.' + HTTP_HOST + '.db'
-solar_empire_server.config[SQLALCHEMY_TRACK_MODIFICATIONS] = True 
-
-#solar_empire_server.config.from_object(Config)
+solar_empire_server.config.from_object(Config)
 database    = SQLAlchemy(solar_empire_server)
 
 #without the flask migrate module, you need to instantiate
 # databases with default values. That module wont be loaded 
 # yet during the creation of a NEW game
 class User(database.Model):
-    login_id        = database.Column(database.Integer,     default = 0, \
-                                                            primary_key=True)
-    user_id         = database.Column(database.Integer,     default = 0)
-    username        = database.Column(database.String(64),  default = "tourist", \
-                                                            index=True, \
-                                                            unique=True)
-    email           = database.Column(database.String(120), index=True, unique=True)
-    password_hash   = database.Column(database.String(128), default = DANGER_STRING)
-    location        = database.Column(database.Integer,     default = 1) #E'Arth
-    max_turns       = database.Column(database.Integer,     default = MAX_USER_TURNS)
-    turns_run       = database.Column(database.Integer,     default = 0)
-    safe_turns_left = database.Column(database.Integer,     default = 60)
-    cash            = database.Column(database.Integer,     default = 1000)
-    on_planet       = database.Column(database.Boolean,     default = 1)
-    pocket_space    = database.Column(database.String(128), default = DANGER_STRING)
+    user_id = database.Column(database.Integer, default = 0, primary_key = True)
+    username = database.Column(database.String(64),  default = "tourist", index=True, unique=True)
+    email = database.Column(database.String(120), index=True, unique=True)
+    password_hash = database.Column(database.String(128), default = DANGER_STRING)
+    turns_run = database.Column(database.Integer, default = 0)
+    cash = database.Column(database.Integer, default = 1000)
+    
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<User id:{} name: {} >'.format(self.user_id , self.username)
+
 
 class UserShip(User):
-    ship_id                    = database.Column(database.String(128))
-    ship_type                  = database.Column(database.String(128))
-    fighter_type               = database.Column(database.Integer)
-    fighter_count              = database.Column(database.Integer)
-    cargo_bay_size             = database.Column(database.Integer)
-    size                       = database.Column(database.Integer)
-    ship_name                  = database.Column(database.String(128))
-    clan_id                    = database.Column(database.Integer) 
-    shipclass                  = database.Column(database.String(128)) 
-    class_name                 = database.Column(database.String(128))
-    class_name_abbr            = database.Column(database.String(128))
-    fighters_max               = database.Column(database.Integer)    
-    mine_rate_metal            = database.Column(database.Integer)
-    mine_rate_fuel             = database.Column(database.Integer)
-    move_turn_cost             = database.Column(database.Integer)
-    point_value                = database.Column(database.Integer)
-    num_ot                     = database.Column(database.Integer)
-    num_dt                     = database.Column(database.Integer)
-    num_pc                     = database.Column(database.Integer) 
-    cargo_manifest             = database.Column(database.PickleType)
-    ship_location              = database.Column(database.String(128))
-    configuration              = database.Column(database.String(128))
-    equipment                  = database.Column(database.PickleType)
-    damage_taken               = database.Column(database.Integer)
-    shields_max                = database.Column(database.Integer)
-    shields_current            = database.Column(database.Integer)
-    hull_max                   = database.Column(database.Integer)
-    hull_current               = database.Column(database.Integer)
-    quark                      = database.Column(database.Integer)
-    black_hole_gun             = database.Column(database.Integer)
-    nova_wave_time             = database.Column(database.Integer)
+    ship_id = database.Column(database.String(128), primary_key = True)
+    ship_name = database.Column(database.String(128))
+    def __repr__(self):
+        return '<User id:{} name: {} >'.format(self.ship_id , self.ship_name)
 
 
-admin = User(username=ADMIN_NAME, email=ADMIN_EMAIL , password_hash = ADMIN_PASSWORD)
-guest = User(username='guest', email='test@gamebiscuits.fightbiscuits.firewall-gateway.net' , password_hash = 'password')
+admin = User(username=ADMIN_NAME, user_id = 1, email=ADMIN_EMAIL , password_hash = ADMIN_PASSWORD)
+guest = User(username='guest',    user_id = 2, email='test@game.net' , password_hash = 'password')
 database.create_all()
 database.session.add(admin)
 database.session.add(guest)
 database.session.commit()
+
+def update_database(thing):
+    database.session.add(thing)
+    database.commit()
+
+
+def user_by_id(id_of_user):
+	return User.query.filter_by(user_id = id_of_user).first()
+
+
 
 solar_empire_server.run()
 

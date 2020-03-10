@@ -31,7 +31,7 @@ class UserShip(User):
     cargo_bay_size             = database.Column(database.Integer)
     size                       = database.Column(database.Integer)
     clan_id                    = database.Column(database.Integer) 
-    shipclass                  = database.Column(database.String(128)) 
+    ship_class                  = database.Column(database.String(128)) 
     class_name                 = database.Column(database.String(128))
 
     fighters_max               = database.Column(database.Integer)    
@@ -59,6 +59,19 @@ class UserShip(User):
     black_hole_gun             = database.Column(database.Integer)
     #time
     nova_wave_time             = database.Column(database.Integer)
+
+class GenericShip(UserShip):
+    pass
+
+class GiantShip(GenericShip):
+    pass
+
+class Brobdingnagian(GiantShip):
+    pass
+
+class TerraMaelstrom(GiantShip):
+    pass
+
 
 class PublicPost(database.Model):
     time                       = database.Column(database.String(128))
@@ -107,7 +120,7 @@ class GameVars(database.Model):
     map_layout                 = database.Column(database.Integer, default = 1)
     ships_built                = database.Column(database.Integer)
     is_game_paused             = database.Column(database.Boolean)
-    logged_in_players          = database.Column(database.Integer)
+    logged_in_players_int      = database.Column(database.Integer)
     logged_out_players         = database.Column(database.Integer)
     ships_destroyed            = database.Column(database.Integer)
     clans                      = database.Column(database.Integer)
