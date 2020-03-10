@@ -24,6 +24,7 @@ planet_organics = random.randint(range ( 100 , organics_total / num_planets ))
 
 max_system_fuel = return_game_var('max_fuel_per_system')
 min_system_fuel = return_game_var('min_fuel_per_system')
+
 #gamevars
 #min_fuel_per_system
 #max_fuel_per_system
@@ -42,16 +43,16 @@ def add_resources_to_starport_by_id(starport_id):
 	get_starport_by_id(starport_id)
 	pass
 
+def add_minerals(planet_id)
 def add_starports_sel():
 	for star_port in range( 1 , num_starports - 1):
 	#create template dict for new port
-		possible_new_starport = { 'location_id' : 0 }
-		possible_new_starport['location_id'] = random.randint(2, num_systems)
-		#map location_id to system_id... looks up system_id by location_id
+		possible_new_starport = { 'system_id' : 0 }
+		possible_new_starport['system_id'] = random.randint(2, num_systems)
 		#system has no port, build one
 		# Add resources to port, subtracting that amount from the universes available pool
-		if (system_has_port( possible_new_starport['location_id']) == False ):
-			spawned_starport = StarPort(name = grab_starport_name(), system_id = possible_new_starport['location_id'])
+		if (system_has_port( possible_new_starport['system_id']) == False ):
+			spawned_starport = StarPort(name = grab_starport_name(), system_id = possible_new_starport['system_id'])
 # TODO 
 			#add_resources_to_starport_by_id(spawned_starport.system_id)
 			# save to DB
@@ -59,15 +60,6 @@ def add_starports_sel():
 			print_to_console("<div id=''> USER: {} Created port #{} in location {}</div>")
 		else:
 			pass
-
-def return_blackmarket_name():
-	blackmarket_names = [ "Dodgy Dave", "Stinkin Sid", \
-				 "Goodie-bag Central", "The Department of Corruption", \
-				 "The Ultimate Goodies Store", "Stompin Jim", \
-				 "The War Cabinet", "Jim  -Dead Eye- Smarms", \
-				 "One Eyed Doyle", "The Ministry of Offence"]
-	return blackmarket_names[random.randint(1, len(blackmarket_names))]:
-
 	
 ##add BM's to the universe
 ## we tie location id's to market id's to easily place and locate by system
@@ -78,13 +70,13 @@ def add_blackmarket_se1():
 	blackmarket_type = 0
  	# copy the code for the starport generator here
 	for thing in num_black_markets:
-		possible_new_black_market = { 'location_id' : 0 }
-		possible_new_black_market['location_id'] = random.randint(1,num_black_markets)
+		possible_new_black_market = { 'system_id' : 0 }
+		possible_new_black_market['system_id'] = random.randint(1,num_black_markets)
 		for spawned_system in list_of_spawned_systems:
-			if system_has_black_market(possible_new_black_market['location_id']) == False ):
+			if system_has_black_market(possible_new_black_market['system_id'] == False ):
 				spawned_blackmarket = BlackMarket(location = possible_new_black_market['location'], \
 											blackmarket_name = return_black_market_name(), \
-											blackmarket_id = possible_new_black_market['location_id'] )
+											blackmarket_id = possible_new_black_market['system_id'] )
 # TODO 
 			#add_resources_to_blackmarket_by_id(spawned_starport.system_id)
 			# save to DB
@@ -94,18 +86,28 @@ def add_blackmarket_se1():
 ##def that will pre-generate planets.
 #The same rules for location id's and entity id's apply here
 def add_planets(): 
-	#account for earth
+	#account for earth and sol
+	# generate the planets
 	planetoid_list = { 'planet_id' : 0 }
-	for planetoid in range( 1 , num_planets - 1 ):
+	for planetoid in range( 8 , num_planets):
 		count  = 1
-		planetoid_list.update('planet_id': count )
+		planetoid_list.update('planet_id', count )
 		count  = count + 1
 		Planet(name = names.gen_name( 'all' ))
-	print_to_console("Randomly placed planets... placed")
-	
+	#planets have been made, now place them in the universe
+	for system in list_of_spawned_systems:
+# TODO
+		count 					= 1
+		skipped_system 			= None
+		system_to_place_planet  = None
+		max_planets_per_system  = return_game_var('max_planets_in_system')
+		for planetoid in planetoid_list:
+#		for planetoid in Planet.query.all():
+
 	for planet in planetoid_list:
 		add_minerals(planet)
-		
+	print_to_console("Randomly placed planets... placed")
+
 ##def that places random events around the universe.
 def random_event_placer():
 	pass

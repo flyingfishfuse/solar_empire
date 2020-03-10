@@ -154,6 +154,8 @@ class GameVars(database.Model):
     flag_planet_attack         = database.Column(database.Boolean)
     random_events              = database.Column(database.Integer)
 
+#Base  system class
+# SOL is system_id 1!!
 class SystemInfo(database.Model):
     name                = database.Column(database.String(128))
     system_id           = database.Column(database.Integer)
@@ -161,6 +163,8 @@ class SystemInfo(database.Model):
     x_loc               = database.Column(database.Integer)
     y_loc               = database.Column(database.Integer)
 
+#this is what we make a system with.
+#now... should anything inherit this class?
 class System(SystemInfo):    
     has_pizza_delivery  = database.Column(database.Boolean, default = False)
     has_fighters        = database.Column(database.Boolean)
@@ -168,6 +172,7 @@ class System(SystemInfo):
     navigation_hazard   = database.Column(database.Boolean, default = False)
     num_planets         = database.Column(database.Integer)
 
+#neither should starport
 class StarPort(database.Model):
     name                = database.Column(database.String(128))
     system_id           = database.Column(database.Integer)
@@ -175,17 +180,19 @@ class StarPort(database.Model):
     x_loc               = database.Column(database.Integer)
     y_loc               = database.Column(database.Integer)
 
+#planets shouldnt inherit system
 class PlanetInfo(database.Model):
-    #planet ID 1 : EARTH
+    #planet ID 3 : EARTH
+    # 8 reserved Planetoids
     planet_id               = database.Column(database.Integer)
     planet_num              = database.Column(database.Integer)
+    system_id               = database.Column(database.Integer)
+    location_id             = database.Column(database.Integer)
     name                    = database.Column(database.String(128))
-    location_id             = database.Column(database.String(128))
-    user_id_of_owner        = database.Column(database.Integer)
-
 
 class Planet(PlanetInfo):
     #...
+    user_id_of_owner        = database.Column(database.Integer)
     has_pizza_delivery      = database.Column(database.Boolean, default = False)
     has_port                = database.Column(database.Boolean, default = False)
     has_factory             = database.Column(database.Boolean, default = False)

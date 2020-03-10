@@ -32,19 +32,35 @@ def add_to_db(thingie):
     database.session.add(thingie)
     database.session.commit
 
-#check to see if a system already has a port
+#returns a LIST of all the systems that have been added to the database
+def list_of_spawned_systems():
+	list_of_systems = System.query.all()
+	return list_of_systems
+
+#check to see if a planet already has a port
 def planet_has_port(planet):
     found_planet = Planet.query.filter_by(planet_id = planet )
     return found_planet.has_port
 
+#check to see if a system already has a port
 def system_has_port(sys_id):
     found_system = System.query.filter_by(system_id = sys_id)
     return found_system.has_starport
 
+#cat time
 def date_time_NOW():
 	time_now = datetime.now()
 	# dd/mm/YY H:M:S
 	return time_now.strftime("%d/%m/%Y %H:%M:%S")
+
+def return_blackmarket_name():
+	blackmarket_names = [ "Dodgy Dave", "Stinkin Sid", \
+				 "Goodie-bag Central", "The Department of Corruption", \
+				 "The Ultimate Goodies Store", "Stompin Jim", \
+				 "The War Cabinet", "Jim  -Dead Eye- Smarms", \
+				 "One Eyed Doyle", "The Ministry of Offence"]
+	return blackmarket_names[random.randint(1, len(blackmarket_names))]
+
 
 #//post an entry into the news
 	#function post_news(headline)
