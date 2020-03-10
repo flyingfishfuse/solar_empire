@@ -25,6 +25,11 @@ ADMIN_EMAIL = "game_admin" + "@" + HTTP_HOST + SERVER_HOST + DOMAIN
 ADMIN_USER_ID = 1
 OWNER_ID = 1
 
+
+MAX_USER_TURNS = 30
+DANGER_STRING= "you should NEVER see this string. Something errored HARD . TACOCAT"
+
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 things_this_app_needs = ['flask' , "flask-sqlalchemy"]
 

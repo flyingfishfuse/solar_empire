@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 from flask import Flask, render_template, Response, Request ,Config
 from flask_sqlalchemy import SQLAlchemy
-#from flask_migrate import Migrate
+from flask_migrate import Migrate
 import solar_empire.configuration_options
 from solar_empire.configuration_options import *
 from solar_empire.models import *
@@ -17,9 +17,10 @@ from solar_empire.models import *
 solar_empire_server = Flask(__name__ , template_folder="templates" )
 solar_empire_server.config.from_object(Config)
 database    = SQLAlchemy(solar_empire_server)
-#migrate     = Migrate(solar_empire_server, database)
+migrate     = Migrate(solar_empire_server, database)
 admin       = User(username=ADMIN_NAME, email=ADMIN_EMAIL , password = ADMIN_PASSWORD)
 guest       = User(username='guest', email='test@gamebiscuits.fightbiscuits.firewall-gateway.net' , password = 'password')
+
 database.create_all()
 database.session.add(admin)
 database.session.add(guest)

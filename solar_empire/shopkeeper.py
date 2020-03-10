@@ -6,7 +6,7 @@ from solar_empire.routes import *
 
 #Credit Cost
 #turret costs - based on size of ship
-plasma_cannon_c 		= round(55000 * (UserShip.query.filter_by('size') / 100)) * 15
+plasma_cannon_c         = round(55000 * (UserShip.query.filter_by('size') / 100)) * 15
 plasma_cannon_t         = round(700 * (UserShip.query.filter_by('size') / 100)) * 5
 silicon_armour_c        = round(65000 * (UserShip.query.filter_by('size') / 100)) * 15
 silicon_armour_t        = round(800 * (UserShip.query.filter_by('size') / 100)) * 5

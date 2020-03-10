@@ -25,6 +25,8 @@ ADMIN_USER_ID = 1
 OWNER_ID = 1
 #basedir = os.path.abspath(os.path.dirname(__file__))
 things_this_app_needs = ['flask' , "flask-sqlalchemy"]
+MAX_USER_TURNS = 30
+DANGER_STRING= "you should NEVER see this string. Something errored HARD . TACOCAT"
 
 class Config(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE + '.' + HTTP_HOST + '.db'
@@ -34,19 +36,24 @@ solar_empire_server = Flask(__name__ , template_folder="templates" )
 solar_empire_server.config.from_object(Config)
 database    = SQLAlchemy(solar_empire_server)
 
+#without the flask migrate module, you need to instantiate
+# databases with default values.
 class User(database.Model):
-    login_id        = database.Column(database.Integer, primary_key=True)
-    user_id         = database.Column(database.Integer)
-    username        = database.Column(database.String(64), index=True, unique=True)
+    login_id        = database.Column(database.Integer,     default = 0, \
+                                                            primary_key=True)
+    user_id         = database.Column(database.Integer,     default = 0)
+    username        = database.Column(database.String(64),  default = "tourist", \
+                                                            index=True, \
+                                                            unique=True)
     email           = database.Column(database.String(120), index=True, unique=True)
-    password_hash   = database.Column(database.String(128))
-    location        = database.Column(database.String(128))
-    max_turns       = database.Column(database.Integer)
-    turns_run       = database.Column(database.Integer)
-    safe_turns_left = database.Column(database.Integer)
-    cash            = database.Column(database.Integer)
-    on_planet       = database.Column(database.Boolean)
-    pocket_space    = database.Column(database.String(128))
+    password_hash   = database.Column(database.String(128), default = DANGER_STRING)
+    location        = database.Column(database.String(128), default = "E'Arth")
+    max_turns       = database.Column(database.Integer,     default = MAX_USER_TURNS)
+    turns_run       = database.Column(database.Integer,     default = 0)
+    safe_turns_left = database.Column(database.Integer,     default = 60)
+    cash            = database.Column(database.Integer,     default = 1000)
+    on_planet       = database.Column(database.Boolean,     default = 1)
+    pocket_space    = database.Column(database.String(128), default = DANGER_STRING)
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -84,36 +91,8 @@ class UserShip(User):
     nova_wave_time             = database.Column(database.Integer)
 
 
-solar_empire_server.route('/',             methods=['GET', 'POST'])
-solar_empire_server.route('/login',        methods=['GET', 'POST'])
-solar_empire_server.route('/user',         methods=['GET', 'POST'])
-solar_empire_server.route('/diary',        methods=['GET', 'POST'])
-solar_empire_server.route('/location',     methods=['GET', 'POST'])
-solar_empire_server.route('/news',         methods=['GET', 'POST'])
-solar_empire_server.route('/politics',     methods=['GET', 'POST'])
-solar_empire_server.route('/message',      methods=['GET', 'POST'])
-solar_empire_server.route('/mpage',        methods=['GET', 'POST'])
-solar_empire_server.route('/clan',         methods=['GET', 'POST'])
-solar_empire_server.route('/forum',        methods=['GET', 'POST'])
-solar_empire_server.route('/player_stat',  methods=['GET', 'POST'])
-solar_empire_server.route('/help',         methods=['GET', 'POST'])
-solar_empire_server.route('/options',      methods=['GET', 'POST'])
-solar_empire_server.route('/developer',    methods=['GET', 'POST'])
-solar_empire_server.route('/game_info',    methods=['GET', 'POST'])
-solar_empire_server.route('/clan_forum',   methods=['GET', 'POST'])
-solar_empire_server.route('/game_status',  methods=['GET', 'POST'])
-
-def index():
-    return render_template('index.html')
-
-def login_form():
-    return render_template('login.html')
-
-def game_page():
-    return render_template('game_page.html')
-
-admin       = User(username=ADMIN_NAME, email=ADMIN_EMAIL , password = ADMIN_PASSWORD)
-guest       = User(username='guest', email='test@gamebiscuits.fightbiscuits.firewall-gateway.net' , password = 'password')
+admin = User(username=ADMIN_NAME, email=ADMIN_EMAIL , password_hash = ADMIN_PASSWORD)
+guest = User(username='guest', email='test@gamebiscuits.fightbiscuits.firewall-gateway.net' , password_hash = 'password')
 database.create_all()
 database.session.add(admin)
 database.session.add(guest)
