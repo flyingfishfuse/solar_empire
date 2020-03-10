@@ -6,21 +6,24 @@ from solar_empire.common_include import *
 from solar_empire.names.names import *
 from math import *
 
-map_layout          = return_game_var('map_layout')
-size                = return_game_var('size')
-num_ports 			= return_game_var("num_ports")
-num_starports 		= return_game_var("num_starports")
-num_systems 		= return_game_var('num_systems')
-num_planets         = return_game_var('num_planets')
-num_black_markets   = return_game_var('num_black_markets')
-mineral_sum 		= return_game_var('mineral_total')
-metal_sum			= return_game_var('metal_total')
-fuel_sum   		    = return_game_var('fuel_total')
-fuel_coef           = return_game_var('fuel_percent_coefficient')
-metal_coef          = return_game_var('metal_percent_coefficient')
 
-all_systems         = System.query.all()
-all_planets         = Planet.query.all()
+map_layout               = return_game_var('map_layout')
+size                     = return_game_var('size')
+num_ports 			     = return_game_var("num_ports")
+num_starports 		     = return_game_var("num_starports")
+num_systems 		     = return_game_var('num_systems')
+num_planets              = return_game_var('num_planets')
+num_black_markets        = return_game_var('num_black_markets')
+mineral_sum 		     = return_game_var('mineral_total')
+metal_sum			     = return_game_var('metal_total')
+fuel_sum   		         = return_game_var('fuel_total')
+fuel_coef                = return_game_var('fuel_percent_coefficient')
+metal_coef               = return_game_var('metal_percent_coefficient')
+max_planets_per_system   = return_game_var('max_planets_in_system')
+min_dist_between_systems = return_game_var('min_dist_between_systems')
+
+all_systems              = System.query.all()
+all_planets              = Planet.query.all()
 
 planet_metal    = random.randint(range ( 100 , metal_total    / num_planets ))
 planet_fuel     = random.randint(range ( 100 , fuel_total     / num_planets ))
@@ -46,7 +49,6 @@ def add_resources_to_starport_by_id(starport_id):
 
 def add_minerals(planetID, amount):
 	planet_to_update = database.query.filter_by(planet_id = planetID)
-	planet_to_update.
 	pass
 
 
@@ -99,8 +101,7 @@ def add_planets():
 	#account for earth and sol
 	# generate the planets
 	planetoid_list          = [{'planet_id' : 0} , {'system_id' : 0}]
-	coefficient_of_chaos	= random.randint(1, return_game_var('num_systems'))
-	max_planets_per_system  = return_game_var('max_planets_in_system')
+	coefficient_of_chaos	= random.randint(1, num_systems)
 	count                   = 1
 	for planetoid in range( 8 , num_planets):
 	# adds a randomly selected system id to the planet
@@ -137,7 +138,32 @@ def add_minerals(type_of_fill = "random"):
 			pass
 		print("<div id=''>Adding Resources to system #{}</div>").format()
 
+#work out the distance (in pixels) between two star systems.
+def distance_between_systems(sys1,sys2 ): 
+	distance = sqrt(
+				pow( ( sys1['x_loc'] - sys2['x_loc'] ) , 2 ) + \
+				pow( ( sys1['y_loc'] - sys2['y_loc'] ) , 2 ) \
+				)
+	return int(distance)
+
+#work out if a system is too close to another system
+def system_too_close( sys, systems, within) : 
+	for each in systems: 
+		#same system
+		if system['num'] == sys['num'] :
+			continue
+		#too close
+		if distance_between_systems( sys , system ) < within :
+			return true
+	return false
+
+
 #create the star systems
+# i am literally amused to the point of chuckling
+# im playing it fast and loose with this and Im sitting here thinking
+# "well it looks right, I guess thats good enough"
+# I tried to leave the algorhithm alone and just did text replacments
+#$ and simple re arrangments
 def make_systems_1 (systems) : 
 	centre = size / 2 #centre of map
 	do_this = 0
@@ -145,33 +171,33 @@ def make_systems_1 (systems) :
 	if map_layout == 1 :
 		rows = sqrt(num_systems)
 		row_dist = size / rows
-		per_col = return_game_var('num_systems') / rows
+		per_col = num_systems / rows
 		col_dist = size / per_col
 		row_count = 0
 		col_count = 0
-	elif return_game_var('map_layout') == 2 :
+	elif map_layout == 2 :
 		one_quart = centre / 4
-	elif return_game_var('map_layout') == 3 : 
-		num_clus = sqrt(return_game_var('num_systems'])) - 1
-		stars_per_cluster = return_game_var('num_systems') / num_clus
+	elif map_layout == 3 : 
+		num_clus = sqrt(num_systems) - 1
+		stars_per_cluster = num_systems / num_clus
 		cluster_size = (size / (num_clus * 0.55)) / 2 
 		offset_cluster = size- cluster_size
 		sec_count = 0
 		basis_x = centre
 		basis_y = centre
-	elif return_game_var('map_layout') == 5 :
-		radius = size / 2) - 5
-		degrees_between_stars = 360 / (return_game_var('num_systems')- 1 
+	elif map_layout == 5 :
+		radius = (size / 2) - 5
+		degrees_between_stars = 360 / (num_systems- 1 )
 		present_degrees = 0
-	elif return_game_var('map_layout') == 6 :  
-		if return_game_var('num_systems')< 50 : 
+	elif map_layout == 6 :  
+		if num_systems< 50 : 
 			radius = size / 2) - 5
-			degrees_between_stars = 360 / (return_game_var('num_systems')- 1
+			degrees_between_stars = 360 / (num_systems - 1)
 			present_degrees = 0
 			do_this = 1
-		elif return_game_var('num_systems')< 200 :  
-			ring1_star_count = (return_game_var('num_systems') / 100) * 30
-			ring2_star_count = return_game_var('num_systems')- ring1_star_count-1
+		elif num_systems< 200 :  
+			ring1_star_count = (num_systems / 100) * 30
+			ring2_star_count = num_systems- ring1_star_count-1
 			ring3_star_count = 0 #(no third ring)
 			ring1_radius = centre / 2
 			ring2_radius = centre
@@ -180,9 +206,9 @@ def make_systems_1 (systems) :
 			ring1_preset = 0
 			ring2_preset = 0
 		else :# 3 rings
-			ring1_star_count = (return_game_var('num_systems') / 100) * 25 
-			ring2_star_count = ((return_game_var('num_systems')- ring1_star_count) / 100) * 34
-			ring3_star_count = return_game_var('num_systems')- ring1_star_count-ring2_star_count-1
+			ring1_star_count = (num_systems / 100) * 25 
+			ring2_star_count = ((num_systems- ring1_star_count) / 100) * 34
+			ring3_star_count = num_systems- ring1_star_count-ring2_star_count-1
 			ring1_radius = centre / 1.5
 			ring2_radius = centre / 1.2
 			ring3_radius = centre
@@ -192,28 +218,26 @@ def make_systems_1 (systems) :
 			ring1_preset = 0
 			ring2_preset = 0
 			ring3_preset = 0
-	while(systems) < return_game_var('num_systems'] : 
-		result = 1
-		newname = result['name']
-
+	while(systems) < num_systems : 
+		newname = []
 		#planetary slot counter
-		planet_slots = mt_rand(0,return_game_var('uv_planet_slots']
-
-		newsystem = array('num' => count, 'x_loc' => mt_rand(0,return_game_var('size']), 'y_loc' => mt_rand(0,return_game_var('size']), 'links' => '', 'name' => newname, 'fuel' => 0, 'metal' => 0, 'wormhole' => 0, 'planetary_slots' => planet_slots
-
-
-		if return_game_var('map_layout') == 1 :  #grid layout
+		planet_slots = random.randint(0,uv_planet_slots)
+		#another multi dimensional array to map
+		newsystem = [ {'num'   : count} , \
+                      {'x_loc' : random.randint(0,size) } , \
+					  {'y_loc' : random.randint(0,size) } , \
+					  {'links' : '' } , \
+					  {'planetary_slots' : planet_slots} ]
+		if map_layout == 1 :  #grid layout
 			if row_count > rows : #create a new column
 				row_count = 0
-				col_count++
-			}
-			newsystem['x_loc')= col_dist * col_count
-			newsystem['y_loc')= row_dist * row_count
-			row_count++
-			while(system_too_close(newsystem,systems,return_game_var('mindist']) : 
-				newsystem['x_loc')= mt_rand(0,return_game_var('size']
-				newsystem['y_loc')= mt_rand(0,return_game_var('size']
-			}
+				col_count + 1
+			newsystem[1]['x_loc'] = col_dist * col_count
+			newsystem[2]['y_loc'] = row_dist * row_count
+			row_count + 1
+			while system_too_close(newsystem,systems,min_dist_between_systems):
+				newsystem[1]['x_loc'] = randint(0,size)
+				newsystem[2]['y_loc'] = randint(0,size)
 
 		elif return_game_var('map_layout') == 2 :  #galactic core
 			basis = mt_rand(0,100
@@ -227,7 +251,7 @@ def make_systems_1 (systems) :
 			else :#anywhere
 				div_by = 1
 			}
-			while((get_sys_dist(systems[0],newsystem) > return_game_var('size']/div_by) || system_too_close(newsystem,systems,return_game_var('mindist']) : 
+			while((distance_between_systems(systems[0],newsystem) > return_game_var('size']/div_by) || system_too_close(newsystem,systems,return_game_var('mindist']) : 
 				newsystem['x_loc')= mt_rand(0,return_game_var('size']
 				newsystem['y_loc')= mt_rand(0,return_game_var('size']
 			}
@@ -257,7 +281,7 @@ def make_systems_1 (systems) :
 			sec_count++
 
 		elif return_game_var('map_layout') == 4 :  #circle layout
-			while((get_sys_dist(systems[0],newsystem) > return_game_var('size']/2) || system_too_close(newsystem,systems,return_game_var('mindist']) : 
+			while((distance_between_systems(systems[0],newsystem) > return_game_var('size']/2) || system_too_close(newsystem,systems,return_game_var('mindist']) : 
 				newsystem['x_loc')= mt_rand(0,return_game_var('size']
 				newsystem['y_loc')= mt_rand(0,return_game_var('size']
 			}
@@ -342,8 +366,8 @@ def link_systems_1 (systems :
 	}
 
 	#add wormholes if appropriate
-	if return_game_var('wormholes')> 0 && return_game_var('num_systems')> 15 : 
-		num_worms = ceil(return_game_var('num_systems') / 35#num wormholes to make
+	if return_game_var('wormholes')> 0 && num_systems> 15 : 
+		num_worms = ceil(num_systems / 35#num wormholes to make
 
 		worms_placed = array(
 
@@ -420,7 +444,7 @@ def get_closest_systems(sys, systems, howmany :
 	dists = array(
 	foreach(systems as system : 
 		if ok_to_link(sys, system) : 
-			dists[system['num'])= get_sys_dist(sys,system
+			dists[system['num'])= distance_between_systems(sys,system
 		}
 	}
 	reset(dists
@@ -440,19 +464,6 @@ def get_closest_systems(sys, systems, howmany :
 		systems_to_link[)= systems[present_sys['key']]
 	}
 	return systems_to_link
-}
-
-#work out if a system is too close to another system
-def system_too_close(sys,&systems,within : 
-	foreach(systems as system : 
-		if system['num') == sys['num'] : #same system
-			continue
-		}
-		if dist = get_sys_dist(sys,system) < within : #too close
-			return true
-		}
-	}
-	return false
 }
 
 #make a single link between two systems.
@@ -475,11 +486,6 @@ def make_link (sys1,&sys2 :
 	} else {
 		sys2['links')= sys1['num']
 	}
-}
-
-#work out the distance (in pixels) between two star systems.
-def get_sys_dist (sys1,&sys2 : 
-	return (int)sqrt(pow(sys1['x_loc']-sys2['x_loc'],2) + pow(sys1['y_loc']-sys2['y_loc'],2))
 }
 
 #generate the three global maps.
