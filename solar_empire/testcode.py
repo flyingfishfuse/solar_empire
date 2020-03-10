@@ -77,7 +77,3 @@ def user_by_id(id_of_user):
 
 solar_empire_server.run()
 
-num_systems = 200
-possible_new_starport = { 'location_id' : 0 }
-possible_new_starport['location_id'] = random.randint(2, num_systems)
-

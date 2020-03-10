@@ -4,7 +4,10 @@ from solar_empire.models import *
 from solar_empire.configuration_options import *
 from solar_empire.common_include import *
 from solar_empire.names.names import *
+from math import *
 
+map_layout          = return_game_var('map_layout')
+size                = return_game_var('size')
 num_ports 			= return_game_var("num_ports")
 num_starports 		= return_game_var("num_starports")
 num_systems 		= return_game_var('num_systems')
@@ -13,6 +16,8 @@ num_black_markets   = return_game_var('num_black_markets')
 mineral_sum 		= return_game_var('mineral_total')
 metal_sum			= return_game_var('metal_total')
 fuel_sum   		    = return_game_var('fuel_total')
+fuel_coef           = return_game_var('fuel_percent_coefficient')
+metal_coef          = return_game_var('metal_percent_coefficient')
 
 all_systems         = System.query.all()
 all_planets         = Planet.query.all()
@@ -22,14 +27,10 @@ planet_fuel     = random.randint(range ( 100 , fuel_total     / num_planets ))
 planet_mineral  = random.randint(range ( 100 , mineral_total  / num_planets ))
 planet_organics = random.randint(range ( 100 , organics_total / num_planets ))
 
-max_system_fuel = return_game_var('max_fuel_per_system')
-min_system_fuel = return_game_var('min_fuel_per_system')
-
-#gamevars
-#min_fuel_per_system
-#max_fuel_per_system
-#fuel_percent_coefficient
-
+max_system_fuel      = return_game_var('max_fuel_per_system')
+min_system_fuel      = return_game_var('min_fuel_per_system')
+min_metal_per_system = return_game_var('min_metal_per_system')
+max_metal_per_system = return_game_var('max_metal_per_system')
 ##add starports to the universe.
 # we map location ID's to system ID's
 #generates name for starport
@@ -43,7 +44,17 @@ def add_resources_to_starport_by_id(starport_id):
 	get_starport_by_id(starport_id)
 	pass
 
-def add_minerals(planet_id)
+def add_minerals(planetID, amount):
+	planet_to_update = database.query.filter_by(planet_id = planetID)
+	planet_to_update.
+	pass
+
+
+##def that places random events around the universe.
+def random_event_placer():
+	pass
+	##high level random events
+
 def add_starports_sel():
 	for star_port in range( 1 , num_starports - 1):
 	#create template dict for new port
@@ -66,7 +77,6 @@ def add_starports_sel():
 #The location id of a market is the SAME as the location id of the system its in
 # the market id of a blackmarket is the SAME as the location id of the system is it in
 def add_blackmarket_se1():
-	num_black_markets = return_game_var("num_black_markets")
 	blackmarket_type = 0
  	# copy the code for the starport generator here
 	for thing in num_black_markets:
@@ -107,39 +117,36 @@ def add_planets():
 		# noodles = planetoid_list[0][0]['planet_id']
 		planet_id_from_list = planet[0]['planet_id']
 		add_minerals(planet_id_from_list)
+#TODO Turn this function into an actual fuck nugget of logic you sheer bumbling plunk
+	# The planets with these ID's need to have thier SYSTEM_ID variable set to 
+	# the system ID of the system they are going to be in
+	map_planetID_to_systemID(planetoid_list)
 	print_to_console("Randomly placed planets... placed")
-
-##def that places random events around the universe.
-def random_event_placer():
-	pass
-	##high level random events
 
 ##add minerals to the systems
 #we modify with a co-ef... gives ability to scale in single var
 # set co-eff to 1 to prevent scaling 
 def add_minerals(type_of_fill = "random"):
 	planetary_figs = (planet_metal + planet_fuel) * 1.1
-	for each in systems:
+	for each in num_systems:
 		if type_of_fill == "random":
-			amount_of_fuel_in_system = random.randint(min_system_fuel, max_system_fuel))
-			fuel_coef = return_game_var('fuel_percent_coefficient')
-			fuel_placment = amount_of_fuel_in_system * fuel_coef
-			return_game_var('metal_percent_coefficient') * \
-				amount_of_fuel_in_system = random.randint(range(return_game_var('min_metal_per_system'),\
-																return_game_var('max_metal_per_system')))
-
-		print("<div id=''>-Adding minerals to system #<script>document.all.{}.scrollIntoView(</script></div>").format(game_status_html)
+			amount_of_fuel_in_system  = random.randint(min_system_fuel, max_system_fuel) * fuel_coef
+			amount_of_metal_in_system = random.randint(min_metal_per_system, max_metal_per_system) * metal_coef
+		elif type_of_fill == "scattered":
+		# TODO stop making to dos and get this done
+			pass
+		print("<div id=''>Adding Resources to system #{}</div>").format()
 
 #create the star systems
 def make_systems_1 (systems) : 
-	centre = return_game_var('size') / 2 #centre of map
+	centre = size / 2 #centre of map
 	do_this = 0
 
-	if return_game_var('map_layout') == 1 :
-		rows = sqrt(return_game_var('num_systems'])
-		row_dist = return_game_var('size') / rows
+	if map_layout == 1 :
+		rows = sqrt(num_systems)
+		row_dist = size / rows
 		per_col = return_game_var('num_systems') / rows
-		col_dist = return_game_var('size') / per_col
+		col_dist = size / per_col
 		row_count = 0
 		col_count = 0
 	elif return_game_var('map_layout') == 2 :
@@ -147,18 +154,18 @@ def make_systems_1 (systems) :
 	elif return_game_var('map_layout') == 3 : 
 		num_clus = sqrt(return_game_var('num_systems'])) - 1
 		stars_per_cluster = return_game_var('num_systems') / num_clus
-		cluster_size = (return_game_var('size') / (num_clus * 0.55)) / 2 
-		offset_cluster = return_game_var('size')- cluster_size
+		cluster_size = (size / (num_clus * 0.55)) / 2 
+		offset_cluster = size- cluster_size
 		sec_count = 0
 		basis_x = centre
 		basis_y = centre
 	elif return_game_var('map_layout') == 5 :
-		radius = return_game_var('size') / 2) - 5
+		radius = size / 2) - 5
 		degrees_between_stars = 360 / (return_game_var('num_systems')- 1 
 		present_degrees = 0
 	elif return_game_var('map_layout') == 6 :  
 		if return_game_var('num_systems')< 50 : 
-			radius = return_game_var('size') / 2) - 5
+			radius = size / 2) - 5
 			degrees_between_stars = 360 / (return_game_var('num_systems')- 1
 			present_degrees = 0
 			do_this = 1
@@ -479,7 +486,7 @@ def get_sys_dist (sys1,&sys2 :
 def render_global_se1(game_id : 
 	global UNI,extinfo,games_dir, systems,preview, directories, gen_new_maps, uv_show_warp_numbers
 
-	size = return_game_var('size')+ (return_game_var('map_border')* 2
+	size = size+ (return_game_var('map_border')* 2
 	offset_x = return_game_var('map_border']
 	offset_y = return_game_var('map_border']
 	central_star = 1
@@ -556,7 +563,7 @@ def render_global_se1(game_id :
 	imagestring(im, 5, ((size/2)-80), 5, "Universal Star Map", color_l
 
 	#Create buffer image
-	bb_im = imagecreatetruecolor((return_game_var('size')+ return_game_var('localmapwidth']), (return_game_var('size')+ return_game_var('localmapheight'])
+	bb_im = imagecreatetruecolor((size+ return_game_var('localmapwidth']), (size+ return_game_var('localmapheight'])
 
 	ImageColorAllocate(im, return_game_var('bg_color'][0], return_game_var('bg_color'][1], return_game_var('bg_color'][2]
 	ImageCopy(bb_im, im, (return_game_var('localmapwidth') / 2), (return_game_var('localmapheight') / 2), offset_x, offset_y, return_game_var('size'], return_game_var('size']

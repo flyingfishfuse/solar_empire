@@ -7,6 +7,7 @@ from datetime import datetime
 from solar_empire.configuration_options import *
 
 def add_resources_to_player_by_id(player_id, resource_type, resource_amount):
+	
 	pass
 
 def return_game_var(var):
