@@ -218,7 +218,7 @@ def make_systems_1 (systems) :
 			ring1_preset = 0
 			ring2_preset = 0
 			ring3_preset = 0
-	while(systems) < num_systems : 
+	while len(systems) < num_systems : 
 		newname = []
 		#planetary slot counter
 		planet_slots = random.randint(0,uv_planet_slots)
@@ -238,10 +238,8 @@ def make_systems_1 (systems) :
 			while system_too_close(newsystem,systems,min_dist_between_systems):
 				newsystem[1]['x_loc'] = randint(0,size)
 				newsystem[2]['y_loc'] = randint(0,size)
-
-		elif return_game_var('map_layout') == 2 :  #galactic core
-			basis = mt_rand(0,100
-
+		elif map_layout == 2 :  #galactic core
+			basis = randint(0,100)
 			if basis > 75 :  #within centre quarter
 				div_by = 4
 			elif basis > 50 :  #within centre half
@@ -250,40 +248,40 @@ def make_systems_1 (systems) :
 				div_by = 2
 			else :#anywhere
 				div_by = 1
-			}
-			while((distance_between_systems(systems[0],newsystem) > return_game_var('size']/div_by) || system_too_close(newsystem,systems,return_game_var('mindist']) : 
-				newsystem['x_loc')= mt_rand(0,return_game_var('size']
-				newsystem['y_loc')= mt_rand(0,return_game_var('size']
+				# div_by = 0 NOOOOOOOOOO!
+			while distance_between_systems (systems[0],newsystem) > return_game_var('size']/div_by) || system_too_close(newsystem,systems,return_game_var('mindist']) : 
+				newsystem['x_loc')= randint(0,return_game_var('size']
+				newsystem['y_loc')= randint(0,return_game_var('size']
 			}
 
 		elif return_game_var('map_layout') == 3 :  #clusters
 			if sec_count > stars_per_cluster :  #create new cluster
-				basis_x = mt_rand(cluster_size, offset_cluster
-				basis_y = mt_rand(cluster_size, offset_cluster
+				basis_x = randint(cluster_size, offset_cluster
+				basis_y = randint(cluster_size, offset_cluster
 				sec_count = 0
 			}
-			newsystem['x_loc')= mt_rand(0, cluster_size #x_loc - within cluster
-			if mt_rand(0,100) > 50 :  #decide offset from center of cluster.
+			newsystem['x_loc')= randint(0, cluster_size #x_loc - within cluster
+			if randint(0,100) > 50 :  #decide offset from center of cluster.
 				newsystem['x_loc')+= basis_x
 			} else {
 				newsystem['x_loc')= basis_x - newsystem['x_loc']
 			}
-			newsystem['y_loc')= mt_rand(0, cluster_size #y_loc - within cluster
-			if mt_rand(0,100) > 50 :  #decide offset from center of cluster.
+			newsystem['y_loc')= randint(0, cluster_size #y_loc - within cluster
+			if randint(0,100) > 50 :  #decide offset from center of cluster.
 				newsystem['y_loc')+= basis_y
 			} else {
 				newsystem['y_loc')= basis_y - newsystem['y_loc']
 			}
 			while(system_too_close(newsystem,systems,return_game_var('mindist']) : 
-				newsystem['x_loc')= mt_rand(0,return_game_var('size']
-				newsystem['y_loc')= mt_rand(0,return_game_var('size']
+				newsystem['x_loc')= randint(0,return_game_var('size']
+				newsystem['y_loc')= randint(0,return_game_var('size']
 			}
 			sec_count++
 
 		elif return_game_var('map_layout') == 4 :  #circle layout
 			while((distance_between_systems(systems[0],newsystem) > return_game_var('size']/2) || system_too_close(newsystem,systems,return_game_var('mindist']) : 
-				newsystem['x_loc')= mt_rand(0,return_game_var('size']
-				newsystem['y_loc')= mt_rand(0,return_game_var('size']
+				newsystem['x_loc')= randint(0,return_game_var('size']
+				newsystem['y_loc')= randint(0,return_game_var('size']
 			}
 
 		elif return_game_var('map_layout') == 5 || do_this == 1 :  #ring layout
@@ -316,8 +314,8 @@ def make_systems_1 (systems) :
 			}
 		else :#random layout
 			while(system_too_close(newsystem,systems,return_game_var('mindist']) : 
-				newsystem['x_loc')= mt_rand(0,return_game_var('size']
-				newsystem['y_loc')= mt_rand(0,return_game_var('size']
+				newsystem['x_loc')= randint(0,return_game_var('size']
+				newsystem['y_loc')= randint(0,return_game_var('size']
 			}
 		}
 		if extinfo : 
@@ -352,7 +350,7 @@ def link_systems_1 (systems :
 	global UNI,extinfo
 
 	foreach(systems as system : 
-		numlinks = mt_rand(return_game_var('minlinks'],return_game_var('maxlinks']
+		numlinks = randint(return_game_var('minlinks'],return_game_var('maxlinks']
 
 		#find the closest systems to the present system. when numlinks closest found, link them
 		foreach (get_closest_systems(system,systems,numlinks) as linksys : 
@@ -373,22 +371,22 @@ def link_systems_1 (systems :
 
 		for(a=1 a <= num_worms a++ : #loop through
 
-			start_loc = mt_rand(2,return_game_var('num_systems']
+			start_loc = randint(2,return_game_var('num_systems']
 			while(system_has_wormhole(worms_placed, start_loc) : 
-				start_loc = mt_rand(2,return_game_var('num_systems']
+				start_loc = randint(2,return_game_var('num_systems']
 			}
 			worms_placed[)= start_loc#push into wormhole checking array.
 
 
-			end_loc = mt_rand(1,return_game_var('num_systems']
+			end_loc = randint(1,return_game_var('num_systems']
 			while(system_has_wormhole(worms_placed, end_loc) : 
-				end_loc = mt_rand(1,return_game_var('num_systems']
+				end_loc = randint(1,return_game_var('num_systems']
 			}
 			worms_placed[)= end_loc#push into wormhole checking array.
 
 			#make them permanent
 			systems[start_loc -1]['wormhole')= end_loc
-			if (mt_rand(0,10) > 5 : #two way wormhole
+			if (randint(0,10) > 5 : #two way wormhole
 				systems[end_loc -1]['wormhole')= start_loc
 			}
 		}
