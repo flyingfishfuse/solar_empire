@@ -6,6 +6,10 @@ from solar_empire.models.ship_models import *
 from solar_empire.models.social_models import *
 from solar_empire.models.storekeeper_models import *
 from solar_empire.models.system_models import *
+]
+#game variables only !
+
+
 
 #grid layout
 #galactic core	

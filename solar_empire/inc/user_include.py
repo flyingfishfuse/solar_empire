@@ -23,9 +23,9 @@ def update_database(thing):
 	database.commit()
 	pass
 
-def change_user_variable(user_id):
+def change_user_variable(user_id, var, value):
 	user_to_modify = return_user_by_id(user_id)
-	pass
+	database.query(User).filter_by(User.user_id == user_to_modify).update({var,value})
 
 def does_user_have_ship(user_id):
 	if UserShip.query.filter_by(user_id).first() != None:

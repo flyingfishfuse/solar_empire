@@ -32,7 +32,7 @@ def update_database(thing):
 
 
 def user_by_id(id_of_user):
-	return User.query.filter_by(user_id = id_of_user).first()
+    return User.query.all.filter_by(user_id = id_of_user).first()
 
 #without the flask migrate module, you need to instantiate
 # databases with default values. That module wont be loaded 
@@ -54,8 +54,8 @@ class UserShip(User):
         return '<User id:{} name: {} >'.format(self.ship_id , self.ship_name)
 
 admin = User(username=ADMIN_NAME, user_id = 1, email=ADMIN_EMAIL , password_hash = ADMIN_PASSWORD)
-guest = User(username='guest',    user_id = 2, email='test@game.net' , password_hash = 'password')
-user = User()
+guest = User(username='guest1',    user_id = 2, email='test@game.net' , password_hash = 'password')
+user = User(username='guest2',    user_id = 3, email='test@game.net' , password_hash = 'password')
 usership = UserShip()
 adminship = UserShip()
 guestship = UserShip()

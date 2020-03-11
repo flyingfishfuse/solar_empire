@@ -96,3 +96,7 @@ print_star_color = [0,0,0] #star colour for printable map
 print_label_color = [0, 0, 0]
 "Are you sure you want to build a new universe?<p>This may take some time.";
 
+# quark allowed?
+quark = True
+#can we use quark disruptors while on a planet?
+quark_on_planet = True
