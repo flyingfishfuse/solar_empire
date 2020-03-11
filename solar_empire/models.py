@@ -171,6 +171,7 @@ class System(SystemInfo):
     has_starport        = database.Column(database.Boolean, default = False)
     navigation_hazard   = database.Column(database.Boolean, default = False)
     num_planets         = database.Column(database.Integer)
+    random_events_level = database.Column(database.Integer, default = 0)
 
 #neither should starport
 class StarPort(database.Model):

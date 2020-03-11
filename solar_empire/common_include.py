@@ -10,6 +10,12 @@ def add_resources_to_player_by_id(player_id, resource_type, resource_amount):
 	
 	pass
 
+def return_system_variable(system_id):
+	pass
+
+def ask_if_certain():
+	pass
+
 def return_game_var(var):
     return GameVars.query.filter_by(var)
 
