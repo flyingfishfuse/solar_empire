@@ -141,8 +141,8 @@ def add_minerals(type_of_fill = "random"):
 #work out the distance (in pixels) between two star systems.
 def distance_between_systems(sys1,sys2 ): 
 	distance = sqrt(
-				pow( ( sys1['x_loc'] - sys2['x_loc'] ) , 2 ) + \
-				pow( ( sys1['y_loc'] - sys2['y_loc'] ) , 2 ) \
+				pow( ( sys1[1]['x_loc'] - sys2[1]['x_loc'] ) , 2 ) + \
+				pow( ( sys1[2]['y_loc'] - sys2[2]['y_loc'] ) , 2 ) \
 				)
 	return int(distance)
 
@@ -164,6 +164,11 @@ def system_too_close( sys, systems, within) :
 # "well it looks right, I guess thats good enough"
 # I tried to leave the algorhithm alone and just did text replacments
 #$ and simple re arrangments
+sol_system = [{'num' : 0 } , \
+			 {'x_loc' : size / 2 } , \
+			 {'y_loc' : size / 2 } , \
+			 {'links' : '' } ]
+
 def make_systems_1 (systems) : 
 	centre = size / 2 #centre of map
 	do_this = 0
@@ -249,10 +254,12 @@ def make_systems_1 (systems) :
 			else :#anywhere
 				div_by = 1
 				# div_by = 0 NOOOOOOOOOO!
-			while distance_between_systems (systems[0],newsystem) > return_game_var('size']/div_by) || system_too_close(newsystem,systems,return_game_var('mindist']) : 
-				newsystem['x_loc')= randint(0,return_game_var('size']
-				newsystem['y_loc')= randint(0,return_game_var('size']
-			}
+			# TODO wtf is this shit with the line below
+			# athis builds outward from earth?
+			if distance_between_systems(sol_system ,newsystem ) > size /div_by \
+				or system_too_close(newsystem,systems,min_dist_between_systems): 
+				newsystem[1]['x_loc'] = randint(0,size)
+				newsystem[2]['y_loc'] = randint(0,size)
 
 		elif return_game_var('map_layout') == 3 :  #clusters
 			if sec_count > stars_per_cluster :  #create new cluster
