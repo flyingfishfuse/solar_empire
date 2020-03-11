@@ -8,7 +8,7 @@ system_view = "<p><a href='location'>Back to the Star System</a><br>"
 #damage capacity of the silicon armour module
 
 def return_user_by_id(id_of_user):
-	return User.query.filter_by(user_id = id_of_user).first()
+	dbquery = database.session.query('user_id')
 
 def return_user_list():
 	pass
