@@ -60,11 +60,11 @@ admin = User(username=ADMIN_NAME, user_id = 1, email=ADMIN_EMAIL , password_hash
 
 database.create_all()
 database.session.add(admin)
-database.session.add(guest)
-database.session.add(user)
-database.session.add(usership)
-database.session.add(adminship)
-database.session.add(guestship)
+#database.session.add(guest)
+#database.session.add(user)
+#database.session.add(usership)
+#database.session.add(adminship)
+#database.session.add(guestship)
 database.session.commit()
 #solar_empire_server.run()
 

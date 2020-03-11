@@ -41,7 +41,7 @@ class PlanetInfo(database.Model):
     planetid                = database.Column(database.Integer , \
                               database.relationship('Planet', \ 
                               backref='PlanetInfo' , \ 
-                              lazy=True)
+                              lazy=True))
     planet_num              = database.Column(database.Integer, primary_key = True)
     system_id               = database.Column(database.Integer)
     location_id             = database.Column(database.Integer)
@@ -77,6 +77,7 @@ class Planet(PlanetInfo):
 
 class PlanetPort(PlanetInfo):
     __tablename__           = 'planetport'
+    planet_id               = database.ForeignKey('planetinfo.planetid'), nullable=False)
     tech_resources_mined    = database.Column(database.Integer) 
     fuel_resources_mined    = database.Column(database.Integer)
     organic_resource_mined  = database.Column(database.Integer)
