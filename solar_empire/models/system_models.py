@@ -4,25 +4,30 @@ from solar_empire.inc.configuration_options import *
 #Base  system class
 # SOL is system_id 1!!
 class SystemInfo(database.Model):
+    __tablename__       = 'systeminfo'
     name                = database.Column(database.String(128))
-    system_id           = database.Column(database.Integer)
+    systemid            = database.relationship('System', backref='SystemInfo' , lazy=True)
     location_id         = database.Column(database.Integer)
     x_loc               = database.Column(database.Integer)
     y_loc               = database.Column(database.Integer)
+    navigation_hazard   = database.Column(database.Boolean, default = False)
+    random_events_level = database.Column(database.Integer, default = 0)
 
 #this is what we make a system with.
 #now... should anything inherit this class?
-class System(SystemInfo):    
+class System(SystemInfo):
+    __tablename__       = 'system'
+    system_id           = database.Column(database.Integer database.ForeignKey('systeminfo.systemid'))
     has_pizza_delivery  = database.Column(database.Boolean, default = False)
     has_fighters        = database.Column(database.Boolean)
     has_starport        = database.Column(database.Boolean, default = False)
-    navigation_hazard   = database.Column(database.Boolean, default = False)
     num_planets         = database.Column(database.Integer)
-    random_events_level = database.Column(database.Integer, default = 0)
 
 #neither should starport
 class StarPort(database.Model):
+    __tablename__       = 'starport'
     name                = database.Column(database.String(128))
+    starport_id         = database.Column(database.Integer, primary_key = True)
     system_id           = database.Column(database.Integer)
     location_id         = database.Column(database.Integer)
     x_loc               = database.Column(database.Integer)
@@ -32,14 +37,23 @@ class StarPort(database.Model):
 class PlanetInfo(database.Model):
     #planet ID 3 : EARTH
     # 8 reserved Planetoids
-    planet_id               = database.Column(database.Integer)
-    planet_num              = database.Column(database.Integer)
+    __tablename__           = 'planetinfo'
+    planetid                = database.Column(database.Integer , \
+                              database.relationship('Planet', \ 
+                              backref='PlanetInfo' , \ 
+                              lazy=True)
+    planet_num              = database.Column(database.Integer, primary_key = True)
     system_id               = database.Column(database.Integer)
     location_id             = database.Column(database.Integer)
     name                    = database.Column(database.String(128))
+    #TODO test if this works
+    planet                  = database.relationship('PlanetPort', backref='PlanetInfo' , lazy=True)
+    
 
 class Planet(PlanetInfo):
     #...
+    __tablename__           = 'planet'
+    planet_id               = database.ForeignKey('planetinfo.planetid'), nullable=False)
     user_id_of_owner        = database.Column(database.Integer)
     has_pizza_delivery      = database.Column(database.Boolean, default = False)
     has_port                = database.Column(database.Boolean, default = False)
@@ -62,6 +76,7 @@ class Planet(PlanetInfo):
     shield_amount           = database.Column(database.Integer)
 
 class PlanetPort(PlanetInfo):
+    __tablename__           = 'planetport'
     tech_resources_mined    = database.Column(database.Integer) 
     fuel_resources_mined    = database.Column(database.Integer)
     organic_resource_mined  = database.Column(database.Integer)

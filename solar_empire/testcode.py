@@ -1,13 +1,13 @@
 import os
-from flask.config import Config
+#from flask.config import Config
 from flask import Flask, render_template, Response, Request ,Config
 from flask_sqlalchemy import SQLAlchemy
-DATABASE_HOST      = "localhost"
-DATABASE           = "solar_empire-python"
+#DATABASE_HOST      = "localhost"
+#DATABASE           = "solar_empire-python"
 DATABASE_USER      = "moop"
 DATABASE_PASSWORD  = "password"
 SERVER_NAME        = "Solar Empire: 2020 - Python Edition"
-SERVER_ADDRESS     = ('localhost', 4443)
+#SERVER_ADDRESS     = ('localhost', 4443)
 HTTP_HOST          = "gamebiscuits"
 GAME_DIR           = "/solar_empire/"
 SEND_AUTH_MAIL     = True
@@ -19,12 +19,13 @@ ADMIN_EMAIL = "game_admin" + "@" + HTTP_HOST
 DANGER_STRING= "TACOCAT"
 
 class Config(object):
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE + '.' + HTTP_HOST + '.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////home/moop/Desktop/solar_empire/solar_empire_test.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 solar_empire_server = Flask(__name__ , template_folder="templates" )
 solar_empire_server.config.from_object(Config)
 database    = SQLAlchemy(solar_empire_server)
+database.init_app(solar_empire_server)
 
 def update_database(thing):
     database.session.add(thing)
@@ -51,11 +52,11 @@ class UserShip(User):
         return '<User id:{} name: {} >'.format(self.ship_id , self.ship_name)
 
 admin = User(username=ADMIN_NAME, user_id = 1, email=ADMIN_EMAIL , password_hash = ADMIN_PASSWORD)
-guest = User(username='guest1',    user_id = 2, email='test@game.net' , password_hash = 'password')
-user = User(username='guest2',    user_id = 3, email='test@game.net' , password_hash = 'password')
-usership = UserShip()
-adminship = UserShip()
-guestship = UserShip()
+#guest = User(username='guest1',    user_id = 2, email='test@game.net' , password_hash = 'password')
+#user = User(username='guest2',    user_id = 3, email='test@game.net' , password_hash = 'password')
+#usership = UserShip()
+#adminship = UserShip()
+#guestship = UserShip()
 
 database.create_all()
 database.session.add(admin)
@@ -72,6 +73,9 @@ User.query.filter_by(username='admin').first()
 
 def user_by_id(id_of_user):
     return User.query.all.filter_by(user_id = id_of_user).first()
+
+#this goes in a for loop to update fields
+database.session.query(ModelClass).filter(ModelClass.variable.in_(user_id_list).update({'field':"value"}))
 
 #>>> user.email
 #>>> print(user.email)

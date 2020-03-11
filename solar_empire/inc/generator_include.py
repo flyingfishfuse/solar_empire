@@ -2,7 +2,7 @@ def cut_links(fixcols = None, cut = None, add = None):
 	if fixcols :
 		#planets set colon = '100000' where colon = '2147483647'
 	if cut:
-		stars set link_1 = 0 where star_id = $s1 && link_1 = $s2
+		if star_id link_1 = 0 where star_id = $s1 && link_1 = $s2
 		stars set link_2 = 0 where star_id = $s1 && link_2 = $s2
 		stars set link_3 = 0 where star_id = $s1 && link_3 = $s2
 		stars set link_4 = 0 where star_id = $s1 && link_4 = $s2

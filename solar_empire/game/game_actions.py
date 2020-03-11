@@ -18,6 +18,9 @@ def return_game_var(var):
 def grab_starport_name():
 	return names.gen_name()
 
+def return_planet_by_id(planet_id):
+    database.query(PlanetInfo.planet_id)
+
 def add_to_db(thingie):
     database.session.add(thingie)
     database.session.commit
