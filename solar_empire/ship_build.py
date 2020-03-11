@@ -1,12 +1,12 @@
-<?php
+ship_to_build = None
 
 #select user
 # assign number ships player has
 # numships =  temp_123['ships']
-def build_ship():
+def build_ship(user_id):
 	if numships < 1 and  sudden_death and user.login_id != ADMIN_ID and user.last_login != 0 : 
 		print_page("Sudden Death","You have no ship, and this game is Sudden Death. As such you are out of the game.")
-	if user['location'] != 1 : 
+	if user.location_id != 1 : 
 		print_page("Error","You are unable to buy ships from here. Ships can only be brought from Earth (System #1).")
  	rs = "<p><a href=earth.php>Back to Earth</a>"
  	rs + "<br><a href=earth.php?ship_shop=1>Return to Ship Shop</a>"
@@ -15,103 +15,86 @@ def build_ship():
 	if mass : 
 		ship_stats =  ship_types[ mass]
 	 	take_flag = 1
- 	elseif user.game_login_count > 0 : 
+ 	elif user.game_login_count > 0 : 
 	 ship_stats =  ship_types[ ship_type]
 	 take_flag = 1
 
 
-if(empty( ship_stats) and  user.game_login_count != '0'){
+if( empty(ship_stats) and  user.game_login_count != '0' : 
 	print_page("Error","Admin has set the game up so as that ship is not available for purchase.")
 
 
-if ship_stats['config']) : 
+if ship_stats['config'] :  
 	 ship_stats['config'] = ""
 
 
 #build users first ship
-if user['ship_id'] == NULL and  user.game_login_count == 0 : 
+if user.ship_id == NULL and  user.game_login_count == 0 : 
 	if not start_ship : 
-		 start_ship[0] = 4
-	
-
+		start_ship[0] = 4
 	db("select * from  {db_name_ship_types where type_id = ' start_ship'")
 	 ship_stats = dbr(1)
-
-	//SetCookie("login_id", login_id,time()+2592000)
-	//SetCookie("session_id", session_id,0)
-	//SetCookie("db_name", db_name,0)
-
-	 ship_name = correct_name( ship_name)
-
+	ship_name = correct_name( ship_name)
 	if(empty( ship_name : 
 		 ship_name = "Un-Named"
-	
-
-	// build the new ship
+	# build the new ship
 	 q_string = "insert into  {db_name_ships ("
 	 q_string =  q_string . "ship_name,login_id,login_name,clan_id,shipclass,class_name,class_name_abbr,fighters,max_fighters,max_shields,cargo_bays,mine_rate_metal,mine_rate_fuel,config,size,upgrades,move_turn_cost,point_value"
 	 q_string =  q_string . ") values("
 	 q_string =  q_string . "' ship_name',' login_id',' user[login_name]',' user[clan_id]',' ship_stats[type_id]',' ship_stats[name]',' ship_stats[class_abbr]',' ship_stats[fighters]',' ship_stats[max_fighters]',' ship_stats[max_shields]',' ship_stats[cargo_bays]',' ship_stats[mine_rate_metal]',' ship_stats[mine_rate_fuel]',' ship_stats[config]',' ship_stats[size]',' ship_stats[upgrades]',' ship_stats[move_turn_cost]',' ship_stats[point_value]')"
-	// echo  q_string
-	dbn( q_string)
+	new_ship_id = mysql_insert_id()
 
-	 new_ship_id = mysql_insert_id()
+usership.ship_id = new_ship_id, game_login_count = game_login_count + 1 where login_id = ' user[login_id]'")
+	 user.ship_id = userShip( new_ship_id)
 
-	dbn("update  {db_name_users set ship_id = ' new_ship_id', game_login_count = game_login_count + 1 where login_id = ' user[login_id]'")
-	 user['ship_id'] = userShip( new_ship_id)
-
-	if(ereg("oo", ship_stats['config']) : 
-		if user['one_brob'] > 0){
+	if(ereg("oo", ship_stats['config'] :  
+		if user['one_brob'] > 0 : 
 			dbn("update  {db_name_users set one_brob = one_brob + one_brob where login_id = ' user[login_id]'")
 		 else {
 			dbn("update  {db_name_users set one_brob = 2 where login_id = ' user[login_id]'")
 		
 	
 	 rs = "<p><a href=location.php>Click To Play</a>"
-	if p_user['num_games_joined'] <= 1){ #first game played on this server
+	if p_user['num_games_joined'] <= 1 :  #first game played on this server
 		print_page("First Ship Brought","The paperwork is completed, and the ship is now yours.<br><br>Seeing as this is your first game on this server, maybe you'll want to take a look at the <a href=help.php?started=1 target=_blank>Getting Started</a> section of the Help (link will open a new window).<br><br><b>Hint:</b> You can access that, and all other aspects of Help for the game by clicking the <b class=b1>Help</b> link thats in the left column.")
 	 else {
 		print_page("First Ship Brought","The paperwork is completed, and the ship is now yours.<br>Have a nice game.")
-	
 
-
-
-
-//Bulk Purchase of ships
-if mass) : 
+#Bulk Purchase of ships
+if mass :  
 	#ensure users don't enter equations in place of numbers.
 	settype( num, "integer")
 
 	if ship_stats['type'] != "Freighter" :  #check to ensure are only able to bulk buy merchants
 		 error_str = "<b>Seatogu's Spacecraft Emporium</b> does not offer facilities for mass purchasing of any ship type other than Freighters."
-	elseif ( num < 1 : 	#check to allow user to enter the number of ships they want to buy.
+	elif  num < 1 : 	#check to allow user to enter the number of ships they want to buy.
 		 t7676 =  max_ships -  numships
-		if t7676* ship_stats['cost'] >  user['cash']){
-			 t7676 = floor( user['cash'] /  ship_stats['cost'])
+		if t7676* ship_to_build.cost >  user.cash : 
+			 t7676 = floor( user.cash /  ship_to_build.cost)
 		
-		 error_str + "Enter Number of <b class=b1> ship_stats[type]</b>s to purchase:"
-		 error_str + "<form name=mass_buy action=ship_build.php method=post>"
-		 error_str + "<input type=hidden name=mass value=' mass'>"
-		 error_str + "<input name=num value=' t7676' size=3>"
-		 error_str + ' <input type=submit value=Submit></form>'
-	elseif ( numships +  num >  max_ships :  # check to ensure tehy are not trying to buy too many ships
-		 error_str = "You already own <b> numships</b> ship(s). The Admin has set the max number of ships players may have to <b> max_ships</b>."
-	elseif user[cash] <  ship_stats[cost]* num :  #check to see if the user can afford them
-		 error_str = "You can't afford <b> num</b> <b class=b1> ship_stats[name]</b>s"
-	 elseif ship_name) :  #confirm purchase.
-		 rs = "<p><a href=earth.php>Back to Earth.</a>"
-		 rs + "<br><a href=earth.php?ship_shop=1>Return to Ship Shop</a>"
+		error_str + "Enter Number of <b class=b1> ship_stats[type]</b>s to purchase:"
+		error_str + "<form name=mass_buy action=ship_build.php method=post>"
+		error_str + "<input type=hidden name=mass value=' mass'>"
+		error_str + "<input name=num value=' t7676' size=3>"
+		error_str + ' <input type=submit value=Submit></form>'
+	elif numships +  num >  max_ships :  # check to ensure tehy are not trying to buy too many ships
+		error_str = "You already own <b> numships</b> ship(s). The Admin has set the max number of ships players may have to <b> max_ships</b>."
+	elif user.cash <  ship_stats[cost]* num :  #check to see if the user can afford them
+		error_str = "You can't afford <b> num</b> <b class=b1> ship_stats[name]</b>s"
+	elif ship_name :   #confirm purchase.
+		rs = "<p><a href=earth.php>Back to Earth.</a>"
+		rs + "<br><a href=earth.php?ship_shop=1>Return to Ship Shop</a>"
 		get_var('Name your new ships','ship_build.php',"Your fleet presently consists of <b> numships</b> ship(s).<br>When naming your new ships they will be given a number after the name you have entered. (3-25 Characters)",'ship_name','')
-	 elseif (strlen( ship_name) < 3 : 
-		 rs + "<p><a href=javascript:history.back()>Try Again</a>"
+	elif strlen( ship_name) < 3 : 
+		rs + "<p><a href=javascript:history.back()>Try Again</a>"
 		print_page("Error","Ship name must be at least three characters.")
-	 else { #do the processing.
-		 ship_name = correct_name( ship_name)
-		 quotes =  ship_name
-		// remove old escape pods
+	else: #do the processing.
+		ship_name = correct_name( ship_name)
+		quotes =  ship_name
+		# remove old escape pods
 		dbn("delete from  {db_name_ships where login_id = ' user[login_id]' and class_name REGEXP 'Escape'")
 
-		for( s=1 s<= num s++){
+		for( s=1 s<= num s++ : 
 			if ( s<10 : 
 				 s_name =  ship_name." 0". s
 			 else {
@@ -121,7 +104,7 @@ if mass) :
 			 q_string =  q_string . "ship_name,login_id,login_name,clan_id,shipclass,class_name,class_name_abbr,fighters,max_fighters,max_shields,cargo_bays,mine_rate_metal,mine_rate_fuel,config,size,upgrades,move_turn_cost,point_value"
 			 q_string =  q_string . ") values("
 			 q_string =  q_string . "' s_name',' login_id',' user[login_name]',' user[clan_id]',' ship_stats[type_id]',' ship_stats[name]',' ship_stats[class_abbr]',' ship_stats[fighters]',' ship_stats[max_fighters]',' ship_stats[max_shields]',' ship_stats[cargo_bays]',' ship_stats[mine_rate_metal]',' ship_stats[mine_rate_fuel]',' ship_stats[config]',' ship_stats[size]',' ship_stats[upgrades]',' ship_stats[move_turn_cost]',' ship_stats[point_value]')"
-			// echo  q_string
+			# echo  q_string
 			dbn( q_string)
 		
 
@@ -129,10 +112,10 @@ if mass) :
 		if user_ship['shipclass'] < 3 : 
 			 new_ship_id = mysql_insert_id()
 			dbn("update  {db_name_users set ship_id = ' new_ship_id' where login_id = ' user[login_id]'")
-			 user['ship_id'] =  new_ship_id
+			 user.ship_id =  new_ship_id
 			 user_ship = userShip( new_ship_id)
 		
-		 x1 =  num* ship_stats['cost']
+		 x1 =  num* ship_to_build.cost
 		 x2 =  quotes." 01"
 		 x3 =  quotes."  num"
 		 x4 =  numships +  num
@@ -145,15 +128,15 @@ if mass) :
 
 
 
-//The Brob Test!!!
-if user['one_brob'] > 0 and !isset( duplicate) and !isset( mass) : 
+#The Brob Test!!!
+if user['one_brob'] > 0 and !isset( duplicate) and !isset( mass :  
 	db("select ship_id from  {db_name_ships where login_id = ' user[login_id]' and config REGEXP 'oo'")
 	 results = dbr()
-	if results){
+	if results : 
 		 got_a_brob = 1
 	 else {
 		 got_a_brob = 0
-		 ship_stats['cost'] =  ship_stats['cost'] *  user['one_brob']
+		 ship_to_build.cost =  ship_to_build.cost *  user['one_brob']
 	
  else {
 	 got_a_brob = 0
@@ -162,27 +145,27 @@ if user['one_brob'] > 0 and !isset( duplicate) and !isset( mass) :
 
 if ( numships >=  max_ships : 
 	 error_str = "You already own <b> numships</b> ship(s).	The admin has set the max number of ships players may have. The limit is <b> max_ships</b>."
-elseif got_a_brob == 1 and eregi("oo", ship_stats['config']) : 
+elif got_a_brob == 1 and eregi("oo", ship_stats['config'] :  
 	 error_str + "You are already the proud owner of a flagship.<br>Due to galactic conventions, to keep the universe fairly safe you're only allowed one at a time.<br>Also, when you do loose this present one, your next one will cost twice the amount it of the last one."
-elseif ship_type == 1 ||  ship_type == 0 : 
+elif ship_type == 1 ||  ship_type == 0 : 
 	 error_str = "You may not buy this ship type."
-elseif user['cash'] <  ship_stats['cost'] : 
+elif user.cash <  ship_to_build.cost : 
 	 error_str = "You can't afford a <b class=b1> ship_stats[name]</b>"
- elseif ship_name) : 
+ elif ship_name :  
 	 rs = "<p><a href=earth.php?ship_shop=1>Return to Ship Shop</a>"
 	get_var('Name your new ship','ship_build.php',"Your fleet presently consists of <b> numships</b> ships.<br>Please enter a name for your new <b class=b1> ship_stats[name]</b>:(30 Char Max)",'ship_name','')
-	 elseif (strlen( ship_name) < 3 : 
+	 elif strlen( ship_name) < 3 : 
 		 rs + "<p><a href=javascript:history.back()>Try Again</a>"
 		print_page("Error","Ship name must be at least three characters.")
  else {
-	take_cash( ship_stats['cost'])
+	take_cash(ship_to_build.cost)
 
-	// remove old escape pods
+	# remove old escape pods
 	dbn("delete from  {db_name_ships where login_id = ' user[login_id]' and class_name REGEXP 'Escape'")
 
 	 ship_name = correct_name( ship_name)
 
-	// build the new ship
+	# build the new ship
 	 q_string = "insert into  {db_name_ships ("
 	 q_string =  q_string . "ship_name,login_id,login_name,clan_id,shipclass,class_name,class_name_abbr,fighters,max_fighters,max_shields,cargo_bays,mine_rate_metal,mine_rate_fuel,config,size,upgrades,move_turn_cost,point_value"
 	 q_string =  q_string . ") values("
@@ -192,19 +175,19 @@ elseif user['cash'] <  ship_stats['cost'] :
 	 new_ship_id = mysql_insert_id()
 
 	#the game goes all screwy if a player get's hold of ship_id 1.
-	if new_ship_id == 1){
+	if new_ship_id == 1 : 
 		 new_ship_id = 2
 		dbn("update  {db_name_ships set ship_id = '2' where ship_id = '1'")
 	
 
 	dbn("update  {db_name_users set ship_id = ' new_ship_id' where login_id = '".user.login_id."'")
-	 user['ship_id'] =  new_ship_id
+	 user.ship_id =  new_ship_id
 	 user_ship = userShip( new_ship_id)
 
 
 	 oo_str = ""
-	if(ereg("oo", ship_stats['config']) : 
-		if user['one_brob']){
+	if(ereg("oo", ship_stats['config'] :  
+		if user['one_brob'] : 
 			dbn("update  {db_name_users set one_brob = one_brob + one_brob where login_id = ' user[login_id]'")
 		 else {
 			dbn("update  {db_name_users set one_brob = 2 where login_id = ' user[login_id]'")
@@ -214,16 +197,16 @@ elseif user['cash'] <  ship_stats['cost'] :
 
 	 error_str + "Your payment of <b> ship_stats[cost]</b> has been accepted, and your new <b> ship_stats[name]</b>, with complementary Escape Pod has been delivered.<br> Have a nice day."
 	 oo_str + ""
-	if user_ship['fighters'] <  user_ship['max_fighters'] and  user_ship['max_fighters'] > 0){
+	if user_ship['fighters'] <  user_ship['max_fighters'] and  user_ship['max_fighters'] > 0 : 
 		 error_str + "<p><a href='equip_shop.php?buy=1'>Buy Some Fighters</a>"
 	
-	if user_ship['upgrades'] > 0){
+	if user_ship['upgrades'] > 0 : 
 		 error_str + "<br><a href='upgrade.php'>Purchase Some Upgrades</a>"
 	
 
 
 	 error_str + "<p><a href=earth.php>Return to Earth</a>"
 
-// print page
+# print page
 print_page("Ship Built", error_str)
 ?>

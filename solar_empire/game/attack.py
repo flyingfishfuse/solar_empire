@@ -5,12 +5,25 @@ from solar_empire.inc.common_include import *
 from solar_empire.inc.configuration_options import *
 from solar_empire.inc.user_include import *
 
+#Function to figure out the bonuses offered by weapon upgrades
+	#function bonus_calc(ship)
+#defensive turret : lvl 1
+damage = defensive_turret = round(330 * (mt_rand(75, 125) / 100)) * ship_type.num_dt
+#offensive turret : lvl 1
+damage = offensive_turret = round(200 * (mt_rand(80, 120) / 100)) * ship_type.num_dt
+#silicon armour : lvl 2
+damage = silicon_armor = round(upgrade_sa * (mt_rand(90, 110) / 100)) * ship_type.num_sa
+#plasma cannon : lvl 2
+damage = plasmacannon = round(420 * (mt_rand(92, 108) / 100)) * ship_type.num_pc
+#electronic warfare module : lvl 1
+damage = elec_war_def = round(325 * (mt_rand(85, 115) / 100)) * ship_type.num_ew
+damage = elec_war_off = round(225 * (mt_rand(80, 120) / 100)) * ship_type.num_ew
 
 turns_before_attack = return_game_var('turns_before_attack')
 
 def attack_planet(planet_num, user_id):
-    user_info = User.query.filter_by(login_id = user_id).first()
-    planet_info = PlanetInfo.query.filter_by(planet_id = planet_num)
+    user_info = return_user_by_id(user_id)
+    planet_info = return_planet_by_id(planet_num)
     ceasefire_turns_left = return_game_var('turns_before_planet_attack')
 
 def quark_displacer(planet_num, user_id):

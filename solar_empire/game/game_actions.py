@@ -5,8 +5,12 @@ from solar_empire.universe_build.generator_functions import *
 from solar_empire.models import *
 from solar_empire.inc.common_include import *
 
-def add_resources(player, resource_type, resource_amount):
+def add_resources_to_player(user_id, resource_type, resource_amount):
+    user_to_mod = database.query(User).filter_by(User.user_id)
 	pass
+
+#returns a list of the ship_types
+def load_ship_types():
 
 def return_game_var(var):
     return GameVars.query.filter_by(var)

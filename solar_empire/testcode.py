@@ -31,9 +31,6 @@ def update_database(thing):
     database.commit()
 
 
-def user_by_id(id_of_user):
-    return User.query.all.filter_by(user_id = id_of_user).first()
-
 #without the flask migrate module, you need to instantiate
 # databases with default values. That module wont be loaded 
 # yet during the creation of a NEW game
@@ -70,8 +67,11 @@ database.session.add(guestship)
 database.session.commit()
 #solar_empire_server.run()
 
-User.query.all()
+asdf = User.query.all()
 User.query.filter_by(username='admin').first()
+
+def user_by_id(id_of_user):
+    return User.query.all.filter_by(user_id = id_of_user).first()
 
 #>>> user.email
 #>>> print(user.email)
