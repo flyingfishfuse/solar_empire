@@ -201,6 +201,8 @@ class Planet(PlanetInfo):
     has_shield              = database.Column(database.Boolean, default = False)
     has_fighters            = database.Column(database.Boolean)
     uses_slaves             = database.Column(database.Boolean, default = False)
+    attack_planet           = database.Column(database.Boolean, default = False)
+    defense_planet          = database.Column(database.Boolean, default = False)
 
     tech_resources          = database.Column(database.Integer) 
     fuel_resources          = database.Column(database.Integer)

@@ -1,128 +1,3 @@
-import solar_empire
-from solar_empire import *
-from solar_empire.models import *
-from solar_empire.configuration_options import *
-from solar_empire.common_include import *
-from solar_empire.names.names import *
-from solar_empire.user_include import *
-from math import *
-
-random_events = random_events
-sure = ask_if_certain()
-
-#supernova effectors, add to db model in moring please
-sn_effect = True
-
-#this line needs to go somewhere
-#print_page('Use SuperNova Effector - Are you sure you want to use the SuperNova Effector?')
-random_events = return_system_variable('random_events_level')
-def attack_with_bomb(attacker_user, target_user, target_ship):
-    attacker = return_user_by_id(attacker_user)
-    if return_user_variable( attacker , 'user_id') != ADMIN_USER_ID :
-	    if return_user_variable( attacker , 'turns_run') < SAFE_TURNS :
-		    print_page("Bomb","You can't attack during the first <b>turns_before_attack</b> turns of having your account.");
-	    if does_user_have_ship() == False :
-		    print_page("Bomb","You May not use a Bomb when you are not commanding a ship. Try buying a ship then set off a Bomb");
-    #SuperNova Effector
-    if sn_effect :
-	    if return_user_variable( attacker , 'sn_effect') < 1 :
-		    print_page("No can Blow: You don't have a SuperNova Effector.")
-	    elif random_events == 2 :
-		    print_page("No can Blow: Sorry. You need a system with a star in to allow you to blow it up. <br>This system is a <b class=b1>Nebula</b>, which means that it is only gases. <br>Try again somewhere else.")
-	    elif random_events == 1 :
-    		print_page("No can Blow: Sorry. You need a system with a star in to allow you to blow it up. <br>The star in this system has already exploded, and has formed a <b class=b1>BlackHole</b>. <br>Try again somewhere else.")
-        elif random_events == 6 :
-	    	print_page("No can Blow: Sorry. You need a system with a star in to allow you to blow it up. <br>The star in this system only just exploded, and is now a <b class=b1>SuperNova Remnant</b>. <br>Try again somewhere else.")
-        elif random_events == 5 or random_events == 10 :
-    		print_page("No can Blow: This star is already fairly likely to Blow-up. <br>There's no point in using your SN Effector here.")
-        elif return_system_variable('star_id') == 1 :
-		    n_s_1 = [] #WTF IS DIS
-		    if n_s_1['ship_id'] :
-			dbn("update {db_name_users set ship_id = 'n_s_1[ship_id]' && location = 'n_s_1[location]' where login_id='user[login_id]'");
-			n_s_1['ship_id']  = return_user_variable( attacker , 'ship_id')
-			n_s_1['location'] = return_user_variable( attacker , 'location')
-		elif return_user_ship_variable('shipclass', target) != 2 :
-			create_escape_pod_user(return_user_ship_variable(target_ship))
-        else :
-            return_user_variable( attacker , 'location') = 1;
-			return_user_variable( attacker , 'ship_id') = None;
-		
-		post_news("One of <b class=b1>user[login_name]</b>s ships was destroyed by a mutiny of the crew.");
-		print_page("Mutiny","<b>What!?!?!</b> You'd try and destroy the <b class=b1>Sol system</b>? <br>What sort of <b>Maniac</b> are you? <br>Fortunatly the crew on your ship knew better, and so <b class=b1>mutineed </b>to stop you destroying everything they hold fair. <p>Your ship was destroyed during the mutiny.");
-	elif sure) :
-		get_var('Use SuperNova Effector','bombs.php','Are you sure?','sure','');
-	 else {
-		if return_user_variable( attacker , 'login_id') != ADMIN_USER_ID){
-			dbn("update {db_name_users set sn_effect = 0 where login_id = " . return_user_variable( attacker , 'login_id']);
-		
-		dbn("update {db_name_stars set event_random = 10 where star_id = user[location]");
-		post_news("<b class=b1>user[login_name]</b> released a SuperNova Effector in star system #<b>user_ship[location]</b>");
-		post_news('Due to the Release of a SuperNova Effector in system #<b>' .
-		 user_ship[location] . '</b> by <b class=b1>' . user[login_name] .
-		 '</b> only a few moments ago, the star is set to go SuperNova. This means that everything in the system will be destroyed. The star will explode within the next <b>48 hours</b>.');
-		print_page("Detonation Complete","The SuperNova Effector has successfully detonated.<br>This star will go SuperNova within the next <b>48 hours</b>.");
-	
-
-
-#Alpha Bomb
-if alpha :
-// checks
-
-db(attack_planet_checkdb_name,user));
-planets = dbr();
-
-	if(emptyplanets)orreturn_user_variable( user_id , 'login_id') == ADMIN_USER_ID :
-		if return_user_variable( user_id , 'alpha') < 1 :
-			error_str = "You don't have a Alpha Bomb.";
-		elif flag_sol_attack == 0 && return_user_variable( user_id , 'location') == 1 && return_user_variable( user_id , 'login_id') != ADMIN_USER_ID :
-			error_str = "The Admin has disabled all forms of attack in the Sol System (system #<b>1</b>)..";
-		elif sure) :
-			get_var('Use Alpha Bomb','bombs.php','Are you sure you want to use an Alpha Bomb?','sure','');
-		 else {
-			if return_user_variable( user_id , 'login_id') != ADMIN_USER_ID){
-				dbn("update {db_name_users set alpha = alpha - 1 where login_id = user[login_id]");
-			
-
-			post_news("<b class=b1>user[login_name]</b> imploded a Alpha Bomb in system #user_ship[location]");
-			get_star();
-
-			lastresort = mysql_query("select s.ship_id,s.ship_name,s.login_id,s.class_name from {db_name_ships s, {db_name_users u where s.location = 'user[location]' && u.login_id != 1 && s.ship_id > 1 && s.login_id = u.login_id && u.turns_run > 'turns_safe'") or mysql_die("");
-
-			ship_counter = 0;
-			victims = array();
-			whiletarget_ship = mysql_fetch_arraylastresort) :
-				dbn("update {db_name_ships set shields = 0 where ship_id = 'target_ship[ship_id]'");
-				ship_counter++;
-				victims[target_ship['login_id']] .= "\n<br><b class=b1>target_ship[ship_name]</b> target_ship[class_name])";
-			
-
-			#loop to send out a message to each player.
-			foreachvictims as victim_id => ship_list :
-				ships_hit = substr_countship_list, "<b class=b1>");
-
-				#don't send a message to the user if they are hit by a bomb.
-				if victim_id == return_user_variable( user_id , 'login_id' :
-					continue;
-				
-				send_messagevictim_id,"<b class=b1>user[login_name]</b> unleashed an Alpha Bomb in Star System #<b>user_ship[location]</b>.<br>The bomb hit <b>ships_hit</b> of your ships, completely eliminating all of their shields.<br>Shown below is a complete listing of your all ships hit by the blast:<br>ship_list");
-			
-
-			error_str .= "You have successfully released an Alpha Bomb in system #<b>star[star_id]</b>, hitting <b>ship_counter</b> ship(s) in all, and reducing all shields on those ships to <b>0</b>.";
-
-		
-
-		db("select * from {db_name_users where login_id = 'login_id'");
-		user = dbr(1);
-		db("select * from {db_name_ships where ship_id = 'user[ship_id]'");
-		user_ship = dbr(1);
-		empty_baysuser_ship);
-	 else {
-		error_str = "You cannot use a Alpha Bomb in a system with an Attack Planet in it.";
-	
-
-print_page("Alpha Bomb",error_str);
-
-
 #===========
 #Damage Bombs
 #===========
@@ -137,35 +12,35 @@ elif bomb_type == 2){ #delta Bomb
 
 
 // checks
-db(attack_planet_checkdb_name,user));
-planets = dbr();
+db(target,user)
+planets = dbr(
 
 if (emptyplanets)orreturn_user_variable( user_id , 'login_id') == ADMIN_USER_ID :
 	if return_user_variable( user_id , 'gamma') < 1 && bomb_type==1 :
-		error_str = "You don't have a Gamma Bomb.";
+		scrolling_output_message("You don't have a Gamma Bomb.";
 	elif return_user_variable( user_id , 'delta') < 1 && bomb_type==2 :
-		error_str = "You don't have a Delta Bomb.";
+		scrolling_output_message("You don't have a Delta Bomb.";
 	elif flag_sol_attack == 0 && return_user_variable( user_id , 'location') == 1 && return_user_variable( user_id , 'login_id') != ADMIN_USER_ID :
-		error_str = "The Admin has disabled all forms of attack in the Sol System (system #<b>1</b>).";
+		scrolling_output_message("The Admin has disabled all forms of attack in the Sol System (system #<b>1</b>).";
 	elif sure) :
-		get_var('Use b_text Bomb','bombs.php',"Are you sure you want to detonate a b_text Bomb?",'sure','');
+		scrolling_output_message('Use b_text Bomb','bombs.php',"Are you sure you want to detonate a b_text Bomb?",'sure',''
 	 else {
 
 		if return_user_variable( user_id , 'login_id') != ADMIN_USER_ID){
-			dbn("update {db_name_users set {b_text = {b_text - 1 where login_id = user[login_id]");
+			dbn("update {db_name_users set {b_text = {b_text - 1 where login_id = user[login_id]"
 		
 
-		post_news("<b class=b1>user[login_name]</b> unleashed a b_text Bomb in star system #<b>user_ship[location]</b>");
+		post_news("<b class=b1>user[login_name]</b> unleashed a b_text Bomb in star system #<b>return_user_ship_variable('location]</b>"
 
-		get_star();
+		get_star(
 		if bomb_type==1 : #gamma bomb
 			bomb_damage = 200;
 		elif bomb_type==2 : #delta bomb
 			#clear all shields on all ships before we start.
-			db("select s.ship_id from {db_name_ships s, {db_name_users u where s.location = 'user[location]' && u.login_id	!= 1 && s.ship_id > 1 && s.login_id = u.login_id && u.turns_run > 'turns_safe'");
+			db("select s.ship_id from {db_name_ships s, {db_name_users u where s.location = 'user[location]' && u.login_id	!= 1 && s.ship_id > 1 && s.login_id = u.login_id && u.turns_run > 'turns_safe'"
 
 			whiletarget_ship = dbr(1)){
-				dbn("update {db_name_ships set shields = 0 where ship_id = 'target_ship[ship_id]'");
+				dbn("update {db_name_ships set shields = 0 where ship_id = 'target_ship[ship_id]'"
 			
 			target_ship = "";
 
@@ -177,25 +52,25 @@ if (emptyplanets)orreturn_user_variable( user_id , 'login_id') == ADMIN_USER_ID 
 		
 
 		ship_counter = 0;
-		dam_victim = array();
+		dam_victim = array(
 		destroyed_ships = 0;
 
-		lastresort = mysql_query("select s.fighters,s.shields,s.ship_id,s.metal,s.fuel,s.location,s.login_id,s.class_name,s.ship_name,s.point_value,u.login_name, s.num_sa as num_sa from {db_name_ships s,{db_name_users u where s.location = 'user[location]' && s.ship_id > '1' && s.login_id >'1' && s.login_id = u.login_id && u.turns_run >= 'turns_safe'") or mysql_die("Bombs are messed up.");
+		lastresort = mysql_query("select s.fighters,s.shields,s.ship_id,s.metal,s.fuel,s.location,s.login_id,s.class_name,s.ship_name,s.point_value,u.login_name, s.num_sa as num_sa from {db_name_ships s,{db_name_users u where s.location = 'user[location]' && s.ship_id > '1' && s.login_id >'1' && s.login_id = u.login_id && u.turns_run >= 'turns_safe'") or mysql_die("Bombs are messed up."
 
 		elim = 0;
 
 		#loop through players to damage.
 		whiletarget_ship = mysql_fetch_arraylastresort) :
-			#db("select login_name,login_id,ship_id from {db_name_users where login_id = 'target_ship[login_id]'");
-			#target = dbr();
+			#db("select login_name,login_id,ship_id from {db_name_users where login_id = 'target_ship[login_id]'"
+			#target = dbr(
 
 
 			ship_counter++;
 
 			#silicon armour taken into effect.
-			this_bomb = bomb_damage - target_ship['num_sa') * upgrade_sa);
+			this_bomb = bomb_damage - target_ship['num_sa') * upgrade_sa
 			temp121 = 0;
-			temp121 = damage_shipthis_bomb,0,0,user,target_ship,target_ship);
+			temp121 = damage_shipthis_bomb,0,0,user,target_ship,target_ship
 
 			#Used to limit messages sent, so each player only gets 1 message.
 			dam_victim[target_ship['login_id']] .= "\n<br><b class=b1>target_ship[ship_name]</b> target_ship[class_name])";
@@ -209,15 +84,15 @@ if (emptyplanets)orreturn_user_variable( user_id , 'login_id') == ADMIN_USER_ID 
 		#loop to send out a message to each player.
 		foreachdam_victim as victim_id => ship_list :
 
-			ships_hit = substr_countship_list, "<b class=b1>");
-			ships_killed = substr_countship_list, "- Destroyed");
+			ships_hit = substr_countship_list, "<b class=b1>"
+			ships_killed = substr_countship_list, "- Destroyed"
 			elim += ships_killed;
 
 			#don't send a message to the user.
 			if victim_id == return_user_variable( user_id , 'login_id' :
 				continue;
 			
-			send_messagevictim_id,"<b class=b1>user[login_name]</b> unleashed a b_text Bomb in Star System #<b>user_ship[location]</b>.<br>The bomb hit <b>ships_hit</b> of your ships doing <b>bomb_damage</b> damage to each.<br><br>Of those hit, <b>ships_killed</b> were destroyed by the blast.<br>Shown below is a compelte listing of all your ships hit by the bomb:<br>ship_list");
+			send_messagevictim_id,"<b class=b1>user[login_name]</b> unleashed a b_text Bomb in Star System #<b>return_user_ship_variable('location]</b>.<br>The bomb hit <b>ships_hit</b> of your ships doing <b>bomb_damage</b> damage to each.<br><br>Of those hit, <b>ships_killed</b> were destroyed by the blast.<br>Shown below is a compelte listing of all your ships hit by the bomb:<br>ship_list"
 		
 
 		if elim == 0){
@@ -229,15 +104,15 @@ if (emptyplanets)orreturn_user_variable( user_id , 'login_id') == ADMIN_USER_ID 
 		error_str .= "<p><b class=b2>kaaaaBBBBBBOOOOOOOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMM!!!!!!!</b>";
 	
 
-	db("select * from {db_name_users where login_id = 'user[login_id]'");
-	user = dbr(1);
-	db("select * from {db_name_ships where ship_id = 'user[ship_id]'");
-	user_ship = dbr(1);
-	empty_baysuser_ship);
+	db("select * from {db_name_users where login_id = 'user[login_id]'"
+	user = dbr(1
+	db("select * from {db_name_ships where ship_id = 'user[ship_id]'"
+	user_ship = dbr(1
+	empty_baysuser_ship
  else {
-	error_str = "You cannot use a b_text Bomb in a system with an Attack Planet in it.";
+	scrolling_output_message("You cannot use a b_text Bomb in a system with an Attack Planet in it.";
 
 
 
-print_page("Use b_text Bomb",error_str);
+scrolling_output_message("Use b_text Bomb",error_str
 ?>

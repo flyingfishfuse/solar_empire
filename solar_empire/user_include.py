@@ -44,6 +44,12 @@ def return_user_ship_variable(user_id , var):
 		#usership_var = usership
 	else:
 		return False
+########################################
+#	Need another file for the following
+# weapons and transportation actions
+#######################################
+def wormhole_playership(ship_id, location):
+	pass
 
 def buy_basic_upgrade(user_id, \
 					  upgrade, \
@@ -81,6 +87,11 @@ def charge_turns(amount, user_id):
 		user.turns_left - amount
 		user.turns_run + amount
 
+def get_all_ships_system(system_id):
+	pass
+
+def get_all_ships_planet(planet_id):
+	pass
 
 def give_cash(user_id, amount):
 	pass
@@ -93,6 +104,12 @@ def remove_resource_from_player(user_id, resource, amount):
 	pass
 
 def add_resource_to_player(user_id, resource, amount):
+	pass
+
+def kill_shields(user_id):
+	pass
+
+def kill_fighters():
 	pass
 
 #function that damages a ship with a specified amount of damage.

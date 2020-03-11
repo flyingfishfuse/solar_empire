@@ -68,6 +68,9 @@ def return_blackmarket_name():
 				 "One Eyed Doyle", "The Ministry of Offence"]
 	return blackmarket_names[random.randint(1, len(blackmarket_names))]
 
+def scrolling_output_text(text_string):
+	#javascript to scroll the text into view
+	pass
 
 #//post an entry into the news
 	#function post_news(headline)
