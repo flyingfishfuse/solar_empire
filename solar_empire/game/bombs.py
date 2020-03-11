@@ -1,3 +1,4 @@
+
 #===========
 #Damage Bombs
 #===========
@@ -16,11 +17,11 @@ db(target,user)
 planets = dbr(
 
 if (emptyplanets)orreturn_user_variable( user_id , 'login_id') == ADMIN_USER_ID :
-	if return_user_variable( user_id , 'gamma') < 1 && bomb_type==1 :
+	if return_user_variable( user_id , 'gamma') < 1 and bomb_type==1 :
 		scrolling_output_message("You don't have a Gamma Bomb.";
-	elif return_user_variable( user_id , 'delta') < 1 && bomb_type==2 :
+	elif return_user_variable( user_id , 'delta') < 1 and bomb_type==2 :
 		scrolling_output_message("You don't have a Delta Bomb.";
-	elif flag_sol_attack == 0 && return_user_variable( user_id , 'location') == 1 && return_user_variable( user_id , 'login_id') != ADMIN_USER_ID :
+	elif flag_sol_attack == 0 and return_user_variable( user_id , 'location') == 1 and return_user_variable( user_id , 'login_id') != ADMIN_USER_ID :
 		scrolling_output_message("The Admin has disabled all forms of attack in the Sol System (system #<b>1</b>).";
 	elif sure) :
 		scrolling_output_message('Use b_text Bomb','bombs.php',"Are you sure you want to detonate a b_text Bomb?",'sure',''
@@ -37,7 +38,7 @@ if (emptyplanets)orreturn_user_variable( user_id , 'login_id') == ADMIN_USER_ID 
 			bomb_damage = 200;
 		elif bomb_type==2 : #delta bomb
 			#clear all shields on all ships before we start.
-			db("select s.ship_id from {db_name_ships s, {db_name_users u where s.location = 'user[location]' && u.login_id	!= 1 && s.ship_id > 1 && s.login_id = u.login_id && u.turns_run > 'turns_safe'"
+			db("select s.ship_id from {db_name_ships s, {db_name_users u where s.location = 'user[location]' and u.login_id	!= 1 and s.ship_id > 1 and s.login_id = u.login_id and u.turns_run > 'turns_safe'"
 
 			whiletarget_ship = dbr(1)){
 				dbn("update {db_name_ships set shields = 0 where ship_id = 'target_ship[ship_id]'"
@@ -55,7 +56,7 @@ if (emptyplanets)orreturn_user_variable( user_id , 'login_id') == ADMIN_USER_ID 
 		dam_victim = array(
 		destroyed_ships = 0;
 
-		lastresort = mysql_query("select s.fighters,s.shields,s.ship_id,s.metal,s.fuel,s.location,s.login_id,s.class_name,s.ship_name,s.point_value,u.login_name, s.num_sa as num_sa from {db_name_ships s,{db_name_users u where s.location = 'user[location]' && s.ship_id > '1' && s.login_id >'1' && s.login_id = u.login_id && u.turns_run >= 'turns_safe'") or mysql_die("Bombs are messed up."
+		lastresort = mysql_query("select s.fighters,s.shields,s.ship_id,s.metal,s.fuel,s.location,s.login_id,s.class_name,s.ship_name,s.point_value,u.login_name, s.num_sa as num_sa from {db_name_ships s,{db_name_users u where s.location = 'user[location]' and s.ship_id > '1' and s.login_id >'1' and s.login_id = u.login_id and u.turns_run >= 'turns_safe'") or mysql_die("Bombs are messed up."
 
 		elim = 0;
 

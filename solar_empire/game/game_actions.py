@@ -1,9 +1,9 @@
 import solar_empire
 from solar_empire import *
-from solar_empire.configuration_options import *
-from solar_empire.generator_functions import *
+from solar_empire.inc.configuration_options import *
+from solar_empire.universe_build.generator_functions import *
 from solar_empire.models import *
-from solar_empire.common_include import *
+from solar_empire.inc.common_include import *
 
 def add_resources(player, resource_type, resource_amount):
 	pass

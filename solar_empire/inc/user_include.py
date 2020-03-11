@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 import solar_empire
 from solar_empire.models import *
-from solar_empire.common_include import *
+from solar_empire.inc.common_include import *
 
 #generic link to go back to the start system
 system_view = "<p><a href='location'>Back to the Star System</a><br>"
 #damage capacity of the silicon armour module
+admin_view = "<p><a href=admin.php>Back to Admin Page</a>";
 
 def return_user_by_id(id_of_user):
 	dbquery = database.session.query('user_id')

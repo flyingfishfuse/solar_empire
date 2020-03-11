@@ -1,6 +1,7 @@
 import os
 from flask.config import Config
 import random
+
 #software stuff
 VERSION            = 'Generic SE 2.9.1 - MODIFIED:Python Language Conversion -  Version : 0.01'
 basedir = os.path.abspath(os.path.dirname(__file__))

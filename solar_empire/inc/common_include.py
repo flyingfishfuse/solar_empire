@@ -4,7 +4,7 @@ from solar_empire import *
 from solar_empire.models import *
 
 from datetime import datetime
-from solar_empire.configuration_options import *
+from solar_empire.inc.configuration_options import *
 
 def add_resources_to_player_by_id(player_id, resource_type, resource_amount):
 	

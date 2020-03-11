@@ -2,8 +2,8 @@
 from flask import Flask, render_template, Response, Request ,Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-import solar_empire.configuration_options
-from solar_empire.configuration_options import *
+import solar_empire.inc.configuration_options
+from solar_empire.inc.configuration_options import *
 from solar_empire.models import *
 
 ##DOTO: require a hacking tool to alter a POST parameter to access an AI
