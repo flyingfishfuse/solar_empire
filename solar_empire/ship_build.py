@@ -19,33 +19,18 @@ def build_ship(user_id):
 	 ship_stats =  ship_types[ ship_type]
 	 take_flag = 1
 
-
-if( empty(ship_stats) and  user.game_login_count != '0' : 
-	print_page("Error","Admin has set the game up so as that ship is not available for purchase.")
-
-
-if ship_stats['config'] :  
-	 ship_stats['config'] = ""
-
+print_page("Error","Admin has set the game up so as that ship is not available for purchase.")
 
 #build users first ship
-if user.ship_id == NULL and  user.game_login_count == 0 : 
-	if not start_ship : 
-		start_ship[0] = 4
-	db("select * from  {db_name_ship_types where type_id = ' start_ship'")
-	 ship_stats = dbr(1)
-	ship_name = correct_name( ship_name)
-	if(empty( ship_name : 
-		 ship_name = "Un-Named"
-	# build the new ship
-	 q_string = "insert into  {db_name_ships ("
-	 q_string =  q_string . "ship_name,login_id,login_name,clan_id,shipclass,class_name,class_name_abbr,fighters,max_fighters,max_shields,cargo_bays,mine_rate_metal,mine_rate_fuel,config,size,upgrades,move_turn_cost,point_value"
-	 q_string =  q_string . ") values("
-	 q_string =  q_string . "' ship_name',' login_id',' user[login_name]',' user[clan_id]',' ship_stats[type_id]',' ship_stats[name]',' ship_stats[class_abbr]',' ship_stats[fighters]',' ship_stats[max_fighters]',' ship_stats[max_shields]',' ship_stats[cargo_bays]',' ship_stats[mine_rate_metal]',' ship_stats[mine_rate_fuel]',' ship_stats[config]',' ship_stats[size]',' ship_stats[upgrades]',' ship_stats[move_turn_cost]',' ship_stats[point_value]')"
-	new_ship_id = mysql_insert_id()
-
-usership.ship_id = new_ship_id, game_login_count = game_login_count + 1 where login_id = ' user[login_id]'")
-	 user.ship_id = userShip( new_ship_id)
+def first_ship(user_id, ship_name):
+	user         = return_user_by_id(user_id) 
+	newship_type = return_game_var(starting_ship)
+	if user.game_login_count     == 0 : 
+		users_new_ship           = UserShip(type_id = newship_type)
+		users_new_ship.ship_name = ship_name
+		users_new_ship.ship_id   = new_ship_id
+		game_login_count         = game_login_count + 1 where login_id = ' user[login_id]'")
+	 	user.ship_id = userShip( new_ship_id)
 
 	if(ereg("oo", ship_stats['config'] :  
 		if user['one_brob'] > 0 : 

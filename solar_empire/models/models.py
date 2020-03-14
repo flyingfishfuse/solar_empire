@@ -66,6 +66,7 @@ class GameVars(database.Model):
     # is planet attacking allowed?
     flag_planet_attack         = database.Column(database.Boolean)
     random_events              = database.Column(database.Integer)
+    starting_ship              = database.Column(database.Integer, default = 1)
 
 
 

@@ -19,7 +19,7 @@ ADMIN_EMAIL = "game_admin" + "@" + HTTP_HOST
 DANGER_STRING= "TACOCAT"
 
 class Config(object):
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////home/moop/Desktop/solar_empire/solar_empire_test.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///solar_empire_test.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 solar_empire_server = Flask(__name__ , template_folder="templates" )
@@ -30,11 +30,6 @@ database.init_app(solar_empire_server)
 def update_database(thing):
     database.session.add(thing)
     database.commit()
-
-
-#without the flask migrate module, you need to instantiate
-# databases with default values. That module wont be loaded 
-# yet during the creation of a NEW game
 class User(database.Model):
     user_id       = database.Column(database.Integer,     default = 0, primary_key = True)
     username      = database.Column(database.String(64),  default = "tourist", index=True, unique=True)
@@ -51,20 +46,20 @@ class UserShip(User):
     def __repr__(self):
         return '<User id:{} name: {} >'.format(self.ship_id , self.ship_name)
 
-admin = User(username=ADMIN_NAME, user_id = 1, email=ADMIN_EMAIL , password_hash = ADMIN_PASSWORD)
-#guest = User(username='guest1',    user_id = 2, email='test@game.net' , password_hash = 'password')
-#user = User(username='guest2',    user_id = 3, email='test@game.net' , password_hash = 'password')
-#usership = UserShip()
-#adminship = UserShip()
-#guestship = UserShip()
+admin = User(username='admin', user_id = 1, email="test@wat" , password_hash = 'passwordadmin')
+guest = User(username='guest1',    user_id = 2, email='test@game.net' , password_hash = 'password')
+user = User(username='guest2',    user_id = 3, email='test@game.net' , password_hash = 'password')
+usership = UserShip()
+adminship = UserShip()
+guestship = UserShip()
 
 database.create_all()
 database.session.add(admin)
-#database.session.add(guest)
-#database.session.add(user)
-#database.session.add(usership)
-#database.session.add(adminship)
-#database.session.add(guestship)
+database.session.add(guest)
+database.session.add(user)
+database.session.add(usership)
+database.session.add(adminship)
+database.session.add(guestship)
 database.session.commit()
 #solar_empire_server.run()
 
@@ -105,17 +100,16 @@ database.session.query(ModelClass).filter(ModelClass.variable.in_(user_id_list).
 #│ as_scalar                     autoflush                     column_descriptions           correlate                              │
 #│ count                         cte                           delete                        dispatch                               │
 #└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+#>>> asdf = database.session.query(User.user_id == 1)
+#>>> asdf
+#<flask_sqlalchemy.BaseQuery object at 0x7f49aacff780>
 
->>> asdf = database.session.query(User.user_id == 1)
->>> asdf
-<flask_sqlalchemy.BaseQuery object at 0x7f49aacff780>
+#>>> asdf = database.session.query(User)
+#>>> asdf
+#<flask_sqlalchemy.BaseQuery object at 0x7f49aacff780>
 
->>> asdf = database.session.query(User)
->>> asdf
-<flask_sqlalchemy.BaseQuery object at 0x7f49aacff780>
-
->>> User.query.filter_by(user_id == 1 ).first()
-Traceback (most recent call last):
-  File "<input>", line 1, in <module>
-    User.query.filter_by(user_id == 1 ).first()
-NameError: name 'user_id' is not defined
+#>>> User.query.filter_by(user_id == 1 ).first()
+#Traceback (most recent call last):
+#  File "<input>", line 1, in <module>
+#    User.query.filter_by(user_id == 1 ).first()
+#NameError: name 'user_id' is not defined

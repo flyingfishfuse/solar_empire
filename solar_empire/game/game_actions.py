@@ -25,6 +25,9 @@ def add_to_db(thingie):
     database.session.add(thingie)
     database.session.commit
 
+def update_db():
+    database.session.commit()
+
 def change_game_var(the_var , new_value):
     current_value            = return_game_var(the_var)
     new_game_variable_value  = 

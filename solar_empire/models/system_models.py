@@ -4,32 +4,33 @@ from solar_empire.inc.configuration_options import *
 #Base  system class
 # SOL is system_id 1!!
 class SystemInfo(database.Model):
-    __tablename__       = 'systeminfo'
-    name                = database.Column(database.String(128))
-    systemid            = database.relationship('System', backref='SystemInfo' , lazy=True)
+    __tablename__       = 'SystemInfo'
+    system_id           = database.Column(database.Integer, primary_key = True, unique=True, autoincrement=True)
     location_id         = database.Column(database.Integer)
+    name                = database.Column(database.String(128))
     x_loc               = database.Column(database.Integer)
     y_loc               = database.Column(database.Integer)
-    navigation_hazard   = database.Column(database.Boolean, default = False)
-    random_events_level = database.Column(database.Integer, default = 0)
+    num_stars           = database.Column(database.Integer)
+    navigation_hazard   = database.Column(database.Boolean)
+    random_events_level = database.Column(database.Integer)
 
 #this is what we make a system with.
 #now... should anything inherit this class?
 class System(SystemInfo):
-    __tablename__       = 'system'
-    system_id           = database.Column(database.Integer database.ForeignKey('systeminfo.systemid'))
-    has_pizza_delivery  = database.Column(database.Boolean, default = False)
+    __tablename__       = 'System'
+    #system_id           = database.Column(database.Integer, database.ForeignKey('systeminfo.systemid'))
+    has_pizza_delivery  = database.Column(database.Boolean)
     has_fighters        = database.Column(database.Boolean)
-    has_starport        = database.Column(database.Boolean, default = False)
+    has_starport        = database.Column(database.Boolean)
     num_planets         = database.Column(database.Integer)
 
 #neither should starport
 class StarPort(database.Model):
     __tablename__       = 'starport'
-    name                = database.Column(database.String(128))
-    starport_id         = database.Column(database.Integer, primary_key = True)
+    starport_id         = database.Column(database.Integer)
     system_id           = database.Column(database.Integer)
     location_id         = database.Column(database.Integer)
+    name                = database.Column(database.String(128))
     x_loc               = database.Column(database.Integer)
     y_loc               = database.Column(database.Integer)
 
@@ -38,32 +39,21 @@ class PlanetInfo(database.Model):
     #planet ID 3 : EARTH
     # 8 reserved Planetoids
     __tablename__           = 'planetinfo'
-    planetid                = database.Column(database.Integer , \
-                              database.relationship('Planet', \ 
-                              backref='PlanetInfo' , \ 
-                              lazy=True))
-    planet_num              = database.Column(database.Integer, primary_key = True)
+    planet_id               = database.Column(database.Integer, primary_key = True, unique=True, autoincrement=True)
     system_id               = database.Column(database.Integer)
-    location_id             = database.Column(database.Integer)
     name                    = database.Column(database.String(128))
-    #TODO test if this works
-    planet                  = database.relationship('PlanetPort', backref='PlanetInfo' , lazy=True)
     
 
 class Planet(PlanetInfo):
     #...
     __tablename__           = 'planet'
-    planet_id               = database.ForeignKey('planetinfo.planetid'), nullable=False)
+    #planet_id               = database.Column(database.Integer, database.ForeignKey('planetinfo.planetid'), nullable=False)
+    location_id             = database.Column(database.Integer)
     user_id_of_owner        = database.Column(database.Integer)
-    has_pizza_delivery      = database.Column(database.Boolean, default = False)
-    has_port                = database.Column(database.Boolean, default = False)
-    has_factory             = database.Column(database.Boolean, default = False)
-    has_mine                = database.Column(database.Boolean, default = False)
-    has_shield              = database.Column(database.Boolean, default = False)
-    has_fighters            = database.Column(database.Boolean)
-    uses_slaves             = database.Column(database.Boolean, default = False)
-    attack_planet           = database.Column(database.Boolean, default = False)
-    defense_planet          = database.Column(database.Boolean, default = False)
+    has_pizza_delivery      = database.Column(database.Boolean)
+    has_port                = database.Column(database.Boolean)
+    attack_planet           = database.Column(database.Boolean)
+    defense_planet          = database.Column(database.Boolean)
 
     tech_resources          = database.Column(database.Integer) 
     fuel_resources          = database.Column(database.Integer)
@@ -77,7 +67,13 @@ class Planet(PlanetInfo):
 
 class PlanetPort(PlanetInfo):
     __tablename__           = 'planetport'
-    planet_id               = database.ForeignKey('planetinfo.planetid'), nullable=False)
+    # planet_id               = database.ForeignKey('planetinfo.planetid'), nullable=False)
+    user_id_of_owner        = database.Column(database.Integer)
+    has_factory             = database.Column(database.Boolean)
+    has_mine                = database.Column(database.Boolean)
+    has_shield              = database.Column(database.Boolean)
+    has_fighters            = database.Column(database.Boolean)
+    uses_slaves             = database.Column(database.Boolean)
     tech_resources_mined    = database.Column(database.Integer) 
     fuel_resources_mined    = database.Column(database.Integer)
     organic_resource_mined  = database.Column(database.Integer)
