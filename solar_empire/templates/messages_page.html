@@ -1,1 +1,37 @@
-lololol
+print_page("Send Clan Message","No such clan.")
+print_page("Send Clan Message","You can only send clan messages to your own clan.")
+print_page("Send Clan Message","You can may not send a message to this clan.")
+print_page("Send Mass Message","You are not the Admin.")
+print_page("Clan Forum","You are not in a clan.")
+print_page("Admin Forum","You are not an Admin.")
+"the Forum"
+"your Clan"
+"the Bug Board"
+"All the Players"
+"your Clan Forum"
+"Admin Forum"
+"Send Message to:<br><br>"
+"<form name=\"get_var_form\" action=\"{$_SERVER['SCRIPT_NAME']}\" method=\"post\">"
+"<select name = 'target'>"
+"<option value = '$info2[login_id]'>$info2[login_name]"
+"</select><br><br>"
+"<textarea name='text' cols=50 rows=20 wrap=soft>".stripslashes($var_default)."</textarea>"
+"<input type=hidden name=rs value=".htmlentities($rs).">"
+'<p><input type=submit value=Submit></form>'
+
+"<br><a href=mpage.php>Back to Message Page</a>"
+get_var('Send Message','message.php',"Original Message from <b class=b1>$rec</b>:<br><blockquote><hr><br>$reply_to[text]<br><hr></blockquote><br>What is your reply?",'text','')
+get_var('Send Message','message.php',"What is your message to <b class=b1>$rec</b>?",'text','')
+}
+"<div style=\"display: inline color: yellow\"></div>"
+"<div style=\"display: inline color: aqua\"></div>"
+"<div style=\"display: inline color: lime\"></div>"
+"<div style=\"display: inline color: red\"></div>"
+"Message sent to your clan."
+"<b class=b1>Admin</b>")
+"Message sent."
+"Message Posted"
+"<br><br><a href='forum.php'>Back to Forum</a>"
+"<br><br><a href='clan.php'>Back to Clan Control</a>"
+"<br><br><a href='forum.php?clan_forum=1'>Back to Clan Forum</a>"
+"<br><br><a href='mpage.php'>Back to Messages Page</a>"

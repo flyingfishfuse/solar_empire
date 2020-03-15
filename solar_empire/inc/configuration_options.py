@@ -14,7 +14,7 @@ HTTP_HOST          = "gamebiscuits"
 SERVER_HOST        = "fightbiscuits"
 DOMAIN             = "firewall-gateway.net"
 GAME_DIR           = "/solar_empire/"
-URL_FULL           = "https://" + HTTP_HOST + SERVER_HOST + DOMAIN + GAME_DIR
+URL_FULL           = "https:#" + HTTP_HOST + SERVER_HOST + DOMAIN + GAME_DIR
 URL_SHORT          = "asdf"
 SEND_AUTH_MAIL     = True
 SESSION_TIME_LIMIT = 3600
@@ -35,7 +35,7 @@ DANGER_STRING= "you should NEVER see this string. Something errored HARD . TACOC
 
 class Config(object):
     # ...
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE + '.' + HTTP_HOST + '.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:#/' + DATABASE + '.' + HTTP_HOST + '.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 
@@ -81,9 +81,9 @@ localmapwidth = 200
 localmapheight = 200
 #height of 'local area' map.
 
-minlinks = 2; #miniumum number of links a system may have.
+minlinks = 2 #miniumum number of links a system may have.
 
-maxlinks = 6; #maximum number of links a system may have.
+maxlinks = 6 #maximum number of links a system may have.
 
 print_bg_color = [255,255,255] #background colour of printable map.
 
@@ -94,9 +94,34 @@ print_num_color = [0,0,0]#Most system numbers for printably map
 print_star_color = [0,0,0] #star colour for printable map
 
 print_label_color = [0, 0, 0]
-"Are you sure you want to build a new universe?<p>This may take some time.";
+"Are you sure you want to build a new universe?<p>This may take some time."
 
 # quark allowed?
 quark = True
 #can we use quark disruptors while on a planet?
 quark_on_planet = True
+#increases in capacity:
+fighter_inc = 300
+shield_inc = 100
+cargo_inc = 100
+#costs
+basic_cost = 5000		#cost of the 3 basic upgrades.
+#turret costs - based on size of ship
+def pea_turret(size_multiplier):
+    return round(40000 * size_multiplier / 100) * 15
+
+def defensive_turret(size_multiplier):
+    return round(45000 * size_multiplier / 100) * 15
+
+#cloak cost also based on size of ship
+def cloak_cost(size_multiplier):
+    return round(40000 * size_multiplier / 100) * 15
+
+scanner_cost = 20000
+transwarp_cost = 20000
+ramjet_cost = 20000
+shield_charger = 20000
+stabiliser_upgrade = 65000
+#maximum number of each turret type:
+max_ot = 5
+max_dt = 5
