@@ -29,11 +29,15 @@ class UserShip(User):
     ship_name                  = database.Column(database.String(128))
     ship_type                  = database.Column(database.Integer)
     clan_id                    = database.Column(database.Integer) 
-#special weapons
-  #shots
+    #special weapons
+    #shots
     quark                      = database.Column(database.Integer)
     black_hole_gun             = database.Column(database.Integer)
-  #time
     nova_wave_time             = database.Column(database.Integer)
-
-    
+    #resources
+    minerals                   = database.Column(database.Integer)
+    technology                 = database.Column(database.Integer)
+    organics                   = database.Column(database.Integer)
+    fuel                       = database.Column(database.Integer)
+    metals                     = database.Column(database.Integer)
+    fighters                   = database.Column(database.Integer)

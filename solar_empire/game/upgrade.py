@@ -2,29 +2,6 @@
 	"Error","You are unable to buy Accessories & Upgrades here.")
 	"Error","You are unable to buy Accessories & Upgrades here, as you do not have a real ship.")
 	"Error","Admin has disabled upgrades for this game.")
-#increases in capacity:
-fighter_inc = 300
-shield_inc = 100
-cargo_inc = 100
-#costs
-basic_cost = 5000		#cost of the 3 basic upgrades.
-#turret costs - based on size of ship
-pea_turret = round(40000 * (usership.size / 100 * 15
-defensive_turret = round(45000 * (usership.size / 100 * 15
-
-#cloak cost also based on siz e of ship
-cloak_cost = round(40000 * (usership.size / 100 * 15
-
-scanner_cost = 20000
-transwarp_cost = 20000
-ramjet_cost = 20000
-shield_charger = 20000
-stabiliser_upgrade = 65000
-
-#maximum number of each turret type:
-max_ot = 5
-max_dt = 5
-
 
 "<p><a href=upgrade.php>Return to Accessories & Upgrades Store</a>"
 # checks

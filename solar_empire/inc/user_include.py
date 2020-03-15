@@ -8,8 +8,18 @@ system_view = "<p><a href='location'>Back to the Star System</a><br>"
 #damage capacity of the silicon armour module
 admin_view = "<p><a href=admin.php>Back to Admin Page</a>"
 
-def return_user_by_id(id_of_user):
-	dbquery = database.session.query('user_id')
+def return_user_by_id(id_of_user:int):
+	"""
+	Give this function a USER ID as an INTEGER
+	Returns An SQLAlchemy User Class Object for manipulation
+	You can do things like this with it:
+	
+	return_object = return_user_by_id(some_int)
+	return_object.attribute = some_var
+	update_database()
+
+	"""
+	dbquery = database.session.query(User).filter_by(User.user_id = id_of_user)
 
 def return_user_list():
 	pass
@@ -21,6 +31,10 @@ def return_user_variable(user_id , var):
 def update_database(thing):
 	database.session.add(thing)
 	database.commit()
+	pass
+
+def update_bounty_list(user_id):
+
 	pass
 
 def change_user_variable(user_id, var, value):
@@ -59,38 +73,37 @@ def buy_basic_upgrade(user_id, \
 					  metal_cost, \
 					  fuel_cost, \
 					  tech_cost):
-	# remove the cost from player
-	user_to_modify     = return_user_by_id(user_id)
-	# add amounts to current values for those things 
-	subtracted_cash    = return_user_variable(user_id , 'cash') - cash_cost
-	subtracted_mineral = return_user_ship_variable(user_id , 'mineral') - mineral_cost
-	subtracted_metal   = return_user_ship_variable(user_id , 'metal') - metal_cost
-	subtracted_fuel    = return_user_ship_variable(user_id , 'fuel') - fuel_cost
+	user_to_modify         = return_user_by_id(user_id)
+	user_to_modify.cash    = return_user_variable(user_id , 'cash') - cash_cost
+	user_to_modify.mineral = return_user_ship_variable(user_id , 'mineral') - mineral_cost
+	user_to_modify.fuel    = return_user_ship_variable(user_id , 'fuel') - fuel_cost
+	user_to_modify.metal   = return_user_ship_variable(user_id , 'metal') - metal_cost
+	update_database()
 
-	# add the upgrade to player
-	#update database
-	pass
-
-def pay_bounty(user_with_bounty, user_with_money, comission_percent):
-	amount = round((amount /100) * comission_percent) + amount + 1
-	#bount = round((list_em[bounty] / 100) * commission_percent
-	#bount1 = round((topay[bounty] / 100) * commission_percent
+def set_bounty(user_with_bounty, user_with_money, comission_percent):
+	"""
+	Takes USER ID's and an INTEGER, not a decimal "0.1" or similar for percents
+	This function gets used in black markets only
+	"""
+	amount             = round((amount /100) * comission_percent) + amount + 1
+	wanted_man         = return_user_by_id(user_with_bounty)
+	asshole            = return_user_by_id(user_with_money)
+	update_bounty_list(user_with_bounty)
 	pass
 
 
 def inject_money(amount: int, player_id: int, all_players: bool):
 #give players money
-	if all_players_bool == True:
-		'How much money do you want to give to each player?'.format('')
-		"Gave {} credits to all players".format('')
-	elif all_players_bool == False:
-		if amount < 1: 
-			print_page("You can't decrease the players money<br><br>")
-		else :
-			print_page("Player's money reserves increased by <b>{money_amount}</b><br>Note: This has NOT sent a message to the players+ That is your job+<br><br>")
-			dude = return_user_by_id(player_id)
-			dude.cash = new_amount
-			update_database()
+	if all_players == True:
+		print_page('How much money do you want to give to each player?')
+		print_page("Gave {} credits to all players".format(amount))
+	elif all_players == False:
+		print_page("Player's money reserves increased by <b>{}</b><br>Note: \
+			This has NOT sent a message to the players+ That is your job\
+			<br><br>".format(amount))
+		dude = return_user_by_id(player_id)
+		dude.cash = new_amount
+		update_database()
 	
 def make_basic_upgrade (user: int, upgrade: str, increase_amount: int, cost: int) :
 #def for adding 'normal' upgrades to a ship.
@@ -170,23 +183,13 @@ def damage_ship(amount, fig_dam, s_dam, attacker, target , target_ship):
 	#function load_ship_types()
 #Function to figure out the bonuses offered by weapon upgrades
 	#function bonus_calc(ship)
-#defensive turret : lvl 1
-dammage = defensiveturret = round(330 * (mt_rand(75, 125) / 100)) * ship_type.num_dt
-#offensive turret : lvl 1
-damage = offensive_turret = round(200 * (mt_rand(80, 120) / 100)) * ship_type.num_dt
-#silicon armour : lvl 2
-damage = silicon_armor = round(upgrade_sa * (mt_rand(90, 110) / 100)) * ship_type.num_sa
-#plasma cannon : lvl 2
-damage = plasmacannon = round(420 * (mt_rand(92, 108) / 100)) * ship_type.num_pc
-#electronic warfare module : lvl 1
-damage = elec_war_def = round(325 * (mt_rand(85, 115) / 100)) * ship_type.num_ew
-damage = elec_war_off = round(225 * (mt_rand(80, 120) / 100)) * ship_type.num_ew
 #A function that gets all the details for the user's new ship, and returns the completed user_ship array.
 #function userShip(id)
 
 #a function that allows a message to be sent to all players.
 def show_active(); 
 #active user listing
+	active_users = database.session.query(User).filter_by(User.active).all()
 	out = "Users that have logged with within the past 5 mins+"
 	out + "<br>Time Loaded: "+date("H:i:s (M d)")+"<br><a href=admin+php?show_active=1>Reload</a>"
 	active_players = UserShip.query.filter_by('active').all()
@@ -196,7 +199,7 @@ def show_active();
 		out + "<tr bgcolor='#555555'><td>Login Name</td><td>Last Request</td></tr>"
 		while (player) 
 		  out + "<tr bgcolor='#333333'><td>"+print_name(player)+"</td><td>"+date( "H:i:s (M d)",player['last_request'])+"</td><td> - <a href=message+php?target=player[login_id]>Message</a><br></td></tr>"
-		  player = dbr()
+		  player = 
 		
 		out + "</table>"
 	

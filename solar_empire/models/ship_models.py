@@ -57,8 +57,12 @@ class LightShip(GenericShip):
     pass
 
 class PodShip(GenericShip):
-
     pass
+
+class Freighter(MediumShip):
+    pass
+
+class 
 
 class Brobdingnagian(GiantShip):
 
