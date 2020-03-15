@@ -56,3 +56,14 @@ def game_status():
 
 def bilkos_blackmarket_shop():
     return render_template('bilkos.html')
+
+def pause():
+#(un)pause
+	if return_game_var('paused') == False:
+		out = "Game Paused<p>"
+		post_news("Game Paused")
+		insert_history(user.username,"Paused Game+")
+	 elif return_game_var('paused') == True
+		post_news("Game Un-Paused")
+		out = "Game Un-paused+<p>"
+		insert_history(user.username , "Unpaused Game+")

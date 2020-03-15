@@ -15,6 +15,7 @@ class User(database.Model):
     safe_turns_left   = database.Column(database.Integer)
     cash_available    = database.Column(database.Integer)
     on_planet         = database.Column(database.Boolean)
+    active            = database.Column(database.Boolean)
     game_login_count  = database.Column(database.Integer)
     pocket_space      = database.Column(database.String(128))
     def __repr__(self):

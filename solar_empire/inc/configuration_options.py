@@ -106,16 +106,42 @@ shield_inc = 100
 cargo_inc = 100
 #costs
 basic_cost = 5000		#cost of the 3 basic upgrades.
+def pea_turret_cost(size_multiplier:int):
 #turret costs - based on size of ship
-def pea_turret(size_multiplier):
     return round(40000 * size_multiplier / 100) * 15
 
-def defensive_turret(size_multiplier):
+def defensive_turret_cost(size_multiplier:int):
+#cost of defensive turret baserd on size of ship
     return round(45000 * size_multiplier / 100) * 15
 
+def cloak_cost(size_multiplier:int):
 #cloak cost also based on size of ship
-def cloak_cost(size_multiplier):
     return round(40000 * size_multiplier / 100) * 15
+
+def defensive_turret_damage(ship_type:int):
+    return round(330 * (randint(75, 125) / 100)) * ship_type.num_dt
+
+def offensive_turret_damage(ship_type:int):
+#offensive turret : lvl 1
+    return round(200 * (randint(80, 120) / 100)) * ship_type.num_dt
+
+def silicon_armor_damage(ship_type:int):
+#silicon armour : lvl 2
+    return round(upgrade_sa * (randint(90, 110) / 100)) * ship_type.num_sa
+
+def plasma_cannon_damage(ship_type:int):
+#plasma cannon : lvl 2
+    return round(420 * (randint(92, 108) / 100)) * ship_type.num_pc
+
+
+def ewar_defensive_damage(ship_type:int):
+#electronic warfare module : lvl 1
+    return round(325 * (randint(85, 115) / 100)) * ship_type.num_ew
+
+def ewar_offensive_damage(ship_type:int):
+    return round(225 * (randint(80, 120) / 100)) * ship_type.num_ew
+
+#A function that gets all the details for the user's new ship, and returns the completed user_ship array.
 
 scanner_cost = 20000
 transwarp_cost = 20000

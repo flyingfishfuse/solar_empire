@@ -1,4 +1,3 @@
-<?php
 if user.location != '1':
 	print_page("Error","You are unable to buy Accessories & Upgrades here.")
 elif user.ship_id == None and user.login_id !=1:
@@ -24,10 +23,8 @@ if buying ==1: //Fighter capacity
 			get_var('Buy Scanner',filename,"This device will Highly stealth the ship. Enemy players will only see a distortion, and not be able to target it, unless they have a scanner on their ship.<br>If they do have a scanner they will still not be able to see who owns the ship.<p>Are you sure you want to buy a <b class=b1>Shrouding Unit</b>, for the <b class=b1>user_ship[ship_name]</b>?",'sure','')
 		else :
 			make_standard_upgrade ("Shrouding Unit", "hs", cloak_cost, 2003)
-		
-
 	elif buy==5: //Shield Charger
-		if (user_ship.max_shields < 1 :
+		if user_ship.max_shields < 1 :
 			"Why do you want a <b class=b1>Shield Charging Upgrade</b> on a ship that has no shield capacity? <br>I advise you re-think your strategy.<p>"
 		 else :if(!isset(sure):
 			get_var('Buy Shield Charging Upgrade',filename,"This upgrade will increase the shield charging rate for this ship.<p>Are you sure you want to buy a <b class=b1>Shield Charging Upgrade</b>, for the <b class=b1>user_ship[ship_name]</b>?",'sure','')
@@ -36,7 +33,7 @@ if buying ==1: //Fighter capacity
 		
 
 	elif buy==6: //Transverser upgrade (wormhole stabiliser)
-		if (!"sj",user_ship.config :
+		if !"sj",user_ship.config :
 			"This ship does not have a <b class=b1>SubSpace Jump Drive</b> and so is not capable of using a <b class=b1>Wormhole Stabiliser</b>.<p>"
 		 else :if(!isset(sure):
 			get_var('Buy Wormhole Stabiliser',filename,"This upgrade will allow your ship to take more than 10 ships with it when sub-space jumping.<br>It will also allow you to auto-shift materials and colonists between planets.<p>Are you sure you want to buy a <b class=b1>Wormhole Stabiliser</b>, for the <b class=b1>user_ship[ship_name]</b>?",'sure','')
@@ -52,7 +49,7 @@ if buying ==1: //Fighter capacity
 		
 
 	elif buy ==8: //transwarp drive
-		if ("sj",user_ship.config :
+		if "sj",user_ship.config :
 			"Your ship has a <b class=b1>SubSpace Jump Drive</b> on, and so can't have a <b class=b1>Transwarp Drive</b>.<p>"
 		 else :if(!isset(sure):
 			get_var('Buy Transwarp Drive',filename,"This upgrade will allow your ship (and any ships following it) to jump a limited distance across the universe. Ideal for peninsula hopping, and getting to star-islands.<p>Are you sure you want to buy a <b class=b1>Transwarp Drive</b>, for the <b class=b1>user_ship[ship_name]</b>?",'sure','')
@@ -65,9 +62,9 @@ if buying ==1: //Fighter capacity
 			"You can not afford to buy a <b class=b1>Pea Shooter</b>.<p>"
 		else :if(!avail_check(2000) :
 			"This item has not been developed yet.<p>"
-		elif (user_ship.num_ot >= max_ot :
+		elif user_ship.num_ot >= max_ot :
 			"Your ship is already equipped with <b>max_ot</b> <b class=b1>Pea Shooters</b>. <br>The power relays on your ship are unable to cope with any more.<p>"
-		elif (user_ship.upgrades < 1 :
+		elif user_ship.upgrades < 1 :
 			"This ship does not have any upgrade pods available.<p>"
 		 else :if(!isset(sure):
 			get_var('Buy Pea Shooter',filename,"This upgrade will complement your ships fighters in battle, allowing you to do more damage to the enemy ship(s).<p>Are you sure you want to buy a <b class=b1>Pea Shooter</b>, for the <b class=b1>user_ship[ship_name]</b>?",'sure','')
@@ -86,9 +83,9 @@ if buying ==1: //Fighter capacity
 			"You can not afford to buy a <b class=b1>Defensive Turret</b>.<p>"
 		else :if(!avail_check(2001) :
 			"This item has not been developed yet.<p>"
-		elif (user_ship.num_dt >= max_dt :
+		elif user_ship.num_dt >= max_dt :
 			"Your ship is already equipped with <b>max_dt</b> <b class=b1>Defensive Turrets</b>. <br>The power relays on your ship are unable to cope with any more.<p>"
-		elif (user_ship.upgrades < 1 :
+		elif user_ship.upgrades < 1 :
 			"This ship does not have any upgrade pods available.<p>"
 		 else :if(!isset(sure):
 			get_var('Buy Defensive Turret',filename,"This turret will destroy enemy fighters <b class=b1>Before</b> they have a chance to hurt your ship.<p>Are you sure you want to buy a <b class=b1>Defensive Turret</b>, for the <b class=b1>user_ship[ship_name]</b>?",'sure','')
@@ -125,7 +122,7 @@ if(isset(b_buy):
 		"It is against regulations to have more than 4,999 fighter capacity on a ship unless the ship is registered as a battleship.<br>To do that you'll have to purchase a battleship upgrade from Bilkos.<p>"
 
 	#not allowed shields on a SJ ship.
-	elif (ereg("sj",user_ship.config and b_buy == 2 :
+	elif ereg("sj",user_ship.config and b_buy == 2 :
 		"It is not possible to fit shield capacity to a ship that has a <b class=b1>SubSpace Jump Drive</b> on.<p>The law's of physics are very uncompromising on this point."
 
 	#confirmation
@@ -217,7 +214,7 @@ else :
 	"</table><br><br>Propulsion Upgrades"
 	make_table(array("Item Name","Notes","Item Cost"),"75%")
 	 make_row(array("Transwarp Drive","Cannot be fitted to a ship with a Subspace Jump Drive",transwarp_cost,"<a href=filename?buy=8>Buy</a>"))
-	if ("sj",user_ship[config]) :
+	if "sj",user_ship[config]) :
 		 make_row(array("WormHole Stabiliser","Can only be installed on ships with a Subspace Jump Drive.",stabiliser_upgrade,"<a href=filename?buy=6>Buy</a>"))
 	
 

@@ -77,6 +77,37 @@ def pay_bounty(user_with_bounty, user_with_money, comission_percent):
 	#bount1 = round((topay[bounty] / 100) * commission_percent
 	pass
 
+
+def inject_money(amount: int, player_id: int, all_players: bool):
+#give players money
+	if all_players_bool == True:
+		'How much money do you want to give to each player?'.format('')
+		"Gave {} credits to all players".format('')
+	elif all_players_bool == False:
+		if amount < 1: 
+			print_page("You can't decrease the players money<br><br>")
+		else :
+			print_page("Player's money reserves increased by <b>{money_amount}</b><br>Note: This has NOT sent a message to the players+ That is your job+<br><br>")
+			dude = return_user_by_id(player_id)
+			dude.cash = new_amount
+			update_database()
+	
+def make_basic_upgrade (user: int, upgrade: str, increase_amount: int, cost: int) :
+#def for adding 'normal' upgrades to a ship.
+	player    = return_user_by_id(user)
+	user_ship = return_usership(user)
+	if user.cash < cost:
+		print_page("You can not afford any of the Basic Upgrades.<p>")
+	elif user_ship.upgrades < 1:
+		print_page("")
+	else:
+		user.cash = user.cash - cost
+		user_ship.upgrades - 1
+		if upgrade == "cargo_bays" :
+			user_ship.empty_bays + increase_amount
+	print_page("You have increased the <b class=b1>{user_ship.ship_name}s</b> {upgrade_str} capacity by <b>{inc_amount}</b> for <b>{cost}</b> Credits. <p>")
+
+
 #/********************
 #Account updating functions
 #*********************/
@@ -154,6 +185,24 @@ damage = elec_war_off = round(225 * (mt_rand(80, 120) / 100)) * ship_type.num_ew
 #function userShip(id)
 
 #a function that allows a message to be sent to all players.
+def show_active(); 
+#active user listing
+	out = "Users that have logged with within the past 5 mins+"
+	out + "<br>Time Loaded: "+date("H:i:s (M d)")+"<br><a href=admin+php?show_active=1>Reload</a>"
+	active_players = UserShip.query.filter_by('active').all()
+	if active_players == []:
+			"<p>There are no active users+"
+		out + "<p><table>"
+		out + "<tr bgcolor='#555555'><td>Login Name</td><td>Last Request</td></tr>"
+		while (player) 
+		  out + "<tr bgcolor='#333333'><td>"+print_name(player)+"</td><td>"+date( "H:i:s (M d)",player['last_request'])+"</td><td> - <a href=message+php?target=player[login_id]>Message</a><br></td></tr>"
+		  player = dbr()
+		
+		out + "</table>"
+	
+
+	rs = "<p><a href=admin+php>Back to Admin Page</a>"
+	print_page("Active Users",out)
 
 #a function to allow for easy addition of upgrades.
 def	make_standard_upgrade(upgrade_str, config_addon, cost, developement_id, tech_cost = 0):

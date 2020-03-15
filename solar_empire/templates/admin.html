@@ -1,3 +1,19 @@
+"<p><a href=\"\">Back to Admin Page</a>"
+	<form action="self" name="get_var_form" method="post">
+		<p><input type="hidden" name="save_vars" value="1" />
+		<input type="hidden" name="game_vars" value="1" />
+		<input type="submit" value="Submit Vars" /></p>
+		<p>Note: Only variables that are within range will be saved+</p>
+		<table class="simple">
+			<tr>
+				<th>Variable</th>
+				<th>Description</th>
+				<th>Min</th>
+				<th>Max</th>
+				<th>Value</th>
+			</tr>
+
+
 "\n\n<P><TABLE BORDER='1' BORDERCOLOR='#000000' CELLSPACING='0' CELLPADDING='5'><TR><TD BGCOLOR='#333333'><B CLASS='b1'>$sender</B> - $date</TD></TR><TR><TD BGCOLOR='#333333'>".stripslashes($message)."</TD></TR></TABLE>\n";
 <form action="post_server_news.php" method="post">
 	<input type="hidden" name="pass" value="$pass" />
@@ -7,4 +23,149 @@
 <TR><TD>Message:</TD><TD><TEXTAREA NAME='message' COLS='60' ROWS='10'></TEXTAREA></TD></TR>
 <TR><TD COLSPAN='2' ALIGN='center'><INPUT TYPE='submit' VALUE='Post'></TD></TR>
 </table></FORM>
+
+
+
+
+
+#reset game
+out + "Are you sure you want to reset the game?"
+out + "<center><a href=PHP_SELF?reset=2>Yes</a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href=PHP_SELF>No</a></center>"
+out + "Game reset started+<p>"
+
+make_table(array("<a href=PHP_SELF?sort_planets=login_name&sorted=sorted>Planet Owner</a>","<a href=PHP_SELF?sort_planets=planet_name&sorted=sorted>Planet Name</a>","<a href=PHP_SELF?sort_planets=location&sorted=sorted>Location</a>","<a href=PHP_SELF?sort_planets=fighters&sorted=sorted>Fighters</a>","<a href=PHP_SELF?sort_planets=colon&sorted=sorted>Colonists</a>","<a href=PHP_SELF?sort_planets=cash&sorted=sorted>Cash</a>","<a href=PHP_SELF?sort_planets=metal&sorted=sorted>Metal</a>","<a href=PHP_SELF?sort_planets=fuel&sorted=sorted>Fuel</a>","<a href=PHP_SELF?sort_planets=elect&sorted=sorted>Electronics</a>","<a href=PHP_SELF?sort_planets=organ&sorted=sorted>Organics</a>"))
+clan_planet['login_name'] = "<b class=b1>clan_planet[login_name]</b>"
+out + make_row(clan_planet)
+out + "</table>"
+out + "There are no planets in the game+<p>"
+
+out + "Please enter a message that all new players will recieve when they join+ <p>Notes: HTML is enabled+ Message codes are not used+"
+out + "<form name=get_var_form action=PHP_SELF method=POST>"
+out + "<input type=hidden name=messag value='2'>"
+out + "<textarea name=new_mess cols=50 rows=20 wrap=soft>present_mess[0]</textarea>"
+out + '<p><input type=submit value=Change></form>'
+
+out + "The Intro message has been changed+"
+
+print_page("Change Intro Message",out)
+
+insert_history(user['login_id'],"Intro Message Changed+")
+
+out + "Please enter New Admin E-mail Address:"
+out + "<form name=get_var_form action=PHP_SELF method=POST>"
+out + "<input type=hidden name=email value='2'>"
+out + "<input type=text name=new_mail value='present_mail[0]' size=30>"
+out + '<p><input type=submit value=Change></form>'
+print_page("Admin Mail","Please Enter a Valid Email Address")
+out + "Admins Email Address has been changed to: <br><b>new_mail</b>+"
+print_page("Change Admin Mail",out)
+insert_history(user['login_id'],"Admin E-mail Addy changed+")
+
+
+
+out + "Please enter New Admin's Name:"
+out + "<form name=get_var_form action=PHP_SELF method=POST>"
+out + "<input type=hidden name=admin_name value='2'>"
+out + "<input type=text name=new_name value='admin_name[0]' size=30>"
+out + '<p><input type=submit value=Change></form>'
+out + "Admin's Name has been changed to: <br><b>new_name</b>+"
+print_page("Change Admin Mail",out)
+insert_history(user['login_id'],"Admin Name Changed+")
+
+out + "Please enter some words that explain the game+<p>Note: HTML is enabled, but does not use the message codes+ <br>(Leave empty if you don't want to use it)"
+out + "<form name=get_var_form action=PHP_SELF method=POST>"
+out + "<input type=hidden name=descr value='2'>"
+out + "<textarea name=new_descr cols=50 rows=20 wrap=soft>present_desc[0]</textarea>"
+out + '<p><input type=submit value=Change></form>'
+out + "The description of the game has been changed+"
+print_page("Change Description",out)
+insert_history(user['login_id'],"Game description changed+")
+
+<h1>Administration</h1>
+<h2>Game Functions</h2>
+<ul>
+	<li><a href="self?game_vars=1">Edit Variables</a></li>
+	<li><a href="self?pause=pauseId">pauseStr Game</a></li>
+	<li><a href="self?reset=1">Reset Game</a></li>
+	<li><a href="self?reset_signup=1">Reset Signup Times</a></li>
+	<li><a href="shipedit+php?editshiptype=-1">Edit Ships</a></li>
+	<li><a href="self?difficulty=1">Change Stated Difficulty</a></li>
+</ul>
+
+<h2>Godlike Abilities</h2>
+<ul>
+	<li><a href="build_universe+php?build_universe=1&ampprocess=1">Generate New Universe</a></li>
+	<li><a href="self?preview=1">Preview Universe</a></li>
+</ul>
+
+<h2>Communications</h2>
+<ul>
+	<li><a href="message+php?target=-4">Message <b>All</b> Players</a></li>
+	<li><a href="self+php?post_game_news=1">Post News</a></li>
+</ul>
+
+<h2>Players</h2>
+<ul>
+	<li><a href="self?ban=1">Ban Player</a></li>
+	<li><a href="self+php?show_active=1">List Online Players</a></li>
+	<li><a href="self?planet_list=1">List All Planets</a></li>
+	<li><a href="self?update_scores=1">Update Scores</a></li>
+	<li><a href="self?more_money=1">Give Money</a></li>
+</ul>
+
+<h2>General</h2>
+<ul>
+	<li><a href="self?admin_name=1">Change Admin Name</a></li>
+	<li><a href="self?email=1">Change Admin E-mail</a></li>
+	<li><a href="self?descr=1">Change Game Description</a></li>
+	<li><a href="self?messag=1">Change Intro Message</a></li>
+</ul>
+END
+
+rs = "<p><a href=location+php>Back to Star System</a>"
+
+#admin sets difficulty
+if difficulty))
+	if !set_dif))
+		out = "This will have no effect upon the game itself, but will serve simply to inform new joiners to the game what to expect+<form action=PHP_SELF name=get_dif_form method=POST>
+		<p><input type=radio name=set_dif value=1>Begginer
+		<br><input type=radio name=set_dif value=2>Begginer -> Intermediate
+		<br><input type=radio name=set_dif value=3>Intermediate
+		<br><input type=radio name=set_dif value=4>Intermediate - > Advanced
+		<br><input type=radio name=set_dif value=5>Advanced
+		<br><input type=radio name=set_dif value=6>All Skill Levels
+		<p><input type=submit><input type=hidden name=difficulty value=1></form>"
+		print_page("Select Difficulty",out)
+	 else 
+		dbn("update se_games set difficulty = 'set_dif' where db_name = 'db_name'")
+		out + "Stated Difficulty updated<p>"
+		insert_history(user['login_id'],"Game difficulty changed+")
+	
+
+<p>The above image uses the following variables <b>only</b>+</p>
+<ul>
+	<li>uv_map_layout</li>
+	<li>uv_max_link_dist</li>
+	<li>uv_min_star_dist</li>
+	<li>uv_num_stars</li>
+	<li>uv_show_warp_numbers</li>
+	<li>uv_universe_size</li>
+	<li>wormholes</li>
+</ul>
+<p>Changing any of these variables will have some sort of effect on the
+image/universe generated+</p>
+<h3>Warning</h3>
+<p>If you change <b>uv_universe_size</b>, during a game that has
+<b>uv_explored</b> set to 0, players may experience some very strange maps
+getting created+ So be sure to set uv_universe_size back to what it was when
+you finished messing around if you are not about to create a new game+</p>
+<p>There is no way to save the present universe and use it in a game+
+It is only an example of what can be created+</p>
+
+<p>If no image appears, then there is a pretty big bug somewhere in the universe generation process+ Report it to the Server Admin+
+
+
 </body></html>
+
+"<center><a href='javascript:refresh()'>Generate New Universe</a><br>\n<img name='preview_uni_img' src='build_universe+php?preview=1&process=1' border=1 alt='Please wait+ Generating universe and loading image+ This may take some time+'> \n <br><a href='javascript:refresh()'>Generate New Universe</a> \n </center>"
+
