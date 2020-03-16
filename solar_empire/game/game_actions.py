@@ -2,8 +2,14 @@ import solar_empire
 from solar_empire import *
 from solar_empire.inc.configuration_options import *
 from solar_empire.universe_build.generator_functions import *
-from solar_empire.models import *
-from solar_empire.inc.common_include import *
+
+from solar_empire.models.user_models import *
+from solar_empire.models.ship_models import *
+from solar_empire.models.social_models import *
+from solar_empire.models.storekeeper_models import *
+from solar_empire.models.resource_models import *
+from solar_empire.models.equipment_models import *
+from solar_empire.models.system_models import *
 
 def add_resources_to_player(user_id, resource_type, resource_amount):
     user_to_mod = database.query(User).filter_by(User.user_id).first()

@@ -7,7 +7,7 @@
 # checks
 	if(buy ==1)  #Fighter capacity
 		if(usership.max_fighters + fighter_inc >= 5000) 
-			 "It is against regulations to have more than 4,999 fighter capacity on a ship unless the ship is registered as a battleship.<br>To do that you'll have to purchase a battleship upgrade from Bilkos.<p>"
+			print_page("It is against regulations to have more than 4,999 fighter capacity on a ship unless the ship is registered as a battleship.<br>To do that you'll have to purchase a battleship upgrade from Bilkos.<p>")
 		else:
 			 make_basic_upgrade(max_fighters,basic_cost ,material_cost)
 			 #Shield Capacity

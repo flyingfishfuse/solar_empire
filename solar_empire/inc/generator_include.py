@@ -1,4 +1,4 @@
-def cut_links(fixcols = None, cut = None, add = None):
+def cut_links(fixcols:bool = None, cut:bool = None, add:bool = None):
 	if fixcols :
 		#planets set colon = '100000' where colon = '2147483647'
 	if cut:

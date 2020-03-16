@@ -1,3 +1,15 @@
+import solar_empire
+from solar_empire import *
+from solar_empire.inc.configuration_options import *
+from solar_empire.universe_build.generator_functions import *
+
+from solar_empire.models.user_models import *
+from solar_empire.models.ship_models import *
+from solar_empire.models.social_models import *
+from solar_empire.models.storekeeper_models import *
+from solar_empire.models.resource_models import *
+from solar_empire.models.equipment_models import *
+from solar_empire.models.system_models import *
 
 devinfo = ''
 
@@ -9,27 +21,39 @@ devinfo = ''
 #aims to stop one way links from being created
 #checks all systems that have already been linked to see what links have already been created to this location.
 def pre_linked(systems, present_system):
-    #systems = database.session.query(SystemInfo).all()
+    systems = database.session.query(SystemInfo).all()
 	links_array = []
 	for system in systems:
         #if there IS a link...if NOT EMPTY
 		if system.links != "" :
-			present_links = split(',', system.links)
-            for link in present_links:
-                if present_system.links == link:
-				links_array.append(systems.links)
+            for link in system.links:
+                for other_link in present_system.links:
+					if link == other_link:
+						links_array.append(systems.links)
 	return links_array
+
+def get_closest_systems(system:int):
+	"""
+	system is a system_ID
+	returns an array of the systems linked
+	"""
+
+	pass 
+
+def make_link():
+	pass
 
 #link the systems
 #new functions...
 # after creating systems, itterate over them
-# subtracty and add 1 to each x/y location to get neighbors
+# subtract and add 1 to each x/y location to get neighbors
 # create num_links as 
 def link_systems_1(systems):
+	systems = database.session.query(SystemInfo).all()
 	for system in systems : 
 		numlinks = randint(return_game_var('min_links') , return_game_var('max_links')
 		#find the closest systems to the present system. when numlinks closest found, link them
-		for each get_closest_systems(system,systems,numlinks) as linksys : 
+		for each get_closest_systems(system) as linksys : 
 			make_link(systems[system_num],systems[linksys['num']])
 		if devinfo : 
 			print_to_screen("<div id=\"linksys1" . system.system_num + "\">-Created " + \

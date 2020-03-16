@@ -185,13 +185,14 @@ def damage_ship(amount, fig_dam, s_dam, attacker, target , target_ship):
 	#function bonus_calc(ship)
 #A function that gets all the details for the user's new ship, and returns the completed user_ship array.
 #function userShip(id)
-
 #a function that allows a message to be sent to all players.
 def show_active(); 
 #active user listing
 	active_users = database.session.query(User).filter_by(User.active).all()
-	out = "Users that have logged with within the past 5 mins+"
-	out + "<br>Time Loaded: "+date("H:i:s (M d)")+"<br><a href=admin+php?show_active=1>Reload</a>"
+	title_string = "Users that have logged with within the past 5 mins+"
+	time_string = "<br>Time Loaded:{timeNOW}<br><a href=admin?show_active=1>Reload</a>".format(date_time_NOW)
+	for player in active_users:
+		
 	active_players = UserShip.query.filter_by('active').all()
 	if active_players == []:
 			"<p>There are no active users+"

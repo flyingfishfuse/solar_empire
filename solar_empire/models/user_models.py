@@ -2,13 +2,13 @@ from solar_empire.inc.configuration_options import *
 from solar_empire import database
 
 class User(database.Model):
-    __tablename__  = 'User'
-    user_id       = database.Column(database.Integer,     primary_key = True, unique=True, autoincrement=True)
-    username      = database.Column(database.String(64),  index=True, unique=True)
-    email         = database.Column(database.String(120), index=True, unique=True)
-    password_hash = database.Column(database.String(128), default = DANGER_STRING)
-    turns_run     = database.Column(database.Integer,     default = 0)
-    cash          = database.Column(database.Integer,     default = 1000)
+    __tablename__     = 'User'
+    user_id           = database.Column(database.Integer,     primary_key = True, unique=True, autoincrement=True)
+    username          = database.Column(database.String(64),  index=True, unique=True)
+    email             = database.Column(database.String(120), index=True, unique=True)
+    password_hash     = database.Column(database.String(128), default = DANGER_STRING)
+    turns_run         = database.Column(database.Integer,     default = 0)
+    cash              = database.Column(database.Integer,     default = 1000)
     location          = database.Column(database.String(128))
     max_turns         = database.Column(database.Integer)
     turns_run         = database.Column(database.Integer)
