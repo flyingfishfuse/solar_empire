@@ -13,6 +13,8 @@ class SystemInfo(database.Model):
     num_stars           = database.Column(database.Integer)
     navigation_hazard   = database.Column(database.Boolean)
     random_events_level = database.Column(database.Integer)
+    # thou shall not say pickle rick
+    links               = database.Column(database.PickleType)
 
 #this is what we make a system with.
 #now... should anything inherit this class?

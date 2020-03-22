@@ -5,33 +5,8 @@ from solar_empire.inc.common_include import *
 
 #generic link to go back to the start system
 system_view = "<p><a href='location'>Back to the Star System</a><br>"
-#damage capacity of the silicon armour module
 admin_view = "<p><a href=admin.php>Back to Admin Page</a>"
 
-def return_user_by_id(id_of_user:int):
-	"""
-	Give this function a USER ID as an INTEGER
-	Returns An SQLAlchemy User Class Object for manipulation
-	You can do things like this with it:
-	
-	return_object = return_user_by_id(some_int)
-	return_object.attribute = some_var
-	update_database()
-
-	"""
-	dbquery = database.session.query(User).filter_by(User.user_id = id_of_user)
-
-def return_user_list():
-	pass
-
-def return_user_variable(user_id , var):
-	user_to_probe = return_user_by_id(user_id) 
-	pass
-
-def update_database(thing):
-	database.session.add(thing)
-	database.commit()
-	pass
 
 def update_bounty_list(user_id):
 

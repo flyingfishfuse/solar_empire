@@ -53,7 +53,7 @@ class SystemInfo(database.Model):
     random_events_level = database.session.Column(database.session.Integer)
     links               = database.session.Column(database.session.PickleType)
 
-def test_game_grid(map_height:int, map_width:int):
+def game_grid(map_height:int, map_width:int):
     """
     This function generates the grid, 
     with size_x and size_y constraints

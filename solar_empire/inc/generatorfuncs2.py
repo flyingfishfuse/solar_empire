@@ -2,7 +2,7 @@ import solar_empire
 from solar_empire import *
 from solar_empire.inc.configuration_options import *
 from solar_empire.universe_build.generator_functions import *
-
+from solar_empire.inc.common_include import *
 from solar_empire.models.user_models import *
 from solar_empire.models.ship_models import *
 from solar_empire.models.social_models import *
@@ -12,10 +12,9 @@ from solar_empire.models.equipment_models import *
 from solar_empire.models.system_models import *
 
 devinfo = ''
-
-    systems = database.session.query(SystemInfo).all()
-    new_sys = []
-	links_array = array()
+systems = database.session.query(SystemInfo).all()
+new_sys = []
+links_array = array()
 
 # dbquery to get all systems
 #aims to stop one way links from being created
@@ -32,25 +31,52 @@ def pre_linked(systems, present_system):
 						links_array.append(systems.links)
 	return links_array
 
+def game_grid(map_height:int, map_width:int):
+    """
+    This function generates the grid, 
+    with size_x and size_y constraints
+    """
+    # declare the existance of a dimension
+    # (I choose for this to be silly and diffucult to comprehend)
+    #empty_pie = numpy.zeros(size_y,size_x)
+    a = []
+    x = 0
+    y = 0
+    # we have to account for indexing differences between 
+    # types and methods
+    x_max = map_width + 1
+    y_max = map_height + 1
+    #map_size = x * y
+    def make_x(x_c,y_c):
+        for each in range(0,x_max):   
+            a.append([x_c,y_c])
+            x_c = x_c+1
+        # now we have an array of a[[1,y]...[100,y]]
+    #make y cols to 100, populating with make_x() to generate x rows
+    for coords in range(0,y_max):
+        make_x(x,y)
+        y = y+1
+    return a
+
 def get_closest_systems(system:int):
 	"""
 	system is a system_ID
 	returns an array of x,y locations representing linked systems
 	In the form: 
-	a = [[1x,1y],[2x,2y],[3x,3y],[4x,4y],[5x,5y],[6x,6y]]
+	a = [[1,0]...[100,0],[1,1]...[1,100]...[100,100]]
 	where length of x_max in a[x][y] == num_links between systems 
 	# System 1
-	a[0]     == [1x, 1y]
-	a[0][0]  ==  1x
-	a[0][1]  ==  1y
+	a[0]     == [0, 0]
+	a[0][0]  ==  0
+	a[0][1]  ==  0
 	# System 2
-	a[1]     == [2x, 2y]
-	a[1][0]  ==  2x
-	a[1][1]  ==  2y
-	# System 3
-	a[2]     == [3x, y]
-	a[2][0]  ==  3x
-	a[2][1]  ==  3y
+	a[1]     == [1 , 0]
+	a[1][0]  ==  1
+	a[1][1]  ==  0
+	# System 101
+	a[2]     == [0 , 1]
+	a[2][0]  ==  0 x-coord
+	a[2][1]  ==  1 y-coord
 	#...and so on...
 	"""
 	co_ord_list = []
@@ -58,8 +84,33 @@ def get_closest_systems(system:int):
 		co_ord_list.append(star_system.links)
 	pass 
 
-def make_link():
-	pass
+def return_system_by_id(sysID:int)
+	"""
+	Returns the system object from the database matching 
+	The supplied system ID
+	"""
+	return database.session.query(SystemInfo).filter_by(SystemInfo.system_id = sysID)
+
+def make_link(sys1_id:int , sys2_id:int):
+	"""
+	Makes a travel link fromv system to neighbors
+	"""
+	system_1 = return_system_by_id(sys1_id)
+	system_2 = return_system_by_id(sys2_id)
+	#can I do this? Only testing will tell!
+	# appends the system id of other system to "links"
+	system_1.links = system_1.links.append(system_2.system_id)
+	system_2.links = system_2.links.append(system_1.system_id)
+
+def make_link_one_way(from_system, to_system):
+	"""
+	makes a one way link between systems
+	"""
+	system_1 = return_system_by_id(from_system)
+	system_2 = return_system_by_id(to_system)
+	#can I do this? Only testing will tell!
+	# appends the system id of other system to "links"
+	system_1.links = system_1.links.append(system_2.system_id)
 
 def system_has_wormhole(worms_placed, location):
 	"""
@@ -68,21 +119,21 @@ def system_has_wormhole(worms_placed, location):
 
 	"""
 	pass
-#link the systems
-#new functions...
-# after creating systems, itterate over them
+
 # subtract and add 1 to each x/y location to get neighbors
 # create num_links as 
-def link_systems_1(systems):
+#the artist previously known as function link_systems_1
+def initial_system_linking(systems):
 	systems = database.session.query(SystemInfo).all()
 	for system in systems : 
+		#random number of links per system, between man/max
 		numlinks = randint(return_game_var('min_links') , return_game_var('max_links')
 		#find the closest systems to the present system. when numlinks closest found, link them
-		for each get_closest_systems(system) as linksys : 
-			make_link(systems[system_num],systems[linksys['num']])
+		for each in get_closest_systems(system) as linksys : 
+			make_link(system.system_id,linksys.system_id)
 		if devinfo : 
 			print_to_screen("<div id=\"linksys1" . system.system_num + "\">-Created " + \
-			 numlinks + " links in system #" + (system_num + 1) .
+			 numlinks + " links in system #" + (system_num + 1) + \
 			 "</div><script type=\"text/javascript\">document.all.linksys1system[num].scrollIntoView()</script>"
 		#add wormholes if appropriate
 		if return_game_var('wormholes') > 0 and return_game_var('numsystems') > 15 :
@@ -119,7 +170,7 @@ def link_systems_1(systems):
 #work out if a system is too close to another system
 def system_too_close(sys,systems,within) : 
 	for each in systems : 
-		if system_num == sys.is\d : #same system
+		if system_num == sys : #same system
 			continue
 		
 		if dist = get_sys_dist(sys,system) < within : #too close
