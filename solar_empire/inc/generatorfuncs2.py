@@ -35,14 +35,39 @@ def pre_linked(systems, present_system):
 def get_closest_systems(system:int):
 	"""
 	system is a system_ID
-	returns an array of the systems linked
+	returns an array of x,y locations representing linked systems
+	In the form: 
+	a = [[1x,1y],[2x,2y],[3x,3y],[4x,4y],[5x,5y],[6x,6y]]
+	where length of x_max in a[x][y] == num_links between systems 
+	# System 1
+	a[0]     == [1x, 1y]
+	a[0][0]  ==  1x
+	a[0][1]  ==  1y
+	# System 2
+	a[1]     == [2x, 2y]
+	a[1][0]  ==  2x
+	a[1][1]  ==  2y
+	# System 3
+	a[2]     == [3x, y]
+	a[2][0]  ==  3x
+	a[2][1]  ==  3y
+	#...and so on...
 	"""
-
+	co_ord_list = []
+	for star_system in database.session.query(SystemInfo).all()
+		co_ord_list.append(star_system.links)
 	pass 
 
 def make_link():
 	pass
 
+def system_has_wormhole(worms_placed, location):
+	"""
+	This returns true if system at location has a wormhole link
+	loops over an array of type []
+
+	"""
+	pass
 #link the systems
 #new functions...
 # after creating systems, itterate over them
@@ -59,114 +84,42 @@ def link_systems_1(systems):
 			print_to_screen("<div id=\"linksys1" . system.system_num + "\">-Created " + \
 			 numlinks + " links in system #" + (system_num + 1) .
 			 "</div><script type=\"text/javascript\">document.all.linksys1system[num].scrollIntoView()</script>"
-		
-	
-
-	#add wormholes if appropriate
-	if return_game_var('wormholes'] > 0 && return_game_var('numsystems'] > 15 :
-		num_worms = ceil(return_game_var('numsystems'] / 35)#num wormholes to make
-
-		worms_placed = array()
-
-		for(a=1 a <= num_worms a++ :#loop through
-
-			start_loc = randint(2,return_game_var('numsystems'])
-			while(system_has_wormhole(worms_placed, start_loc) : 
-				start_loc = randint(2,return_game_var('numsystems'])
-			
-			worms_placed[] = start_loc#push into wormhole checking array.
-
-
-			end_loc = randint(1,return_game_var('numsystems'])
-			while(system_has_wormhole(worms_placed, end_loc) : 
-				end_loc = randint(1,return_game_var('numsystems'])
-			
-			worms_placed[] = end_loc#push into wormhole checking array.
-
-			#make them permanent
-			systems[start_loc -1]['wormhole'] = end_loc
-			if (randint(0,10) > 5 : #two way wormhole
-				systems[end_loc -1]['wormhole'] = start_loc
-			
-		
-	
-
-
-#check to see if a star system has a wormhole in it already.
-def system_has_wormhole(&worms_placed, &this_worm : 
-	for each worms_placed as worm : 
-		if worm == this_worm : 
-			return true
-		
-	
-	return false
-
+		#add wormholes if appropriate
+		if return_game_var('wormholes') > 0 and return_game_var('numsystems') > 15 :
+			num_worms = ceil(return_game_var('numsystems') / 35)
+			#num wormholes to make
+			worms_placed = array()
+		for range(1,num_worms):
+			start_loc = randint(2,return_game_var('numsystems'))
+			end_loc   = randint(1,return_game_var('numsystems'))
+			if not system_has_wormhole(worms_placed, start_loc) and not system_has_wormhole(worms_placed, end_loc): 
+				place_wormhole(start_loc,end_loc)
+				#push into wormhole checking array.
 
 #def that determines if it's ok to link to a system
-def ok_to_link(&sys1, &sys2 : 
-	global UNI
+#return o.k. if target still has empty links || already linked.
+	#if count(sys2.links) < return_game_var('maxlinks') or in_array(sys1.num, sys2.links) : 
+	#	return True
+	#else:
+	#	return False
 
-	#linking to itself.
-	if sys1['num'] == sys2['num'] : 
-		return false
-	
-
-	sys2_links = explode(',', sys2['links'])
-
-	#return o.k. if target still has empty links || already linked.
-	if (count(sys2_links) < return_game_var('maxlinks']) || in_array(sys1['num'], sys2_links) : 
-		return true
-	 else {
-		return false
-	
 
 
 #find the closest systems to link to.
-/*
-sys =  linking from
-systems = all systens
-howmany = number of closest systems to return
-*/
-def get_closest_systems(sys, systems, howmany : 
-	global UNI
+#sys =  linking from
+#systems = all systens
+#howmany = number of closest systems to return
 
+#def get_closest_systems(sys, systems, howmany : 
 	#check to see which systems have already linked to this one.
-	systems_to_link = pre_linked(systems, sys['num'])
-	howmany -= count(systems_to_link)
-	if howmany < 1 :
-		return systems_to_link
-	
-
 	#establish the distance of all stars in relation to this one
-	dists = array()
-	for each systems as system : 
-		if ok_to_link(sys, system) : 
-			dists[system_num] = get_sys_dist(sys,system)
-		
-	
-	reset(dists)
-	asort(dists,SORT_NUMERIC)
-
 	#link to as many of the closest systems as can.
-	while(count(systems_to_link) < howmany : 
-		if !present_sys = each(dists) : #get a system out of the dist array. RETURN if none.
-			return systems_to_link
-		
-
-		#too far away to be linked to (Sol System excepted).
-		if present_sys['value'] > return_game_var('link_dist'] && return_game_var('link_dist'] > 0 && sys['num'] != 0 :
-			return systems_to_link
-		
-
-		systems_to_link[] = systems[present_sys['key']]
-	
-	return systems_to_link
-
+	#too far away to be linked to (Sol System excepted).
 
 #work out if a system is too close to another system
 def system_too_close(sys,systems,within) : 
 	for each in systems : 
-		if system_num == sys['num'] : #same system
+		if system_num == sys.is\d : #same system
 			continue
 		
 		if dist = get_sys_dist(sys,system) < within : #too close
