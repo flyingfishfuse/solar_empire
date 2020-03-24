@@ -15,7 +15,10 @@ class SystemInfo(database.Model):
     random_events_level = database.Column(database.Integer)
     # thou shall not say pickle rick
     links               = database.Column(database.PickleType)
-
+    has_wormhole        = database.Column(database.Boolean)
+    # system ID of link location
+    wormhole            = database.Column(database.Integer)
+    
 #this is what we make a system with.
 #now... should anything inherit this class?
 class System(SystemInfo):

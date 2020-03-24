@@ -1,3 +1,5 @@
+import PIL
+from PIL import *
 import solar_empire
 from solar_empire import *
 from solar_empire.inc.configuration_options import *
@@ -123,7 +125,7 @@ def system_has_wormhole(worms_placed, location):
 # subtract and add 1 to each x/y location to get neighbors
 # create num_links as 
 #the artist previously known as function link_systems_1
-def initial_system_linking(systems):
+def initial_system_linking():
 	systems = database.session.query(SystemInfo).all()
 	for system in systems : 
 		#random number of links per system, between man/max
@@ -145,7 +147,6 @@ def initial_system_linking(systems):
 			end_loc   = randint(1,return_game_var('numsystems'))
 			if not system_has_wormhole(worms_placed, start_loc) and not system_has_wormhole(worms_placed, end_loc): 
 				place_wormhole(start_loc,end_loc)
-				#push into wormhole checking array.
 
 #def that determines if it's ok to link to a system
 #return o.k. if target still has empty links || already linked.
@@ -153,9 +154,6 @@ def initial_system_linking(systems):
 	#	return True
 	#else:
 	#	return False
-
-
-
 #find the closest systems to link to.
 #sys =  linking from
 #systems = all systens
@@ -179,99 +177,73 @@ def system_too_close(sys,systems,within) :
 	
 	return false
 
-
-#make a single link between two systems.
-def make_link(&sys1,&sys2 : 
-	if (string)sys1['links'] != "" : 
-		sys1warps = explode(',',sys1['links'])
-		if !in_array(sys2['num'],sys1warps) : 
-			sys1warps[] = sys2['num']
-			sys1['links'] = implode(',',sys1warps)
-		
-	 else {
-		sys1['links'] = sys2['num']
-	
-	if (string)sys2['links'] != "" : 
-		sys2warps = explode(',',sys2['links'])
-		if !in_array(sys1['num'],sys2warps) : 
-			sys2warps[] = sys1['num']
-			sys2['links'] = implode(',',sys2warps)
-		
-	 else {
-		sys2['links'] = sys1['num']
-	
-
-
 #work out the distance (in pixels) between two star systems.
-def get_sys_dist(&sys1,&sys2 : 
-	return (int)round(sqrt(pow(sys1['x_loc']-sys2['x_loc'],2) + pow(sys1['y_loc']-sys2['y_loc'],2)))
-
+def get_sys_dist(sys1,sys2) : 
+	star1 = return_system_by_id(sys1)
+	star2 = return_system_by_id(sys2)
+	return round(sqrt(pow(star1.x_loc - star2.x_loc , 2 ) + pow( star1.y_loc - star2.y_loc , 2 )))
 
 #generate the three global maps.
-def render_global_se1(game_id : 
-	global UNI,devinfo,games_dir, systems,preview, directories, gen_new_maps, uv_show_warp_numbers
-
-	size = return_game_var('size'] + (return_game_var('map_border'] * 2)
-	offset_x = return_game_var('map_border']
-	offset_y = return_game_var('map_border']
+# render_global_sel
+def render_global_maps(game_id) : 
+	size = return_game_var('size') + (return_game_var('map_border') * 2)
+	offset_x = return_game_var('map_border')
+	offset_y = return_game_var('map_border')
 	central_star = 1
-
-	im = imagecreatetruecolor(size,size)
-
+	#default bg is blasck, we like black bg's
+	map_image = PIL.Image.new("RGB", (size,size))
+	#im = imagecreatetruecolor(size,size)
 	#allocate the colours
-	color_bg = ImageColorAllocate(im, return_game_var('bg_color'][0], return_game_var('bg_color'][1], return_game_var('bg_color'][2])
-	color_st = ImageColorAllocate(im, return_game_var('num_color'][0], return_game_var('num_color'][1], return_game_var('num_color'][2])
-	color_sd = ImageColorAllocate(im, return_game_var('star_color'][0], return_game_var('star_color'][1], return_game_var('star_color'][2] )
-	color_sl = ImageColorAllocate(im, return_game_var('link_color'][0], return_game_var('link_color'][1], return_game_var('link_color'][2] )
-	color_sh = ImageColorAllocate(im, return_game_var('num_color3'][0], return_game_var('num_color3'][1], return_game_var('num_color3'][2] )
-	color_l = ImageColorAllocate(im, return_game_var('label_color'][0], return_game_var('label_color'][1], return_game_var('label_color'][2] )
-	worm_1way_color = ImageColorAllocate(im,return_game_var('worm_one_way_color'][0], return_game_var('worm_one_way_color'][1], return_game_var('worm_one_way_color'][2] )
-	worm_2way_color = ImageColorAllocate(im,return_game_var('worm_two_way_color'][0], return_game_var('worm_two_way_color'][1], return_game_var('worm_two_way_color'][2] )
-
-	#get the star systems from the Db if using pre-genned map.
-	if (isset(gen_new_maps) : 
-		db("select (star_id -1) as num, x_loc, y_loc, wormhole, CONCAT(link_1 -1, ',', link_2 -1, ',', link_3 -1, ',', link_4 -1, ',', link_5 -1, ',', link_6 -1) as links from {game_id_stars order by star_id asc")
-		while(systems[] = dbr(1)) #dump all entries into systems.
-		unset(systems[count(systems) - 1]) #remove a surplus entry
-	
-
+	#color_bg = return_game_var('bg_color')
+	color_st = return_game_var('num_color')[0]
+	color_sd = return_game_var('star_color')[0]
+	color_sl = return_game_var('link_color')[0]
+	color_sh = return_game_var('num_color3')[0]
+	color_l =  return_game_var('label_color')[0]
+	worm_1way_color = return_game_var('worm_one_way_color')
+	worm_2way_color = return_game_var('worm_two_way_color')
 	#process stars
-	for each systems as star :
-		if !empty(star['links']) :#don't link all systems to 1 automatically.
-			star_links = array_map("plus_one", explode(',', star['links']))
-			star_id = star['num'] + 1
-
-			for each star_links as link : #make star links
-				if link < 1 :
-					continue 1
-				
-				other_star = systems[link -1]#set other_star to the link destination.
-				imageline(im, (star['x_loc'] + offset_x), (star['y_loc'] + offset_y), (other_star['x_loc'] + offset_x), (other_star['y_loc'] + offset_y), color_sl)
-			
-		
-
-		if !empty(star['wormhole']) : #Wormhole Manipulation
-			other_star = systems[star['wormhole'] -1]
-			if other_star['wormhole'] == star_id : #two way
-				imageline(im, (star['x_loc'] + offset_x), (star['y_loc'] + offset_y), (other_star['x_loc'] + offset_x), (other_star['y_loc'] + offset_y), worm_2way_color)
-			 else { #one way
-				imageline(im, (star['x_loc'] + offset_x), (star['y_loc'] + offset_y), (other_star['x_loc'] + offset_x), (other_star['y_loc'] + offset_y), worm_1way_color)
-			
-		
-	
-
-	for each systems as star : #place the star itself. This is done after the lines, so the text comes on top.
-		star_id = star['num'] + 1
+	# this dude made a function to add one to a number just to add one to all the
+	# link numbers... 
+	for star in database.session.query(SystemInfo).all(): #make star links
+		star_id = star.system_id # there was a " + 1 " here presumably for the EARF BABEH
+								 #... maybe for indexing...  
+		other_star = star.link -1#set other_star to the link destination.
+		draw = ImageDraw.Draw(map_image)
+		#PIL.ImageDraw.Draw.line(xy, fill=None, width=0)
+		#Draws a line between the coordinates in the xy list.
+    	#Parameters:	
+		#	xy – Sequence of either 2-tuples like [(x, y), (x, y), ...] 
+		#   or numeric values like [x, y, x, y, ...].
+		line_start = (star.x_loc + offset_x , star.y_loc + offset_y)
+		line_end   =  (other_star.x_loc + offset_x , other_star.y_loc + offset_y)
+		draw.line(line_start, line_end , color_sl)
+		#original comments, please ignore
+		if star.has_wormhole: #Wormhole Manipulation
+			other_star = star.wormhole
+			if other_star.wormhole == star_id : #two way
+				draw.line(line_start, line_end, worm_2way_color)
+			else: #one way
+				draw.line(line_start, line_end, worm_1way_color)
+	    #place the star itself. This is done after the lines, so the text comes on top.
+		star_id = star.num + 1
 		central_star = 1
-
 		if star_id == central_star : #Place and Highlight central system
-			imagestring(im, return_game_var('num_size'], (star['x_loc'] + offset_x + 3), (star['y_loc'] + offset_y - 4), star_id, color_sh)
-			imagesetpixel(im, (star['x_loc'] + offset_x), (star['y_loc'] + offset_y), color_sh)
+			# PIL.ImageDraw.Draw.text(xy, text, fill=None, font=None, anchor=None)
+			# Draws the string at the given position.
+    		# Parameters:	
+			#        xy – Top left corner of the text.
+        	#		 text – Text to be drawn. If it contains any newline characters, the text is passed on to mulitiline_text()
+        	#		 fill – Color to use for the text.
+        	#		 font – An ImageFont instance.
+
+			draw.text( return_game_var('num_size'], (star.x_loc + offset_x + 3), (star.y_loc + offset_y - 4), star_id, color_sh)
+			imagesetpixel( map_image, (star.x_loc + offset_x), (star.y_loc + offset_y), color_sh)
 		 else { #place normal Star
 			if uv_show_warp_numbers == 1 : 
-				imagestring(im, return_game_var('num_size'], (star['x_loc'] + offset_x + 3), (star['y_loc'] + offset_y - 4), star_id, color_st)
+				draw.text( return_game_var('num_size'], (star.x_loc + offset_x + 3), (star.y_loc + offset_y - 4), star_id, color_st)
 			
-			imagesetpixel(im, (star['x_loc'] + offset_x), (star['y_loc'] + offset_y), color_sd)
+			imagesetpixel( map_image, (star.x_loc + offset_x), (star.y_loc + offset_y), color_sd)
 		
 	
 
@@ -285,17 +257,17 @@ def render_global_se1(game_id :
 	
 
 	#Draw title
-	imagestring(im, 5, ((size/2)-80), 5, "Universal Star Map", color_l)
+	draw.text( 5, ((size/2)-80), 5, "Universal Star Map", color_l)
 
 	#Create buffer image
 	bb_im = imagecreatetruecolor((return_game_var('size'] + return_game_var('localmapwidth']), (return_game_var('size'] + return_game_var('localmapheight']))
 
-	ImageColorAllocate(im, return_game_var('bg_color'][0], return_game_var('bg_color'][1], return_game_var('bg_color'][2])
+	( map_image, return_game_var('bg_color'][0], return_game_var('bg_color'][1], return_game_var('bg_color'][2])
 	ImageCopy(bb_im, im, (return_game_var('localmapwidth'] / 2), (return_game_var('localmapheight'] / 2), offset_x, offset_y, return_game_var('size'], return_game_var('size'])
 
 	#Create printable map
 	p_im = imagecreatetruecolor(size,size)
-	ImageColorAllocate(p_im, return_game_var('print_bg_color'][0], return_game_var('print_bg_color'][1], return_game_var('print_bg_color'][2])
+	(p_im, return_game_var('print_bg_color'][0], return_game_var('print_bg_color'][1], return_game_var('print_bg_color'][2])
 	ImageCopy(p_im, im, 0, 0, 0, 0, size, size)
 
 	#Replace colors
@@ -318,7 +290,7 @@ def render_global_se1(game_id :
 	if (!file_exists("img/{game_id_maps") : 
 		mkdir("img/{game_id_maps", 0777)
 	
-	ImagePng(im, "img/{game_id_maps/sm_full.png")
+	ImagePng( map_image, "img/{game_id_maps/sm_full.png")
 	ImagePng(bb_im, "img/{game_id_maps/bb_full.png")
 	ImagePng(p_im, "img/{game_id_maps/psm_full.png")
 
@@ -346,17 +318,17 @@ def renderLocal(game_id :
 
 		im = imagecreatetruecolor(return_game_var('localmapwidth'], return_game_var('localmapheight'])
 
-		color_bg = color_bg = imagecolorallocate(im, return_game_var('bg_color'][0], return_game_var('bg_color'][1], return_game_var('bg_color'][2])
-		color_ht = imagecolorallocate(im, return_game_var('num_color2'][0], return_game_var('num_color2'][1], return_game_var('num_color2'][2])
-		color_hd = imagecolorallocate(im, return_game_var('num_color2'][0], return_game_var('num_color2'][1], return_game_var('num_color2'][2])
+		color_bg = color_bg = ( map_image, return_game_var('bg_color'][0], return_game_var('bg_color'][1], return_game_var('bg_color'][2])
+		color_ht = ( map_image, return_game_var('num_color2'][0], return_game_var('num_color2'][1], return_game_var('num_color2'][2])
+		color_hd = ( map_image, return_game_var('num_color2'][0], return_game_var('num_color2'][1], return_game_var('num_color2'][2])
 
-		imagecopy(im, full_map, 0, 0, star['x_loc'], star['y_loc'], return_game_var('localmapwidth'], return_game_var('localmapheight'])
+		imagecopy( map_image, full_map, 0, 0, star.x_loc, star.y_loc, return_game_var('localmapwidth'], return_game_var('localmapheight'])
 
-		imagestring(im, return_game_var('num_size'], (return_game_var('localmapwidth'] / 2) + 3,
+		draw.text( return_game_var('num_size'], (return_game_var('localmapwidth'] / 2) + 3,
 		 (return_game_var('localmapheight'] / 2) - 4, "star[star_id]", color_ht)
-		imagesetpixel(im, (return_game_var('localmapwidth'] / 2), (return_game_var('localmapheight'] / 2), color_hd)
+		imagesetpixel( map_image, (return_game_var('localmapwidth'] / 2), (return_game_var('localmapheight'] / 2), color_hd)
 
-		imagepng(im, 'img/' . game_id . '_maps/sm' . star['star_id'] . '.png')
+		imagepng( map_image, 'img/' . game_id . '_maps/sm' . star['star_id'] . '.png')
 		if devinfo : 
 			print_to_screen(("<br><img src='img/{game_id_maps/smstar[star_id].png' onLoad='this.scrollIntoView()'>")
 
