@@ -80,7 +80,10 @@ def game_grid(map_height:int, map_width:int):
         y = y+1
     return a
 
-
+def map_image(image_name,size_x,size_y):
+    map_image = PIL.Image.new("RGB", (size_x,size_y))
+    draw = ImageDraw.Draw(map_image)    
+    
 admin     = User(username=ADMIN_NAME, user_id = 1, email=ADMIN_EMAIL , password_hash = ADMIN_PASSWORD)
 guest     = User(username='guest',    user_id = 2, email='test@game.net' , password_hash = 'password')
 adminship = UserShip(ship_id=1, ship_name='admin ship', ship_type=1)

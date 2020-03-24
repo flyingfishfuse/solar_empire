@@ -190,11 +190,7 @@ def render_global_maps(game_id) :
 	offset_x = return_game_var('map_border')
 	offset_y = return_game_var('map_border')
 	central_star = 1
-	#default bg is blasck, we like black bg's
 	map_image = PIL.Image.new("RGB", (size,size))
-	#im = imagecreatetruecolor(size,size)
-	#allocate the colours
-	#color_bg = return_game_var('bg_color')
 	color_st = return_game_var('num_color')[0]
 	color_sd = return_game_var('star_color')[0]
 	color_sl = return_game_var('link_color')[0]
@@ -204,145 +200,41 @@ def render_global_maps(game_id) :
 	worm_2way_color = return_game_var('worm_two_way_color')
 	#process stars
 	# this dude made a function to add one to a number just to add one to all the
-	# link numbers... 
+	# link numbers... then followed that up with a recursive loop doing the same...
+	# Why not just add 2? 
 	for star in database.session.query(SystemInfo).all(): #make star links
 		star_id = star.system_id # there was a " + 1 " here presumably for the EARF BABEH
 								 #... maybe for indexing...  
 		other_star = star.link -1#set other_star to the link destination.
 		draw = ImageDraw.Draw(map_image)
-		#PIL.ImageDraw.Draw.line(xy, fill=None, width=0)
-		#Draws a line between the coordinates in the xy list.
-    	#Parameters:	
-		#	xy – Sequence of either 2-tuples like [(x, y), (x, y), ...] 
-		#   or numeric values like [x, y, x, y, ...].
 		line_start = (star.x_loc + offset_x , star.y_loc + offset_y)
 		line_end   =  (other_star.x_loc + offset_x , other_star.y_loc + offset_y)
 		draw.line(line_start, line_end , color_sl)
 		#original comments, please ignore
-		if star.has_wormhole: #Wormhole Manipulation
+		#Wormhole Manipulation
+		if star.has_wormhole:
 			other_star = star.wormhole
-			if other_star.wormhole == star_id : #two way
+			#two way
+			if other_star.wormhole == star_id :
 				draw.line(line_start, line_end, worm_2way_color)
-			else: #one way
+			#one way
+			else:
 				draw.line(line_start, line_end, worm_1way_color)
 	    #place the star itself. This is done after the lines, so the text comes on top.
 		star_id = star.num + 1
 		central_star = 1
-		if star_id == central_star : #Place and Highlight central system
-			# PIL.ImageDraw.Draw.text(xy, text, fill=None, font=None, anchor=None)
-			# Draws the string at the given position.
-    		# Parameters:	
-			#        xy – Top left corner of the text.
-        	#		 text – Text to be drawn. If it contains any newline characters, the text is passed on to mulitiline_text()
-        	#		 fill – Color to use for the text.
-        	#		 font – An ImageFont instance.
-
-			draw.text( return_game_var('num_size'], (star.x_loc + offset_x + 3), (star.y_loc + offset_y - 4), star_id, color_sh)
-			imagesetpixel( map_image, (star.x_loc + offset_x), (star.y_loc + offset_y), color_sh)
-		 else { #place normal Star
-			if uv_show_warp_numbers == 1 : 
-				draw.text( return_game_var('num_size'], (star.x_loc + offset_x + 3), (star.y_loc + offset_y - 4), star_id, color_st)
-			
-			imagesetpixel( map_image, (star.x_loc + offset_x), (star.y_loc + offset_y), color_sd)
-		
-	
-
-
-	#for just a preview we can quite while we're ahead.
-	if (isset(preview) : 
-		header("Content-type: image/png")
-		imagepng(im)
-		imagedestroy(im)
-		exit
-	
-
+		#Place and Highlight Earth
+		if star_id == central_star : 
+			draw.text( (star.x_loc + offset_x + 3 , star.y_loc + offset_y - 4) , "Earth", color_sh)
+			draw.point((star.x_loc + offset_x , star.y_loc + offset_y), color_sh)
+		#place normal Star
+		if uv_show_warp_numbers == 1 : 
+			draw.text( (star.x_loc + offset_x + 3 , star.y_loc + offset_y - 4), star.system_id, color_st)
+			draw.point(star.x_loc + offset_x , star.y_loc + offset_y) , color_sd)
 	#Draw title
-	draw.text( 5, ((size/2)-80), 5, "Universal Star Map", color_l)
-
-	#Create buffer image
-	bb_im = imagecreatetruecolor((return_game_var('size'] + return_game_var('localmapwidth']), (return_game_var('size'] + return_game_var('localmapheight']))
-
-	( map_image, return_game_var('bg_color'][0], return_game_var('bg_color'][1], return_game_var('bg_color'][2])
-	ImageCopy(bb_im, im, (return_game_var('localmapwidth'] / 2), (return_game_var('localmapheight'] / 2), offset_x, offset_y, return_game_var('size'], return_game_var('size'])
-
-	#Create printable map
-	p_im = imagecreatetruecolor(size,size)
-	(p_im, return_game_var('print_bg_color'][0], return_game_var('print_bg_color'][1], return_game_var('print_bg_color'][2])
-	ImageCopy(p_im, im, 0, 0, 0, 0, size, size)
-
-	#Replace colors
-	index = ImageColorExact(p_im, return_game_var('bg_color'][0], return_game_var('bg_color'][1], return_game_var('bg_color'][2])
-	ImageColorSet(p_im, index, return_game_var('print_bg_color'][0], return_game_var('print_bg_color'][1], return_game_var('print_bg_color'][2])
-	index = ImageColorExact(p_im, return_game_var('link_color'][0], return_game_var('link_color'][1], return_game_var('link_color'][2])
-	ImageColorSet(p_im, index, return_game_var('print_link_color'][0], return_game_var('print_link_color'][1], return_game_var('print_link_color'][2])
-	index = ImageColorExact(p_im, return_game_var('num_color'][0], return_game_var('num_color'][1], return_game_var('num_color'][2])
-	ImageColorSet(p_im, index, return_game_var('print_num_color'][0], return_game_var('print_num_color'][1], return_game_var('print_num_color'][2])
-	index = ImageColorExact(p_im, return_game_var('num_color3'][0], return_game_var('num_color3'][1], return_game_var('num_color3'][2])
-	ImageColorSet(p_im, index, return_game_var('print_num_color'][0], return_game_var('print_num_color'][1], return_game_var('print_num_color'][2])
-	index = ImageColorExact(p_im, return_game_var('star_color'][0], return_game_var('star_color'][1], return_game_var('star_color'][2])
-	ImageColorSet(p_im, index, return_game_var('print_star_color'][0], return_game_var('print_star_color'][1], return_game_var('print_star_color'][2])
-
+	draw.text(((size/2)-80, 5), "Universal Star Map", color_l)
 	#Draw new label
-	ImageFilledRectangle(p_im, 0, 0, size, return_game_var('map_border'], ImageColorExact(p_im, return_game_var('print_bg_color'][0], return_game_var('print_bg_color'][1], return_game_var('print_bg_color'][2]))
-	imagestring(p_im, 5, ((size/2)-80), 5, "Printable Star Map", ImageColorExact(p_im, return_game_var('print_label_color'][0], return_game_var('print_label_color'][1], return_game_var('print_label_color'][2]))
-
+	#draw.rectangle(0, 0, print_bg_color)
+	draw.text(((size/2)-80), 5, "Printable Star Map", print_label_color)
 	#Save map and finish
-	if (!file_exists("img/{game_id_maps") : 
-		mkdir("img/{game_id_maps", 0777)
-	
-	ImagePng( map_image, "img/{game_id_maps/sm_full.png")
-	ImagePng(bb_im, "img/{game_id_maps/bb_full.png")
-	ImagePng(p_im, "img/{game_id_maps/psm_full.png")
-
-	if devinfo : 
-		print_to_screen(("<br><br><br><hr><img src='directories[images]/{game_id_maps/sm_full.png' onLoad='this.scrollIntoView()'>")
-
-	
-	ImageDestroy(im)
-	ImageDestroy(bb_im)
-	ImageDestroy(p_im)
-
-
-#draw the local maps.
-def renderLocal(game_id : 
-	global UNI, devinfo, directories
-
-	if (!file_exists('img/' . game_id . '_maps') : 
-		trigger_error('Map image is missing - dir does not exist', E_USER_ERROR)
-	
-
-	full_map = imagecreatefrompng("img/{game_id_maps/bb_full.png")
-
-	db("select star_id, x_loc, y_loc from {game_id_stars")
-	while(star = dbr() : 
-
-		im = imagecreatetruecolor(return_game_var('localmapwidth'], return_game_var('localmapheight'])
-
-		color_bg = color_bg = ( map_image, return_game_var('bg_color'][0], return_game_var('bg_color'][1], return_game_var('bg_color'][2])
-		color_ht = ( map_image, return_game_var('num_color2'][0], return_game_var('num_color2'][1], return_game_var('num_color2'][2])
-		color_hd = ( map_image, return_game_var('num_color2'][0], return_game_var('num_color2'][1], return_game_var('num_color2'][2])
-
-		imagecopy( map_image, full_map, 0, 0, star.x_loc, star.y_loc, return_game_var('localmapwidth'], return_game_var('localmapheight'])
-
-		draw.text( return_game_var('num_size'], (return_game_var('localmapwidth'] / 2) + 3,
-		 (return_game_var('localmapheight'] / 2) - 4, "star[star_id]", color_ht)
-		imagesetpixel( map_image, (return_game_var('localmapwidth'] / 2), (return_game_var('localmapheight'] / 2), color_hd)
-
-		imagepng( map_image, 'img/' . game_id . '_maps/sm' . star['star_id'] . '.png')
-		if devinfo : 
-			print_to_screen(("<br><img src='img/{game_id_maps/smstar[star_id].png' onLoad='this.scrollIntoView()'>")
-
-		
-
-		imagedestroy(im)
-	
-
-	imagedestroy(full_map)
-
-
-
-def plus_one(a : 
-	return a + 1
-
-
-?>
+	map_image.save( "sm_full.png", "png")
