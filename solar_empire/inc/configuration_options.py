@@ -119,6 +119,9 @@ ramjet_cost = 20000
 shield_charger = 20000
 stabiliser_upgrade = 65000
 
+shield_gen_cost = 50000
+research_fac_cost = 100000
+
 #maximum number of each turret type:
 max_ot = 5
 max_dt = 5

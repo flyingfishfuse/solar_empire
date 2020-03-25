@@ -28,6 +28,10 @@ def user_ship_for_info(user_id):
 	else:
 		pass
 
+def return_user_location(userid:int):
+	blarp = database.session.query(User).filter_by(User.user_id == userid).all()
+	return blarp.location
+
 def return_user_ship_variable(user_id , var):
 	if does_user_have_ship(user_id):
 		usership = user_ship_for_info(user_id)

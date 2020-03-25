@@ -17,7 +17,7 @@ def return_user_by_id(id_of_user:int):
 	update_database()
 
 	"""
-	dbquery = database.session.query(User).filter_by(User.user_id = id_of_user)
+	return database.session.query(User).filter_by(User.user_id = id_of_user)
 
 def return_user_list():
 	pass
