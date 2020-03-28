@@ -69,6 +69,10 @@ class Planet(PlanetInfo):
     population              = database.Column(database.Integer)
     fighter_count           = database.Column(database.Integer)
     shield_amount           = database.Column(database.Integer)
+    alloc_fight             = database.Column(database.Integer)
+	alloc_elect             = database.Column(database.Integer)
+	alloc_organ             = database.Column(database.Integer)
+	colonists               = database.Column(database.Integer)
 
 class PlanetPort(PlanetInfo):
     __tablename__           = 'planetport'
