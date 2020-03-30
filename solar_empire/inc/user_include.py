@@ -2,6 +2,13 @@
 import solar_empire
 from solar_empire.models import *
 from solar_empire.inc.common_include import *
+from solar_empire import database
+from solar_empire.inc.configuration_options import *
+from solar_empire.models.user_models import *
+from solar_empire.models.ship_models import *
+from solar_empire.models.social_models import *
+from solar_empire.models.storekeeper_models import *
+from solar_empire.models.system_models import *
 
 #generic link to go back to the start system
 system_view = "<p><a href='location'>Back to the Star System</a><br>"
@@ -144,7 +151,7 @@ def damage_ship(amount, fig_dam, s_dam, attacker, target , target_ship):
 	# don't want to hurt the admin now do we?
 	#shield_damage = 0
 	#set ships_killed
-	#// ship not destroyed
+	## ship not destroyed
 
 
 #function retire_user(target)
@@ -153,7 +160,7 @@ def damage_ship(amount, fig_dam, s_dam, attacker, target , target_ship):
 	#sudden_death_check(user)
 #Choose a system at random
 	#random_system_num()
-#//function to create an escape pod
+##function to create an escape pod
 	#function create_escape_pod(target)
 		#rand_star = random_system_num() #make a random system number up.
 #function that returns a hostile planet checking query
@@ -165,22 +172,18 @@ def damage_ship(amount, fig_dam, s_dam, attacker, target , target_ship):
 #A function that gets all the details for the user's new ship, and returns the completed user_ship array.
 #function userShip(id)
 #a function that allows a message to be sent to all players.
-def show_active(); 
+def show_active(): 
 #active user listing
 	active_users = database.session.query(User).filter_by(User.active).all()
 	title_string = "Users that have logged with within the past 5 mins+"
 	time_string = "<br>Time Loaded:{timeNOW}<br><a href=admin?show_active=1>Reload</a>".format(date_time_NOW)
 	for player in active_users:
-		
-	active_players = UserShip.query.filter_by('active').all()
+ 	active_players = UserShip.query.filter_by('active').all()
 	if active_players == []:
-			"<p>There are no active users+"
+		out + "<p>There are no active users+"
 		out + "<p><table>"
 		out + "<tr bgcolor='#555555'><td>Login Name</td><td>Last Request</td></tr>"
-		while (player) 
-		  out + "<tr bgcolor='#333333'><td>"+print_name(player)+"</td><td>"+date( "H:i:s (M d)",player['last_request'])+"</td><td> - <a href=message+php?target=player[login_id]>Message</a><br></td></tr>"
-		  player = 
-		
+		out + "<tr bgcolor='#333333'><td>"+print_name(player)+"</td><td>"+date( "H:i:s (M d)",player['last_request'])+"</td><td> - <a href=message+php?target=player[login_id]>Message</a><br></td></tr>"
 		out + "</table>"
 	
 
@@ -189,9 +192,9 @@ def show_active();
 
 #a function to allow for easy addition of upgrades.
 def	make_standard_upgrade(upgrade_str, config_addon, cost, developement_id, tech_cost = 0):
-	if ( user_to_show_bar_to.cash < cost):
+	if ( user_to_mod.cash < cost):
 		return "You can not afford to buy a <b class=b1>upgrade_str</b>.<p>"
-	elif ( user_to_show_bar_to.tech < tech_cost and tech_cost > 0):
+	elif ( user_to_mod.tech < tech_cost and tech_cost > 0):
 		return "Ignorant Planet Dweller. You don't have enough tech points.<p>"
 	elif (ship_to_display.config, config_addon) != false:
 		return "Your ship is already equipped with a <b class=b1>upgrade_str</b>.<br>There is no point in having more than one on a ship.<p>"
@@ -216,113 +219,117 @@ def	make_standard_upgrade(upgrade_str, config_addon, cost, developement_id, tech
 #- 4th arguement holds the cost per unit of the item.
 #- 5th arguement is the name of the orginating script
 
-function fill_fleet(item_sql, item_max_sql, item_str, item_cost, script_name, cargo_run = 0:
-	#taken = 0 //item taken from earth far.
-	#ship_counter = 0 //ships passed through
-	if cargo_run == 1: #//cargo
-	else : #//not cargo
-#	//elect all viable ships
-	//insufficient cash
-	if user_to_show_bar_to.cash < item_cost:
+def fill_fleet(userid , item_sql, item_max_sql, item_str, item_cost, script_name, cargo_run = 0):
+	#taken = 0 #item taken from earth far.
+	#ship_counter = 0 #ships passed through
+	user_to_mod = return_user_by_id(userid)
+	item_id		= return_item_by_id(item_str)
+	if cargo_run == 1: ##cargo
+		print("lol")
+	else : ##not cargo
+		print("lol")
+#	#elect all viable ships
+	#insufficient cash
+	if (user_to_mod.cash < item_cost):
 		ret_str + "You do not have enough money for even 1 unit of <b class=b1>item_str</b>. You certainly can't afford to fill a fleet."
-	 elseif(empty(maths) or maths['total_ships < 1) { //ensure there are some ships.
+	 elif (empty(maths) or maths['total_ships' < 1): #ensure there are some ships.
 		ret_str + "This operation failed as there are no ships that have any free capacity to hold <b class=b1>item_str</b> in this system that belong to you."
 	else :
-		#//work out the total value of them all.
+		##work out the total value of them all.
 		total_cost = [total_capacity * item_cost]
 
-		//user CAN afford to fill the whole fleet
-		if ( total_cost <= user_to_show_bar_to.cash) {
+		#user CAN afford to fill the whole fleet
+		if ( total_cost <= user_to_mod.cash) {
 
-			if(empty(sure): //confirmation
+			if(empty(sure): #confirmation
 				get_var('Load ships',script_name,"There is capacity for <b>maths[total_capacity]</b> <b class=b1>item_str</b> in <b>maths[total_ships]</b> ships in this system. <p>You have enough money to fill all the ships with <b class=b1>item_str</b>. Do you wish to do that?",'sure','yes')
-			else : //process.
+			else : #process.
 				dbn("update {db_name_ships set item_sql = item_max_sql where ".sql_where_clause)
 				take_cash(total_cost)
 
-				if ( cargo_run == 0: //not cargo bay stuff
+				if ( cargo_run == 0: #not cargo bay stuff
 					user_ship[item_sql] = user_ship[item_max_sql]
-				else : //cargo bay stuff
+				else : #cargo bay stuff
 					user_ship[item_sql] += ship_to_display.empty_bays
 				
 
 				ret_str + "<b>maths[total_capacity]</b> <b class=b1>item_str</b> were added to <b>maths[total_ships]</b> ships.<br>All ships are now at maximum capacity."
 			
 
-		//user CANNOT afford to fill the whole fleet, so we'll have to do it the hard way.
+		#user CANNOT afford to fill the whole fleet, so we'll have to do it the hard way.
 		else :
-			total_can_afford = floor(user_to_show_bar_to.cash / item_cost) //work out amount can afford.
+			total_can_afford = floor(user_to_mod.cash / item_cost) #work out amount can afford.
 
-			if(empty(sure)) { //confirmation
+			if(empty(sure)) { #confirmation
 				extra_text = "<p><input type=radio name=fill_dir value=1 CHECKED> - Fill highest capacity ships ships first."
 				extra_text + "<br><input type=radio name=fill_dir value=2> - Fill lowest capacity ships first."
 				get_var('Load ships',script_name,"There is capacity for <b>maths[total_capacity]</b> <b class=b1>item_str</b> in <b>maths[total_ships]</b> ships in this system. <br>However, you can only afford <b>total_can_afford</b> item_str.<p>Do you want to fill as many ships as you can afford to fill?".extra_text,'sure','yes')
-			else : //process
+			else : #process
 				if ( fill_dir == 1:
 					order_dir = "desc"
 				else :
 					order_dir = "asc"
 				
 
-				if ( total_can_afford < 1: //error checking
+				if ( total_can_afford < 1: #error checking
 					return "Unable to fill any ships with anything."
 				
 
-				used_copy_afford = total_can_afford //make copy of the above.
-				final_cost = item_cost * total_can_afford //work out the final cash cost of it all.
-				fill_ships_sql = "" //intiate sql string to load a bunch of ships at once
+				used_copy_afford = total_can_afford #make copy of the above.
+				final_cost = item_cost * total_can_afford #work out the final cash cost of it all.
+				fill_ships_sql = "" #intiate sql string to load a bunch of ships at once
 				temp_str = ""
 
 				db2("select ship_id, item_sql, item_max_sql as max, ship_name from {db_name_ships where ".sql_where_clause." order by item_max_sql order_dir")
 
-				while(ships = dbr2(1)) { //loop through the ships
+				while(ships = dbr2(1)) { #loop through the ships
 
-					ship_counter++ //increment counter
-					free_space = ships['max - ships[item_sql] //capacity of present ship
+					ship_counter++ #increment counter
+					free_space = ships['max - ships[item_sql] #capacity of present ship
 
-					if ( free_space < used_copy_afford) { //can load ship
-						used_copy_afford -= free_space //num to use
+					if ( free_space < used_copy_afford) { #can load ship
+						used_copy_afford -= free_space #num to use
 						fill_ships_sql + "ship_id = 'ships[ship_id]' or "
 
 						temp_str + "<br><b class=b1>ships[ship_name]</b> had its item_str cargo increased by <b>free_space</b> to maximum capacity."
 
-						if ( ships['ship_id == ship_to_display.ship_id: //do the user ship too.
-							if ( cargo_run == 0: //not cargo bay stuff
+						if ( ships['ship_id == ship_to_display.ship_id: #do the user ship too.
+							if ( cargo_run == 0: #not cargo bay stuff
 								user_ship[item_sql] = user_ship[item_max_sql]
-							else : //cargo bay stuff
+							else : #cargo bay stuff
 								user_ship[item_sql] += ship_to_display.empty_bays
 							
 						
 
-					else : //cannot load ship whole ship.
+					else : #cannot load ship whole ship.
 						dbn("update {db_name_ships set item_sql = item_sql + 'used_copy_afford' where ship_id = 'ships[ship_id]'")
 
-						if ( ships['ship_id == ship_to_display.ship_id && cargo_run == 0: //do the user ship too.
+						if ( ships['ship_id == ship_to_display.ship_id && cargo_run == 0: #do the user ship too.
 							user_ship[item_sql] += used_copy_afford
-						 elseif ( ships['ship_id == ship_to_display.ship_id) { //cargo bay stuff
+						 elif  ( ships['ship_id == ship_to_display.ship_id) { #cargo bay stuff
 							user_ship[item_sql] += used_copy_afford
 						
 						temp_str + "<br><b class=b1>ships[ship_name]</b>s <b class=b1>item_str</b> count was increased by <b>used_copy_afford</b>."
 						break 1
 					
-				 //end of while
+				 #end of while
 
 				ret_str + "<b>ship_counter</b> ships had their <b class=b1>item_str</b> count augmented by more item_str.<br>Total increase in item_str = <b>total_can_afford</b> Cost = <b>final_cost</b><p>More Detailed Statistics :".temp_str
 
-				//update database with fully loaded ships.
+				#update database with fully loaded ships.
 				if(!empty(fill_ships_sql):
 					fill_ships_sql = preg_replace("/\|\| /", "", fill_ships_sql)
 					dbn("update {db_name_ships set item_sql = item_max_sql where ".fill_ships_sql)
 				
-				take_cash(final_cost) //charge the cash
+				take_cash(final_cost) #charge the cash
 			
 		
 	
-	return ret_str //return the result string.
+	return ret_str #return the result string.
 
 
 
-//function that will return a list of the contents of the ships cargo bays.
+#function that will return a list of the contents of the ships cargo bays.
 function bay_storage(ship:
 	if(empty(ship_type.cargo_bays)) {
 		return "\n<b>None</b>"
@@ -365,7 +372,7 @@ function bay_storage(ship:
 	return ret_str
 
 
-//function that will work out how many flagships this player has got through.
+#function that will work out how many flagships this player has got through.
 function num_flagships (num_ships:
 	if ( num_ships == 0:
 		return 0

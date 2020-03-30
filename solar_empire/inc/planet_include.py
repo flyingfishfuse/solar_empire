@@ -22,22 +22,13 @@ def build_omega_missile():
 		dbn("update :db_name}_planets set missile = '-1', elect = elect - 50, metal=metal-200,fuel=fuel-100 where planet_id =  planet.planet_id]")
 
 #build a launch pad
-elif (launch_pad) :
+def build_launch_pad() :
 	header = 'Launch Pad Construction'
-	if ( user.cash  < 100000 or  planet.'elect  < 200 or
-	      planet.'metal  < 100 or  planet.'fuel  < 100) :
-		out + <<<END
-<p>You can not afford a Missile Launch Pad</p>
-<p>Required: 100,000 cash, 100 metal, and 100 fuel.</p>
-
-END
+	if ( user.cash  < 100000 or  planet.elect  < 200 or planet.metal  < 100 or  planet.fuel  < 100) :
+		out + "<p>You can not afford a Missile Launch Pad</p><p>Required: 100,000 cash, 100 metal, and 100 fuel.</p>"
 	elif  (enable_superweapons == 0) :
-		out + <<<END
-<p>Admin has disabled the ability to use these weapons, as such, building a
-missile pad is pointless.</p>
-
-END
-	elif ( planet.launch_pad] not 0) :
+		out + "<p>Admin has disabled the ability to use these weapons, as such, building a missile pad is pointless.</p>"
+	elif ( planet.launch_pad != 0) :
 		out + "You already have a <b class=b1>Missile Launch Pad</b> on this planet."
 	elif (sure not 'yes') :
 		get_var('Build Missile Launch Pad','add_planetary.php','Are you sure you want to build a <b class=b1>Missile Launch Pad</b>?','sure','yes')

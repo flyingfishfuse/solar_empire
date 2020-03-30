@@ -1,8 +1,12 @@
 import solar_empire
-import solar_empire.models
-from solar_empire import *
 from solar_empire.models import *
-
+from solar_empire import *
+from solar_empire.inc.configuration_options import *
+from solar_empire.models.user_models import *
+from solar_empire.models.ship_models import *
+from solar_empire.models.social_models import *
+from solar_empire.models.storekeeper_models import *
+from solar_empire.models.system_models import *
 from datetime import datetime
 from solar_empire.inc.configuration_options import *
 
@@ -17,10 +21,10 @@ def return_user_by_id(id_of_user:int):
 	update_database()
 
 	"""
-	return database.session.query(User).filter_by(User.user_id = id_of_user)
+	return database.session.query(User).all().filter_by( User.user_id = id_of_user)
 
 def return_user_list():
-	pass
+    return database.session.query(User).all().filter_by(User.user_id)
 
 def return_user_variable(user_id , var):
 	user_to_probe = return_user_by_id(user_id) 
@@ -31,6 +35,9 @@ def update_database(thing):
 	database.commit()
 	pass
 
+def return_item_by_id(item):
+    database.session.query(ShopKeeper)
+    
 def add_resources_to_player_by_id(player_id, resource_type, resource_amount):
 	
 	pass
