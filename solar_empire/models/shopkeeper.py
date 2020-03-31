@@ -9,3 +9,4 @@ from solar_empire.models.system_models import *
 
 class Shopkeeper(database.Model):
     shop_id               = database.Column(database.Integer)
+    

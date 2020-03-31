@@ -16,20 +16,40 @@ sn_effect = True
 #this line needs to go somewhere
 #scrolling_output_message('Use SuperNova Effector - Are you sure you want to use the SuperNova Effector?')
 random_events = return_system_variable('random_events_level')
+#Function to figure out the bonuses offered by weapon upgrades
+	#function bonus_calc(ship)
+#defensive turret : lvl 1
+damage = defensive_turret = round(330 * (mt_rand(75, 125) / 100)) * ship_type.num_dt
+#offensive turret : lvl 1
+damage = offensive_turret = round(200 * (mt_rand(80, 120) / 100)) * ship_type.num_dt
+#silicon armour : lvl 2
+damage = silicon_armor = round(upgrade_sa * (mt_rand(90, 110) / 100)) * ship_type.num_sa
+#plasma cannon : lvl 2
+damage = plasmacannon = round(420 * (mt_rand(92, 108) / 100)) * ship_type.num_pc
+#electronic warfare module : lvl 1
+damage = elec_war_def = round(325 * (mt_rand(85, 115) / 100)) * ship_type.num_ew
+damage = elec_war_off = round(225 * (mt_rand(80, 120) / 100)) * ship_type.num_ew
+
+turns_before_attack = return_game_var('turns_before_attack')
+
+def attack_planet(planet_num, user_id):
+    user_info = return_user_by_id(user_id)
+    planet_info = return_planet_by_id(planet_num)
+    ceasefire_turns_left = return_game_var('turns_before_planet_attack')
+
 
 def attack_with_bomb(attacker_user, target_user, target_ship):
     attacker = return_user_by_id(attacker_user)
     if return_user_variable( attacker , 'user_id') != ADMIN_USER_ID :
 	    if return_user_variable( attacker , 'turns_run') < SAFE_TURNS :
-		    scrolling_output_message("Bomb","You can't attack during the first <b>turns_before_attack</b> turns of having your account."
-	    if does_user_have_ship() == False :
-		    scrolling_output_message("Bomb","You May not use a Bomb when you are not commanding a ship. Try buying a ship then set off a Bomb"
+		    scrolling_output_message("Bomb","You can't attack during the first <b>turns_before_attack</b> turns of having your account.")
+	    elif does_user_have_ship() == False :
+		    scrolling_output_message("Bomb","You May not use a Bomb when you are not commanding a ship. Try buying a ship then set off a Bomb")
     #SuperNova Effector
-    if sn_effect :
 	    # random events prevent it from occuring
-		if return_user_variable( attacker , 'sn_effect') < 1 :
+     	elif return_user_variable( attacker , 'sn_effect') < 1 :
 		    scrolling_output_message("No can Blow: You don't have a SuperNova Effector.")
-	    elif random_events == 2 :
+      	elif random_events == 2 :
 		    scrolling_output_message("No can Blow: Sorry. You need a system with a star in to allow you to blow it up. <br>This system is a <b class=b1>Nebula</b>, which means that it is only gases. <br>Try again somewhere else.")
 	    elif random_events == 1 :
     		scrolling_output_message("No can Blow: Sorry. You need a system with a star in to allow you to blow it up. <br>The star in this system has already exploded, and has formed a <b class=b1>BlackHole</b>. <br>Try again somewhere else.")
@@ -178,168 +198,144 @@ def launch_missile(user_id:int):
 						elect_killed = 0
 						organ_killed = 0
 					page_output "<br>The missile also killed colonists_killed colonists."
-
 				elif (target_planet.colonists >0) :
 					colonists_killed = target_planet.colonists
 					fight_killed = target_planet.alloc_fight 
 					elect_killed = target_planet.alloc_elect 
 					organ_killed = target_planet.alloc_organ 
 					page_output "<br>The missile also killed all colonists_killed colonists that were on the planet."
-
 				else :
 					colonists_killed = 0
 					page_output "<br>The Missile failed to kill any Colonists as there were none on the planet."
 				page_output "<p>Damage report ends"
 				planet.fighters = fighters - 'damage_done', target_planet.colonists=target_planet.colonists-'colonists_killed', alloc_fight=alloc_fight-'fight_killed', alloc_elect=alloc_elect-'elect_killed', alloc_organ=alloc_organ-'organ_killed' where planet_id = 'destination'")
-
 				send_message(target_planet['login_id ,"<b class=b1>user.login_name]</b> launched an Omega Missile at your planet <b class=b1>target_planet[planet_name]</b> (system #<b>target_planet[location]</b>) taking out <b>damage_done</b> fighters, and <b>colonists_killed</b> colonists.")
-
 			else :
 				"delete from :db_name}_planets where planet_id = 'destination'")
 				"update :db_name}_stars set planetary_slots = planetary_slots + 1 where star_id = target_planet[location]")
 				send_message(target_planet[location ,"Your planet <b class=b1>target_planet[planet_name]</b> (system #<b>target_planet[location]</b>) was destroyed by a <b class=b1>Omega Missile</b> launched by <b class=b1>user.login_name]</b>.")
-			}
-
 			post_news("<b class=b1>user.login_name]</b> launched an <b class=b1>Omega Missile</b> at the planet <b class=b1>target_planet[planet_name]</b>.")
 			if(annihil == 1):
 				post_news("<b class=b1>target_planet[planet_name]</b> was annihilated by an <b class=b1>Omega Missile</b>.")
-			}
-		}
-	}
-#quark disrupter.
-	if(User.turns_left < sv_turns) :
-		print_page("Quark Displacer","Sorry, you can't use the Quark Displacer, as you do not have enough turns. <br>To fire this weapon you need <b>sv_turns</b> turns, and you only have <b>user[turns]</b>.");
-	elif planet_info.planet_id  == 1) :
-		print_page("Quark Displacer","This weapon may not be fired at <b class=b1>Earth</b>. In fact by trying, you've probably broken a couple of laws. So scram.");
-	elif user.location  != planet_info.location ) :
-		print_page("Quark Displacer","The planet <b class=b1>planet_info[planet_name]</b> is not in this system.");
-	elif user.turns_run  < turns_before_planet_attack && user.login_id  != ADMIN_ID) :
-		print_page("Quark Displacer","You can't attack during the first <b>turns_before_planet_attack</b> turns of having your account.");
-	elif flag_planet_attack == 0) :
-		print_page("Quark Displacer","The admin presenelty has planet attacking disabled.");
-	elif planet_info.login_id  == 1) :
-		print_page("Quark Displacer","This is an <b class=b1>Admin </b>planet, and cannot be attacked.");
-	elif planet_info.fighters == 0  :
-		print_page("Quark Displacer","There is no point in attacking this planet with the Quark Displacer, as there are no fighters left on it to destroy.<p><a href=planet.php?planet_id=planet_info[planet_id]>Land</a> on it, and then claim it to make it yours.");
-	elif !ereg("sv",user_ship.config )) :
-		print_page("Quark Displacer","This ship does not have a Quark Displacer on it.");
-	elif !isset(ask_if_certain)) :
-		get_var('Quark Displacer','attack.php',"Are you sure you want to use the Quark Displacer against <b class=b1>planet_info[planet_name]</b>?",'ask_if_certain','yes');
-	else :
-		charge_turns(sv_turns);
-		sv_damage = mt_rand(600,1400);
-		"update :db_name_planets set fighters = fighters - 'sv_damage' where planet_id = planet_num");
-		planet_info.fighters  -= sv_damage;
-		post_news("<b class=b1>user[login_name]</b> fired a Quark Displacer at <b class=b1>planet_info[planet_name]</b>.");
-		if(planet_info.fighters  < 1) :
-			send_message(planet_info.login_id ,"The <b class=b1>user_ship[ship_name]</b> fired at your planet <b class=b1>planet_info[planet_name]</b> with a Quark Displacer, doing <b>sv_damage</b> damage, and completely destroying all the planets defences.");
-			"update :db_name_planets set fighters = 0 where planet_id = planet_num");
-			f_killed = planet_info.fighters ;
-			planet_info.fighters  = 0;
-			out_str .= "You have done <b>sv_damage</b> damage to planet <b class=b1>planet_info[planet_name]</b>, using <b>sv_turns</b> turns. <p>You completly destroyed all defences on <b class=b1>planet_info[planet_name]</b>. <br> - <a href=planet.php?planet_id=planet_info[planet_id]>Land</a><br>";
-		 else :
-			send_message(planet_info.login_id ,"The <b class=b1>user_ship[ship_name]</b> fired at your planet <b class=b1>planet_info[planet_name]</b> with a Quark Displacer, doing <b>sv_damage</b> damage. There was no way for your planetary defences to retaliate.");
-			f_killed = sv_damage;
-			out_str .= "You have done <b>sv_damage</b> damage to planet <b class=b1>planet_info[planet_name]</b>, at a cost of <b>sv_turns</b> turns";
-		
-		"update :db_name_users set fighters_killed = fighters_killed + 'f_killed' where login_id = user.login_id ");
-		"update :db_name_users set fighters_lost = fighters_lost + 'f_killed' where login_id = planet_info.login_id ");
-		print_page("Quark Disrupter",out_str);
-	
 
+def quark_displacer(planet_num, user_id):
+	user_info = User.query.filter_by(login_id = user_id).first()
+    planet_info = PlanetInfo.query.filter_by(planet_id = planet_num)
+    ceasefire_turns_left = return_game_var('turns_before_planet_attack')
+        #quark disruptor... fookin 'ell mate
+    if GameVars.quark and UserShip.has_quark:
+        if user_info.on_planet != planet_info.planet_num:
+            if user_info.turns_left < GameVars.attack_turn:
+                print("Sorry, you can't use the Quark Displacer, as you do not have enough turns. <br>To fire this weapon you need <b>GameVars.sv_turns</b> turns, and you only have <b>User.turns]</b>.")
+            elif planet_info.planet_id == 1:
+                print("This weapon may not be fired at <b class=b1>Earth</b>. In fact by trying, you've probably broken a couple of laws. So scram.")
+            elif user_info.location != planet_info.location:
+                print("The planet <b class=b1>{planet_name</b> is not in this system.")
+            elif user_info.turns_run < user_info.safe_turns_left:
+                print("You can't attack during the first <b>{</b> turns of having your account.").format({turns_before_attack)
+            elif return_game_var('flag_planet_attack') == False :
+                #im just gonna leave that there :p
+		        print("The admin presenelty has planet attacking disabled.")
+            elif planet_info.login_id== 1 :
+	    	    print("This is an <b class=b1>Admin </b>planet, and cannot be attacked.")
+            elif planet_info.fighters:
+		        print("There is no point in attacking this planet with the Quark Displacer, as there are no fighters left on it to destroy.<p><a href=planet.php?planet_id=planet_info.planet_id]>Land</a> on it, and then claim it to make it yours.")
+		        print("This ship does not have a Quark Displacer on it.")
+           else: 
+                shots_fired = user_info.quark - 1
+                database.session.add(shots_fired)
+                print("Quark Dispulsor fired!")
+                planet_info.fighters - GameVars.quark_damage
+       else: 
+            print("You aren't near that planet!")
+   else: 
+        user_info = user_info.turns_left - GameVars.attack_turn
+		if return_game_var(quark_damage) >= asdf:
+		    damage = planet_info.fighters
+		post_news("</b> fired a Quark Displacer at <b class=b1>{planet_name}</b>.")
+		if planet_info.fighters < 1 :
+			send_message("The <b class=b1>user_ship[ship_name]</b> fired at your planet <b class=b1>{planet_name</b> with a Quark Displacer, doing <b>sv_damage</b> damage, and completely destroying all the planets defences.")
+			"You have done <b>sv_damage</b> damage to planet <b class=b1>{planet_name</b>, using <b>GameVars.sv_turns</b> turns. <p>You completly destroyed all defences on <b class=b1>{planet_name</b>. <br> - <a href=planet.php?planet_id=planet_info.planet_id]>Land</a><br>"
+		else:
+			send_message(planet_info.login_id, "The <b class=b1>user_ship[ship_name]</b> fired at your planet <b class=b1>{planet_name</b> with a Quark Displacer, doing <b>sv_damage</b> damage. There was no way for your planetary defences to retaliate.")
+			"You have done <b>sv_damage</b> damage to planet <b class=b1>{planet_name</b>, at a cost of <b>GameVars.sv_turns</b> turns"
+            asdf = "asdf"
+		fighters_killed = fighters_killed + f_killed where login_id = user.login_id]")
+		fighters_lost = fighters_lost + f_killed where login_id = planet_info.login_id]")
 
 
 #terra maelstrom
-def terra_maelstrom_attack(planet_id, attacker_id)
-			"""
-					blarp
-			"""
-			
-	planet_info = dbr();
-	sw_turns = 50;
-	base_percent = 2;
-
-	if(User.turns_left < sw_turns) :
-		print_page("Terra Maelstrom","Sorry, you can't use the Terra Maelstrom, as you do not have enough turns. <br>To fire this weapon you need at <b class=b1>least</b> <b>sw_turns</b> turns. You have <b>user[turns]</b>.");
-	elif planet_info.planet_id  == 1) :
-		print_page("Terra Maelstrom","Are you trying to start some trouble? Because I'm sure that the Navy of Sol is around here somewhere to put you right.");
-	elif user.location  != planet_info.location ) :
-		print_page("Terra Maelstrom","The planet <b class=b1>planet_info[planet_name]</b> is not in this system.");
-	elif user.turns_run  < turns_before_planet_attack && user.login_id  != ADMIN_ID) :
-		print_page("Terra Maelstrom","You can't attack during the first <b>turns_before_planet_attack</b> turns of having your account.");
-	elif flag_planet_attack == 0) :
-		print_page("Quark Displacer","The admin presentlty has planet attacking disabled.");
-	elif planet_info.login_id  == 1) :
-		print_page("Terra Maelstrom","This is an <b class=b1>Admin</b> planet, and cannot be attacked.");
-	elif !planet_info.fighters ) :
-		print_page("Terra Maelstrom","There is no point in attacking this planet with the Terra Maelstrom, as there are no fighters left on it to destroy.<p><a href=planet.php?planet_id=planet_info[planet_id]>Land</a> on it, and then claim it to make it yours.");
-	elif enable_superweapons == 0) :
-		print_page("Terra Maelstrom","The admin has disabled the use of terra maelstroms.");
-	elif !ereg("sw",user_ship.config )) :
-		print_page("Terra Maelstrom","'Ready aim...<br>oh wait a minute, we don't HAVE a Terra Maelstrom installed Captain!'");
-		else :
-
+def terra_maelstrom(target_planet , user_id):
+	user = return_user_by_id(user_id)
+	if user.planet_id != planet_info.planet_num :
+		planet_info          = PlanetInfo.query.filter_by(planet_id = planet_num)
+		GameVars.attack_turn = 50
+		base_percent         = 2
+		if user.turns_left <  GameVars.attack_turn and user.login_id != ADMIN_ID:
+			print_page("Terra Maelstrom","Sorry, you can't use the Terra Maelstrom, as you do not have enough turns. <br>To fire this weapon you need at <b class=b1>least</b> <b> GameVars.attack_turn</b> turns. You have <b>User.turns]</b>.")
+		elif planet_info.planet_id== 1 :
+			print_page("Terra Maelstrom","Are you trying to start some trouble? Because I'm sure that the Navy of Sol is around here somewhere to put you right.")
+		elif user.planet_id != planet_info.planet_id :
+			print_page("Terra Maelstrom","The planet <b class=b1>{planet_name</b> is not in this system.")
+		elif user.turns_run < turns_before_attack and user.login_id != ADMIN_ID :
+			print_page("Terra Maelstrom","You can't attack during the first <b>{turns_before_attack</b> turns of having your account.")
+		elif GameVars.flag_planet_attack == 0 and user.login_id != ADMIN_ID:
+			print_page("Quark Displacer","The admin presentlty has planet attacking disabled.")
+		elif planet_info.login_id== 1 and user.login_id != ADMIN_ID :
+			print_page("Terra Maelstrom","This is an <b class=b1>Admin</b> planet, and cannot be attacked.")
+		elif planet_info.fighters :
+			print_page("Terra Maelstrom","There is no point in attacking this planet with the Terra Maelstrom, as there are no fighters left on it to destroy.<p><a href=planet.php?planet_id=planet_info.planet_id]>Land</a> on it, and then claim it to make it yours.")
+		elif enable_superweapons == 0 and user.login_id!= ADMIN_ID:
+			print_page("Terra Maelstrom","The admin has disabled the use of terra maelstroms.")
+		elif user.terra_maelstrom != True :
+			print_page("Terra Maelstrom","'Ready aim...<br>oh wait a minute, we don't HAVE a Terra Maelstrom installed Captain!'")
+		else:
 		#base amount of damage, done for the X turns.
-		sq_damage = mt_rand(4000,6000);
-
+		sq_damage = randint(4000,6000)
 		#if planet has more than that many fighters, use an alternate system:
-		if(planet_info.fighters  > sq_damage && User.turns_left > sw_turns):
-
+		if planet_info.fighters> sq_damage and user.turns_left >  GameVars.attack_turn : 
 			#work out how many fighters may be killed in one shot (between 65 and 75 percent) as a max.
-			max_fig_kills = round((planet_info.fighters  / 100) * mt_rand(65,75));
-
+			max_fig_kills = round((planet_info.fighters/ 100) * randint(65,75))
 			#work out based on the max fighters that can be killed the num of fighters killed per turn.
-			killed_per_turn = round(max_fig_kills / max_turns);
-
+			killed_per_turn = round(max_fig_kills / user.max_turns)
 			#damage done is based on num turns used times fighters killed per turn used. simple
-			damage_done = round(killed_per_turn * User.turns_left);
-
+			damage_done = round(killed_per_turn * user.turns_left)
 			#random factor. allows for an increased randomness in damage done.
-			damage_done += round(mt_rand(-damage_done * .05,damage_done * .05));
+			damage_done += round(randint(-damage_done * .05,damage_done * .05))
+	########old method of doing damage with terra maelstrom
+	##  	t_dam_done = round((User.turns] -  GameVars.attack_turn) / 10) + base_percent
+	##		damage_done = round(planet_info.fighters] /100 * (base_percent + t_dam_done))
+	##		damage_done += round(randint(-damage_done * .15,damage_done * .15))
+	########damage done by alternate system isn't as much as using the sure fire method (fixed damage for fixed turns)
+		if sq_damage > damage_done : 
+			sw_damage = sq_damage
+			turn_cost =  GameVars.attack_turn
+		else:  #damage done by alternate method is greater than normal damage done.
+			turn_cost = user.turns_left
+			sw_damage = damage_done
+		if sure :
+			get_var('Terra Maelstrom','attack.php',"Are you sure you want to use the Terra Maelstrom against the planet <b class=b1>{planet_name</b>?<br><br>This will use <b>turn_cost</b> turns and kill about <b>damage_done</b> fighters.",'sure','yes')
+		charge_turns(turn_cost)
+		out_str =""
+		planet_info.planet_num = fighters - sw_damage # where planet_id = planet_info.planet_num
+		planet_info.fighters - sw_damage
+		post_news("<b class=b1>User.login_name]</b> fired a Terra Maelstrom at <b class=b1>{planet_name</b>.")
+		if planet_info.fighters< 1 :
+			send_message(planet_info.login_id'],"The <b class=b1>user_ship[ship_name]</b> fired at your planet <b class=b1>{planet_name</b> with a Terra Maelstrom, doing <b>sw_damage</b> damage, and completely destroying all the planets defences.")
+			dbn("update {db_name_planets set fighters = 0 where planet_id = planet_info.planet_num")
+			f_killed = planet_info.fighters
+			planet_info.fighters= 0
+			out_str .= "You have done <b>sw_damage</b> damage to planet <b class=b1>{planet_name</b>, using <b>turn_cost</b> turns. <p>You completly destroyed all defences on <b class=b1>{planet_name</b>. <br> - <a href=planet.php?planet_id=planet_info.planet_id]>Land</a><br>"
 
-	#old method of doing damage with terra maelstrom
-	#		t_dam_done = round((user[turns] - sw_turns) / 10) + base_percent;
-	#		damage_done = round(planet_info.fighters /100 * (base_percent + t_dam_done));
-	#		damage_done += round(mt_rand(-damage_done * .15,damage_done * .15));
+		else: 
+			send_message(planet_info.login_id'],"The <b class=b1>user_ship[ship_name]</b> fired at your planet <b class=b1>{planet_name</b> with a Terra Maelstrom, doing <b>sw_damage damage</b>. There was no way for your planetary defences to retaliate.")
+			f_killed = sw_damage
+			planet_info.fighters-= sw_damage
+			out_str .= "You have done <b>sw_damage</b> damage to planet <b class=b1>{planet_name</b>, at a cost of <b>turn_cost</b> turns"
 		
-
-		#damage done by alternate system isn't as much as using the sure fire method (fixed damage for fixed turns)
-		if(sq_damage > damage_done):
-			sw_damage = sq_damage;
-			turn_cost = sw_turns;
-		else : #damage done by alternate method is greater than normal damage done.
-			turn_cost = User.turns_left;
-			sw_damage = damage_done;
-		
-
-		if(!isset(ask_if_certain)) :
-			get_var('Terra Maelstrom','attack.php',"Are you sure you want to use the Terra Maelstrom against the planet <b class=b1>planet_info[planet_name]</b>?<br><br>This will use <b>turn_cost</b> turns and kill about <b>damage_done</b> fighters.",'ask_if_certain','yes');
-		
-
-		charge_turns(turn_cost);
-		out_str ="";
-
-		"update :db_name_planets set fighters = fighters - 'sw_damage' where planet_id = planet_num");
-		planet_info.fighters  -= sw_damage;
-		post_news("<b class=b1>user[login_name]</b> fired a Terra Maelstrom at <b class=b1>planet_info[planet_name]</b>.");
-		if(planet_info.fighters  < 1) :
-			send_message(planet_info.login_id ,"The <b class=b1>user_ship[ship_name]</b> fired at your planet <b class=b1>planet_info[planet_name]</b> with a Terra Maelstrom, doing <b>sw_damage</b> damage, and completely destroying all the planets defences.");
-			"update :db_name_planets set fighters = 0 where planet_id = planet_num");
-			f_killed = planet_info.fighters ;
-			planet_info.fighters  = 0;
-			out_str .= "You have done <b>sw_damage</b> damage to planet <b class=b1>planet_info[planet_name]</b>, using <b>turn_cost</b> turns. <p>You completly destroyed all defences on <b class=b1>planet_info[planet_name]</b>. <br> - <a href=planet.php?planet_id=planet_info[planet_id]>Land</a><br>";
-
-		 else :
-			send_message(planet_info.login_id ,"The <b class=b1>user_ship[ship_name]</b> fired at your planet <b class=b1>planet_info[planet_name]</b> with a Terra Maelstrom, doing <b>sw_damage damage</b>. There was no way for your planetary defences to retaliate.");
-			f_killed = sw_damage;
-			planet_info.fighters  -= sw_damage;
-			out_str .= "You have done <b>sw_damage</b> damage to planet <b class=b1>planet_info[planet_name]</b>, at a cost of <b>turn_cost</b> turns";
-		
-		"update :db_name_users set fighters_killed = fighters_killed + 'f_killed' where login_id = user.login_id ");
-		"update :db_name_users set fighters_lost = fighters_lost + 'f_killed' where login_id = planet_info.login_id ");
-		print_page("Terra Maelstrom",out_str);
-	
-
+		dbn("update {db_name_users set fighters_killed = fighters_killed + 'f_killed' where login_id = User.login_id]")
+		dbn("update {db_name_users set fighters_lost = fighters_lost + 'f_killed' where login_id = planet_info.login_id]")
+		print_page("Terra Maelstrom",out_str)
 
 #==============
 #ship to ship attacking
@@ -399,7 +395,6 @@ if(target > 0) :
 		new_target_ship = dbr();
 
 		if(!empty(new_target_ship['ship_id ) && target_ship['ship_id  != new_target_ship['ship_id ):
-
 			#a 1 in 10 chance the fleet defender won't be able to get to the ship to defend it in time.
 			if(round(mt_rand(1,10)) != 2) :
 				target_ship = new_target_ship;
@@ -407,20 +402,8 @@ if(target > 0) :
 			 else :
 				def_str = "<br>The <b class=b1>new_target_ship[ship_name]</b>(new_target_ship[class_name]) was unable to reach the site of the fray before the battle was over.<br>";
 				unset(new_target_ship);
-			
-		
-
 
 		charge_turns(space_attack_turn_cost);
-
-		#function to set stuff to 0.
-		function leveller(input):
-			if(input < 0):
-				return 0;
-			 else:
-				return input;
-			
-		
 
 		#load attack, defense bonuses.
 		u_bonus = bonus_calc(user_ship);
