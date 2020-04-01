@@ -21,7 +21,7 @@ def return_user_by_id(id_of_user:int):
 	update_database()
 
 	"""
-	return database.session.query(User).all().filter_by( User.user_id = id_of_user)
+	return database.session.query(User).all().filter_by(User.user_id = id_of_user)
 
 def return_user_list():
     return database.session.query(User).all().filter_by(User.user_id)
@@ -36,7 +36,7 @@ def update_database(thing):
 	pass
 
 def return_item_by_id(item):
-    database.session.query(ShopKeeper)
+    database.session.query(Shopkeeper).all().filter_by()
     
 def add_resources_to_player_by_id(player_id, resource_type, resource_amount):
 	
@@ -93,9 +93,7 @@ def print_page(title, text):
 		statusBar + \
 		"</div>" + "<div id='gameBody'>" + \
 		game_data_body + "</div>" + \
-		print_footer + \
-		text + \
-		pageStop(title)
+  		text # + pageStop(title)
 
 #cat time
 def date_time_NOW():

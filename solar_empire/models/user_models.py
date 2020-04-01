@@ -41,3 +41,5 @@ class UserShip(User):
     fuel                       = database.Column(database.Integer)
     metals                     = database.Column(database.Integer)
     fighters                   = database.Column(database.Integer)
+    # This holds an array of the ships and ship_ids that the player owns and is currently towing
+    fleet_array               = database.Column()

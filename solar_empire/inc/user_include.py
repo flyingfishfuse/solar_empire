@@ -34,11 +34,20 @@ def user_ship_for_info(user_id):
 		pass
 	else:
 		pass
+def return_usership_by_userid(user_id):
+	database.session.query(UserShip).all().filter_by(UserShip.user_id)
 
 def return_user_location(userid:int):
 	blarp = database.session.query(User).filter_by(User.user_id == userid).all()
 	return blarp.location
 
+def return_userfleet_by_userid(user_id:int):
+	"""
+	Returns the fleet (if any) of a user.
+	this is stored as an array in the UserShip model as UserShip.fleet_array
+	Remember, these can be gigantic ships, they are just being towed by C&C fleet AI 
+	"""
+	return database.session.query(UserShip.fleet_array)
 def return_user_ship_variable(user_id , var):
 	if does_user_have_ship(user_id):
 		usership = user_ship_for_info(user_id)
@@ -66,15 +75,15 @@ def buy_basic_upgrade(user_id, \
 	user_to_modify.metal   = return_user_ship_variable(user_id , 'metal') - metal_cost
 	update_database()
 
-def set_bounty(user_with_bounty, user_with_money, comission_percent):
+def set_bounty(user_with_bounty, user_with_money, comission_percent:int, amount:int):
 	"""
 	Takes USER ID's and an INTEGER, not a decimal "0.1" or similar for percents
 	This function gets used in black markets only
 	"""
-	amount             = round((amount /100) * comission_percent) + amount + 1
+	cost               = round((amount /100) * comission_percent) + amount + 1
 	wanted_man         = return_user_by_id(user_with_bounty)
 	asshole            = return_user_by_id(user_with_money)
-	update_bounty_list(user_with_bounty)
+	update_bounty_list(user_with_bounty, bounty)
 	pass
 
 
@@ -82,13 +91,13 @@ def inject_money(amount: int, player_id: int, all_players: bool):
 #give players money
 	if all_players == True:
 		print_page('How much money do you want to give to each player?')
-		print_page("Gave {} credits to all players".format(amount))
+		print_page("Gave :} credits to all players".format(amount))
 	elif all_players == False:
-		print_page("Player's money reserves increased by <b>{}</b><br>Note: \
+		print_page("Player's money reserves increased by <b>:}</b><br>Note: \
 			This has NOT sent a message to the players+ That is your job\
 			<br><br>".format(amount))
 		dude = return_user_by_id(player_id)
-		dude.cash = new_amount
+		dude.cash = dude.cash + amount
 		update_database()
 	
 def make_basic_upgrade (user: int, upgrade: str, increase_amount: int, cost: int) :
@@ -104,15 +113,17 @@ def make_basic_upgrade (user: int, upgrade: str, increase_amount: int, cost: int
 		user_ship.upgrades - 1
 		if upgrade == "cargo_bays" :
 			user_ship.empty_bays + increase_amount
-	print_page("You have increased the <b class=b1>{user_ship.ship_name}s</b> {upgrade_str} capacity by <b>{inc_amount}</b> for <b>{cost}</b> Credits. <p>")
+	print_page("You have increased the <b class=b1>:user_ship.ship_name}s</b> :upgrade_str} capacity by <b>:inc_amount}</b> for <b>:cost}</b> Credits. <p>")
 
 
 #/********************
 #Account updating functions
 #*********************/
 
-#function that charges turns for something. Admin is exempt.
 def charge_turns(amount, user_id):
+	"""
+	function that charges turns for something. Admin is exempt.
+	"""
 	user = return_user_by_id(user_id)
 	if user.login_id != ADMIN_USER_ID :
 		user.turns_left - amount
@@ -127,8 +138,13 @@ def get_all_ships_planet(planet_id):
 def give_cash(user_id, amount):
 	pass
 
-#function takes cash from a player. Admin is exempt.
-def take_cash(user_id, amount):
+def take_cash(user_id:int, amount:int):
+	"""
+	function takes cash from a player. Admin is exempt.
+	"""
+	pass
+
+def take_tech(userid:int, amount:int):
 	pass
 
 def remove_resource_from_player(user_id, resource, amount):
@@ -143,9 +159,12 @@ def kill_shields(user_id):
 def kill_fighters():
 	pass
 
-#function that damages a ship with a specified amount of damage.
-#send a negative number as the first arguement to destroy a ship outright.
+
 def damage_ship(amount, fig_dam, s_dam, attacker, target , target_ship):
+	"""
+	function that damages a ship with a specified amount of damage.
+	send a negative number as the first arguement to destroy a ship outright.
+	"""
 	#set the shields down first off (if needed).
 	#take the fighters down next (if needed).
 	# don't want to hurt the admin now do we?
@@ -173,25 +192,41 @@ def damage_ship(amount, fig_dam, s_dam, attacker, target , target_ship):
 #function userShip(id)
 #a function that allows a message to be sent to all players.
 def show_active(): 
-#active user listing
+	"""
+	active user listing
+	"""
 	active_users = database.session.query(User).filter_by(User.active).all()
 	title_string = "Users that have logged with within the past 5 mins+"
-	time_string = "<br>Time Loaded:{timeNOW}<br><a href=admin?show_active=1>Reload</a>".format(date_time_NOW)
+	time_string = "<br>Time Loaded::timeNOW}<br><a href=admin?show_active=1>Reload</a>".format(date_time_NOW)
+	out = ""
 	for player in active_users:
- 	active_players = UserShip.query.filter_by('active').all()
-	if active_players == []:
-		out + "<p>There are no active users+"
-		out + "<p><table>"
-		out + "<tr bgcolor='#555555'><td>Login Name</td><td>Last Request</td></tr>"
-		out + "<tr bgcolor='#333333'><td>"+print_name(player)+"</td><td>"+date( "H:i:s (M d)",player['last_request'])+"</td><td> - <a href=message+php?target=player[login_id]>Message</a><br></td></tr>"
-		out + "</table>"
-	
-
+ 		active_players = UserShip.query.filter_by('active').all()
+		if active_players == []:
+			out + "<p>There are no active users+"
+			out + "<p><table>"
+			out + "<tr bgcolor='#555555'><td>Login Name</td><td>Last Request</td></tr>"
+			out + "<tr bgcolor='#333333'><td>"+ player.username + "</td><td>" + date_time_NOW + player.last_request + \
+				"</td><td> - <a href=message+php?target=player[login_id]>Message</a><br></td></tr>"
+			out + "</table>"
 	rs = "<p><a href=admin+php>Back to Admin Page</a>"
 	print_page("Active Users",out)
 
-#a function to allow for easy addition of upgrades.
-def	make_standard_upgrade(upgrade_str, config_addon, cost, developement_id, tech_cost = 0):
+def	make_standard_upgrade(userid:int, upgrade_str, config_addon, cost, developement_id:int , tech_cost:int = 0):
+	"""
+	a function to allow for easy addition of upgrades.
+	#This function will select fill as many ships in a fleet as possible with whatever is requested.
+	1st arguement sent to it is the sql name for whatever is to be loaded.
+	2nd arguement is the name of the sql entry for the most of that material that any one ship can hold.
+	3rd arguement contains the textual string
+	4th arguement holds the cost per unit of the item.
+	5th arguement is the name of the orginating script
+
+	"""
+	user_to_mod     = return_user_by_id(userid)
+	if does_user_have_ship == True:
+		ship_to_display = return_usership_by_userid(user_to_mod.user_id)
+	else:
+		print_page("lol") 
 	if ( user_to_mod.cash < cost):
 		return "You can not afford to buy a <b class=b1>upgrade_str</b>.<p>"
 	elif ( user_to_mod.tech < tech_cost and tech_cost > 0):
@@ -202,28 +237,22 @@ def	make_standard_upgrade(upgrade_str, config_addon, cost, developement_id, tech
 		return ""
 	else :
 		take_cash(cost)
-		take_tech(tech_cost)
-		ship_to_display.config + ":" + config_addon
+		take_tech(user_to_mod.user_id , tech_cost)
+		ship_to_display.config.update(config_addon)
 		#update db_name    ships set config = '
 		# user_ship[config] ', 
 		# upgrades = upgrades - 1 where ship_id = 'user[ship_id]'")
 		return "<b class=b1>upgrade_str</b>, purchased and fitted to the <b class=b1>"
 		#user_ship[ship_name]</b> for <b>cost</b> Credits.<p>"
 
-
-#This function will select fill as many ships in a fleet as possible with whatever is requested.
-
-#- 1st arguement sent to it is the sql name for whatever is to be loaded.
-#- 2nd arguement is the name of the sql entry for the most of that material that any one ship can hold.
-#- 3rd arguement contains the textual string
-#- 4th arguement holds the cost per unit of the item.
-#- 5th arguement is the name of the orginating script
-
 def fill_fleet(userid , item_sql, item_max_sql, item_str, item_cost, script_name, cargo_run = 0):
 	#taken = 0 #item taken from earth far.
 	#ship_counter = 0 #ships passed through
 	user_to_mod = return_user_by_id(userid)
+	ships       = 
 	item_id		= return_item_by_id(item_str)
+	item_cost	= "TODO"
+	ret_str     = ""
 	if cargo_run == 1: ##cargo
 		print("lol")
 	else : ##not cargo
@@ -232,62 +261,45 @@ def fill_fleet(userid , item_sql, item_max_sql, item_str, item_cost, script_name
 	#insufficient cash
 	if (user_to_mod.cash < item_cost):
 		ret_str + "You do not have enough money for even 1 unit of <b class=b1>item_str</b>. You certainly can't afford to fill a fleet."
-	 elif (empty(maths) or maths['total_ships' < 1): #ensure there are some ships.
+	elif (maths['total_ships'] < 1): #ensure there are some ships.
 		ret_str + "This operation failed as there are no ships that have any free capacity to hold <b class=b1>item_str</b> in this system that belong to you."
 	else :
 		##work out the total value of them all.
 		total_cost = [total_capacity * item_cost]
-
 		#user CAN afford to fill the whole fleet
-		if ( total_cost <= user_to_mod.cash) {
-
-			if(empty(sure): #confirmation
+		if ( total_cost <= user_to_mod.cash) :
+			if empty(sure): #confirmation
 				get_var('Load ships',script_name,"There is capacity for <b>maths[total_capacity]</b> <b class=b1>item_str</b> in <b>maths[total_ships]</b> ships in this system. <p>You have enough money to fill all the ships with <b class=b1>item_str</b>. Do you wish to do that?",'sure','yes')
 			else : #process.
-				dbn("update {db_name_ships set item_sql = item_max_sql where ".sql_where_clause)
 				take_cash(total_cost)
-
-				if ( cargo_run == 0: #not cargo bay stuff
+				if  cargo_run == 0: #not cargo bay stuff
 					user_ship[item_sql] = user_ship[item_max_sql]
 				else : #cargo bay stuff
 					user_ship[item_sql] += ship_to_display.empty_bays
-				
-
 				ret_str + "<b>maths[total_capacity]</b> <b class=b1>item_str</b> were added to <b>maths[total_ships]</b> ships.<br>All ships are now at maximum capacity."
-			
-
 		#user CANNOT afford to fill the whole fleet, so we'll have to do it the hard way.
 		else :
-			total_can_afford = floor(user_to_mod.cash / item_cost) #work out amount can afford.
-
-			if(empty(sure)) { #confirmation
+			total_can_afford = user_to_mod.cash / item_cost #work out amount can afford.
+			if sure : #confirmation
 				extra_text = "<p><input type=radio name=fill_dir value=1 CHECKED> - Fill highest capacity ships ships first."
 				extra_text + "<br><input type=radio name=fill_dir value=2> - Fill lowest capacity ships first."
 				get_var('Load ships',script_name,"There is capacity for <b>maths[total_capacity]</b> <b class=b1>item_str</b> in <b>maths[total_ships]</b> ships in this system. <br>However, you can only afford <b>total_can_afford</b> item_str.<p>Do you want to fill as many ships as you can afford to fill?".extra_text,'sure','yes')
 			else : #process
-				if ( fill_dir == 1:
+				if fill_dir == 1:
 					order_dir = "desc"
 				else :
 					order_dir = "asc"
-				
-
-				if ( total_can_afford < 1: #error checking
-					return "Unable to fill any ships with anything."
-				
-
+					if total_can_afford < 1: #error checking
+						print_page("Unable to fill any ships with anything.")
 				used_copy_afford = total_can_afford #make copy of the above.
 				final_cost = item_cost * total_can_afford #work out the final cash cost of it all.
 				fill_ships_sql = "" #intiate sql string to load a bunch of ships at once
 				temp_str = ""
-
-				db2("select ship_id, item_sql, item_max_sql as max, ship_name from {db_name_ships where ".sql_where_clause." order by item_max_sql order_dir")
-
-				while(ships = dbr2(1)) { #loop through the ships
-
-					ship_counter++ #increment counter
+				for ships in database.session.query(UserShip).all().filter_by(UserShip.user_id = user_to_mod.user_id): #loop through the ships
+					ship_counter = 1 #increment counter
 					free_space = ships['max - ships[item_sql] #capacity of present ship
 
-					if ( free_space < used_copy_afford) { #can load ship
+					if ( free_space < used_copy_afford) : #can load ship
 						used_copy_afford -= free_space #num to use
 						fill_ships_sql + "ship_id = 'ships[ship_id]' or "
 
@@ -302,11 +314,11 @@ def fill_fleet(userid , item_sql, item_max_sql, item_str, item_cost, script_name
 						
 
 					else : #cannot load ship whole ship.
-						dbn("update {db_name_ships set item_sql = item_sql + 'used_copy_afford' where ship_id = 'ships[ship_id]'")
+						dbn("update :db_name_ships set item_sql = item_sql + 'used_copy_afford' where ship_id = 'ships[ship_id]'")
 
 						if ( ships['ship_id == ship_to_display.ship_id && cargo_run == 0: #do the user ship too.
 							user_ship[item_sql] += used_copy_afford
-						 elif  ( ships['ship_id == ship_to_display.ship_id) { #cargo bay stuff
+						 elif  ( ships['ship_id == ship_to_display.ship_id) : #cargo bay stuff
 							user_ship[item_sql] += used_copy_afford
 						
 						temp_str + "<br><b class=b1>ships[ship_name]</b>s <b class=b1>item_str</b> count was increased by <b>used_copy_afford</b>."
@@ -319,7 +331,7 @@ def fill_fleet(userid , item_sql, item_max_sql, item_str, item_cost, script_name
 				#update database with fully loaded ships.
 				if(!empty(fill_ships_sql):
 					fill_ships_sql = preg_replace("/\|\| /", "", fill_ships_sql)
-					dbn("update {db_name_ships set item_sql = item_max_sql where ".fill_ships_sql)
+					dbn("update :db_name_ships set item_sql = item_max_sql where ".fill_ships_sql)
 				
 				take_cash(final_cost) #charge the cash
 			
@@ -331,39 +343,39 @@ def fill_fleet(userid , item_sql, item_max_sql, item_str, item_cost, script_name
 
 #function that will return a list of the contents of the ships cargo bays.
 function bay_storage(ship:
-	if(empty(ship_type.cargo_bays)) {
+	if(empty(ship_type.cargo_bays)) :
 		return "\n<b>None</b>"
 	
 	ret_str = ""
-	if(!empty(ship_type.metal)) {
+	if(!empty(ship_type.metal)) :
 		ret_str + "\n<b>ship[metal]</b> Metals"
 	
-	if(!empty(ship_type.fuel)) {
+	if(!empty(ship_type.fuel)) :
 		if(!empty(ret_str):
 			ret_str + "<br>"
 		
 		ret_str + "\n<b>ship[fuel]</b> Fuels"
 	
-	if(!empty(ship_type.organ)) {
+	if(!empty(ship_type.organ)) :
 		if(!empty(ret_str):
 			ret_str + "<br>"
 		
 		ret_str + "\n<b>ship[organ]</b> Organics"
 	
-	if(!empty(ship_type.elect)) {
+	if(!empty(ship_type.elect)) :
 		if(!empty(ret_str):
 			ret_str + "<br>"
 		
 		ret_str + "\n<b>ship[elect]</b> Electronics"
 	
-	if(!empty(ship_type.colon)) {
+	if(!empty(ship_type.colon)) :
 		if(!empty(ret_str):
 			ret_str + "<br>"
 		
 		ret_str + "\n<b>ship[colon]</b> Colonists"
 	
 	empty_bays(ship)
-	if ( ship_type.empty_bays > 0) {
+	if ( ship_type.empty_bays > 0) :
 		if(!empty(ret_str):
 			ret_str + "<br>"
 		
